@@ -1,13 +1,9 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { DataTypes } = require("sequelize");
 
-const categorySchema = new Schema({
+module.exports = (sequelize) => {
+  sequelize.define("category", {
     name: {
-        type: String,
-        required: true
+      type: DataTypes.STRING,
     }
-});
-
-const Category = mongoose.model('category', categorySchema);
-
-module.exports = Category;
+  });
+};
