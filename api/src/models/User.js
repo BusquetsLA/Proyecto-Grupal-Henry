@@ -1,10 +1,14 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose'); 
 
 const userSchema = mongoose.Schema(
     {
-        name: {
+        firstName: {
             type: String,
-            required: true,
+            required: true
+        },
+        lastName: {
+            type: String,
+            required: true
         },
         email: {
             type: String,
@@ -13,13 +17,14 @@ const userSchema = mongoose.Schema(
         },
         password: {
             type: String,
-            required: true,
+            required: true
         },
-        isAdmin: {
-            type: Boolean,
-            required: true,
-            default: false,
-        }
+        userType: {
+            type: String,
+            enum: ['user', 'admin'],
+            default: 'user',
+            required: true
+        },
     },
     { timestamp: true }
 )
