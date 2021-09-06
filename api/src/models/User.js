@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema(
     {
@@ -9,12 +9,25 @@ const userSchema = mongoose.Schema(
         email: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
+            lowercase: true,
         },
         password: {
             type: String,
             required: true,
         },
+        // country: {
+        //     type: String,
+        //     required: true,
+        // },
+        // phone: {
+        //     type: String,
+        //     required: true,
+        // },
+        // address: {
+        //     type: String,
+        //     required: true,
+        // },
         isAdmin: {
             type: Boolean,
             required: true,
@@ -26,4 +39,4 @@ const userSchema = mongoose.Schema(
 
 const User = mongoose.model('User', userSchema);
 
-export default User;
+module.exports = User;
