@@ -22,7 +22,7 @@ const Cart = () => {
   const totalPrice = cart
     ? cart.productsList.reduce((acc, cur) => {
         acc += cur.price * cur.quantity;
-        return acc;
+        return utils.roundNumber(acc);
       }, 0)
     : 0;
 
@@ -63,7 +63,7 @@ const Cart = () => {
           {elem.name}
         </Typography>
         <Typography variant="body2">
-          Precio: $ {elem.price * elem.quantity}
+          Precio: $ {utils.roundNumber(elem.price * elem.quantity)}
         </Typography>
         <Typography>Cantidad: {elem.quantity}</Typography>
         <ButtonGroup disableElevation variant="contained">
@@ -98,9 +98,10 @@ const Cart = () => {
   if (!listProducts.length) {
     return (
       <Container style={{ margin: 50 }}>
-        <Typography>
-          Tu carrito está vacío. Vuelve a la tienda y agrega los productos que
-          desees comprar
+        <Typography variant="h4">
+          <b>Tu carrito está vacío.</b>
+          <br />
+          Vuelve a la tienda y agrega los productos que desees comprar.
         </Typography>
         <Link to="/">
           <Button style={{ margin: 50 }} variant="contained" color="secondary">
