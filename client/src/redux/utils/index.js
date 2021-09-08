@@ -16,11 +16,10 @@ const filterByPriceRange = (state, range) => {
   return state.filter(({ price }) => price >= min && price <= max);
 };
 
-const filterByCategory = (allProducts, option) => {
-  const copyState = allProducts
-  return option === "all_categories"
-    ? allProducts
-    : copyState.filter(({ categories }) => categories.includes(option));
+const filterByCategory = (state, option) => {
+  const allProducts = state.products.all;
+  const filtered = state.categories?.find((elem) => elem._id === option);
+  return option === "all_categories" ? allProducts : filtered?.products;
 };
 
 const filterByCategoryState = (option) => {
@@ -58,6 +57,10 @@ const updateQuantity = (state, { id, value }) => {
   }
 };
 
+const roundNumber = (num) => {
+  return Math.round((num + Number.EPSILON) * 100) / 100;
+};
+
 const utils = {
   orderPrice,
   filterByCategory,
@@ -65,6 +68,7 @@ const utils = {
   filterByCategoryState,
   addProductToCart,
   updateQuantity,
+  roundNumber,
 };
 
 export default utils;
