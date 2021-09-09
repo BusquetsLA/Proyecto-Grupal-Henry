@@ -1,11 +1,16 @@
 import { Button } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+// import { Snackbar } from "@material-ui/core";
+import { useState } from "react";
+import axios from "axios";
 import {
   Elements,
   CardElement,
   ElementsConsumer,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 
 const stripePromise = loadStripe('pk_test_Dt4ZBItXSZT1EzmOd8yCxonL');
 
@@ -19,8 +24,26 @@ const Payment = ({
 }) => {
   const Cart = useSelector((state) => state.cart);
   const handleSubmit = async (e, elements, stripe) => {
-    e.preventDefault();
+  
 
+    e.preventDefault();                              
+    const {error, paymentMethod} = await stripe.createPaymentMethod({
+      type: 'card',
+      card:elements.getElement(CardElement)
+    })
+     
+    if(error.code==='incomplete_number'){
+      console.log('numero incompleto o tarjeta invalida')
+      // <Alert severity="error">
+      // <AlertTitle>Error</AlertTitle>
+      // <strong>Datos incompletos o tarjeta invalida</strong>
+      // </Alert>
+    }
+
+    // console.log(error,paymentMethod)
+    // if(!error){
+    //   const {id} = paymentMethod;
+    // }
     // if (!stripe || !elements) return;
 
     // const cardElement = elements.getElement(CardElement);
@@ -62,13 +85,51 @@ const Payment = ({
     //}
   };
 
+
+const [datos,setDatos] = useState('')
+
+ useEffect(()=>{
+ axios.get('http://localhost:3001/mercadopago')
+ .then((data)=>{
+    setDatos(data.data)
+    console.info('Contenido de data', data)
+ })
+ .catch(err => console.error(err))
+
+
+ },[])
+ 
+ 
+useEffect(()=>{
+  const script = document.createElement('script');
+
+  const attr_data_preference = document.createAttribute('data-preference-id')//crea un nodo atributo
+  attr_data_preference.value = data.id //le asigna como valor el id que devuelve MP
+
+  //Agrega atributos al elemento script
+  script.src="https://www.mercadopago.com.ar/integratios/v1/web-payment-checkout.js";
+  script.setAttribute(attr_data_preference)
+
+  console.log(data)
+
+  //Agrega el script como nodo hijo del elemento form
+  document.getElementById('form1').appendChild(script)
+  return ()=>{
+    //Elimina el script como nodo hijo del elemento form
+    document.getElementById('form1').removeChild(script)
+  }
+
+},[data])
+
+
+
   return (
     <>
       <Elements stripe={stripePromise}>
         <ElementsConsumer>
         
           {({ elements, stripe }) => (
-            <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
+            <form id='form1' onSubmit={(e) => handleSubmit(e, elements, stripe)}>
               <CardElement></CardElement>
               <div className="actions payment-actions">
               
