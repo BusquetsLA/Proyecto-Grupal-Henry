@@ -28,9 +28,9 @@ const Footer = () => {
         </div>
         <div className={styles.list}>
           <ul>Encuentranos</ul>
-            <a className={styles.list} href="https://www.facebook.com/" target="_blank" rel="noreferrer"><li className={styles.list}>Facebook</li></a>
-            <a className={styles.list} href="https://twitter.com/" target="_blank" rel="noreferrer"><li className={styles.list}>Twitter</li></a>
-            <a className={styles.list} href="https://www.instagram.com/" target="_blank" rel="noreferrer"><li className={styles.list}>Instagram</li></a>
+            <a className={styles.list} href="https://www.facebook.com/profile.php?id=100059985737185" target="_blank" rel="noreferrer"><li className={styles.list}>Facebook</li></a>
+            <a className={styles.list} href="https://twitter.com/EstiloP123" target="_blank" rel="noreferrer"><li className={styles.list}>Twitter</li></a>
+            <a className={styles.list} href="https://www.instagram.com/estilopr35/" target="_blank" rel="noreferrer"><li className={styles.list}>Instagram</li></a>
         </div>
         </div>
       </div>

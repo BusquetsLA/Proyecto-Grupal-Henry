@@ -1,25 +1,29 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import styles from "./Help.module.css";
 
 const Help = () => {
-//    const $form = document.querySelector('#form')
-//    const $buttonMailto = document.querySelector("#oculto")
-//   $form.addEventListener('submit', handleSubmit);
+  //    const $form = document.querySelector('#form')
+  //    const $buttonMailto = document.querySelector("#oculto")
+  //   $form.addEventListener('submit', handleSubmit);
 
-//    function handleSubmit(e) {
-//             e.preventDefault();
-//     const form = new FormData(this);
-//     console.log(form.get("name"));
-//     $buttonMailto.serAttribute(
-//       'href',
-//       `mailto:estilopropio@gmail.com?subject=nombre ${form.get(
-//         "name"
-//       )} correo ${form.get("email")}&body=${form.get("message")}`
-//     );
-//     $buttonMailto.click();
-//    }
+  //    function handleSubmit(e) {
+  //             e.preventDefault();
+  //     const form = new FormData(this);
+  //     console.log(form.get("name"));
+  //     $buttonMailto.serAttribute(
+  //       'href',
+  //       `mailto:estilopropio@gmail.com?subject=nombre ${form.get(
+  //         "name"
+  //       )} correo ${form.get("email")}&body=${form.get("message")}`
+  //     );
+  //     $buttonMailto.click();
+  //    }
   return (
     <div>
+      <NavLink className={styles.link_text} to="/">
+        Inicio
+      </NavLink>
       <form id="form" action="" className={styles.form}>
         <h3 className={styles.tag}>
           <span>SI TIENES ALGUNA DUDA O SUGERENCIA ENVIANOS UN CORREO</span>
@@ -45,7 +49,7 @@ const Help = () => {
           placeholder="Correo de Contacto"
         />
         <label for="message">Mensaje</label>
-        <textarea id="message" name="message" cols="30" rows="10"></textarea>
+        <textarea id="message" name="message" cols="30" rows="9"></textarea>
         <button type="submit" className={styles.btn}>
           enviar mensaje
         </button>
