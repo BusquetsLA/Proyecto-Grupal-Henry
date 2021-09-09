@@ -1,0 +1,23 @@
+.container{
+    margin: auto;
+    width: 60%;
+}
+
+.target{
+    margin: 40px;
+    border-radius: 80px 20px;
+    background-color: #eee4d0b0;
+}
+
+.link_text{
+    color: black;
+    font-size: 25px;
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: none;
+    padding: 15px;
+    opacity: 0.8;
+}
+.link_text:hover{
+    opacity: 1;
+}

@@ -1,0 +1,15 @@
+
+.containerdiv {
+  background-color: #eee4d0b0;
+  height: 350px;
+  float: center;
+  position: relative;
+  
+}
+.cornerimage {
+  width: 100%;
+  height: 350px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}

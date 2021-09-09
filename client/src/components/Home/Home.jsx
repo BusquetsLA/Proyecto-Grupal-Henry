@@ -1,4 +1,5 @@
 import React from "react";
+import Carrusel from "../Carrusel/Carrusel";
 // import Footer from '../Footer/Footer'
 import NavBar from "../NavBar/NavBar";
 import Products from "../Products/Products";
@@ -10,6 +11,7 @@ const Home = () => {
   return (
     <div>
       <NavBar setOrder={setOrder} />
+      <Carrusel/>
       <Products />
       {/* <Footer/>  */}
     </div>

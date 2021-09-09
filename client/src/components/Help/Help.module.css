@@ -39,7 +39,7 @@
   background-color:#EEE4D0;
   width: 600px;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 30px;
   border-radius: 15px;
 }
 
@@ -74,6 +74,19 @@ input::-webkit-input-placeholder {
 
 #oculto {
   opacity: 0;
+}
+
+.link_text{
+  color: black;
+  font-size: 25px;
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: none;
+  padding: 15px;
+  opacity: 0.8;
+}
+.link_text:hover{
+  opacity: 1;
 }
 
 @media screen and (max-width: 768px) {

@@ -1,11 +1,43 @@
 import React from 'react'
+import Carousel from 'react-material-ui-carousel'
+import { Paper, Button } from '@material-ui/core'
+import styles from "./Carrusel.module.css"
 
-const Carrusel = () => {
+
+const Carrusel = (props) => {
+    var items = [
+        {
+            name: "No dejes de ver Nuestros Productos Especiales!",
+            description: "Probably the most random thing you have ever seen!",
+            fondo: "https://res.cloudinary.com/dulpsdgfw/image/upload/v1631164833/Productos%20Madera/PNG/1Fondo_Carrusel_izzn2k.png"
+        },
+        {
+            name: "Random Name #2",
+            description: "Hello World!",
+            fondo: "https://res.cloudinary.com/dulpsdgfw/image/upload/v1631164833/Productos%20Madera/PNG/1Fondo_Carrusel_izzn2k.png"
+        }
+    ]
+    
     return (
-        <div>
-            
+        <div >
+     <Carousel>
+            {
+                items.map( (item, i) => <Item key={i} item={item} /> )
+            }
+        </Carousel>       
         </div>
     )
 }
-
+function Item(props)
+{
+    return (
+        <div  >
+        <Paper >
+            <div className={styles.containerdiv}>
+            <img className={styles.cornerimage} src={props.item.fondo} alt="fondo" />
+             </div>
+        </Paper>
+        </div>
+    )
+}
 export default Carrusel
