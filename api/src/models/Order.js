@@ -46,6 +46,7 @@ const orderSchema = mongoose.Schema(
     // // Si está entregado
     // isDelivered: { type: Boolean, default: false },
     // deliveredAt: { type: Date },
+    user_id: {type:mongoose.Schema.Types.ObjectId, ref:'User'},
     status: {type:String, enum:['created', 'processing', 'cancelled', 'completed'], required:true},
     total: {type:mongoose.Schema.Types.Decimal128, required:true},
     payment_id: {type:Number, default:0},
