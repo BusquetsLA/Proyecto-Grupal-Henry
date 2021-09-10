@@ -42,7 +42,7 @@ export default function AddCategories() {
     setInput({
       name: '',
     });
-    history.push('/admin/stock');
+    history.push('/admin/catcreate');
 	}
 
 	return (
