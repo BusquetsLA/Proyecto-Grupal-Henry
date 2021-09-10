@@ -1,144 +1,197 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { addProduct, getCategories } from '../../redux/actions/index';
-import { useDispatch, useSelector } from 'react-redux';
+import ctgStyle from './CreateProduct.module.css';
+import Select from 'react-select';
 
 export function validate(input) {
-  let errors = {};
-  if (!input.name) {
-    errors.name = 'El nombre del producto es obligatorio.';
-  } else if (!/([A-Z]|[a-z])\w+/.test(input.name)) {
-    errors.name = 'El nombre del producto es inválido.';
-  }
-  if (!input.description) {
-    errors.description = 'La descripción del producto es obligatoria.';
-  } else if (!/([A-Z]|[a-z])|\w+/.test(input.description)) {
-    errors.description = 'La descripción del producto es invalida.';
-  }
-  if (!input.price) {
-    errors.price = 'El precio del producto es obligatorio.';
-  } else if (!/[0-9]+,[0-9]{2}/.test(input.price)) {
-    errors.price = 'El precio del producto es invalido.';
-  }
-  if (!input.image_url) {
-    errors.image_url = 'La imagen del producto es obligatoria.';
-  } else if (!/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|png)/.test(input.image_url)) {
-    errors.image_url = 'La ruta de imagen del producto es invalida.';
-  }
-  return errors;
-};
+	let errors = {};
+	if (!input.name) errors.name = 'El nombre de la categoría es obligatorio.';
+	else if (!/([A-Z]|[a-z])\w+/.test(input.name)) errors.name = 'El nombre de la categoría es inválido.';
 
-export default function addProdcts () {
+	if (!input.description) errors.description = 'La descripcion es obligatoria.';
+	else if (!/([A-Z]|[a-z])\w+/.test(input.description)) errors.description = 'El nombre de la descripcion es inválido.';
 
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const categories = useSelector(e => e.categories);
-  const [input, setInput] = useState({
-    image_url: '',
-    name: '',
-    description:'',
-    price: '',
-    categories: [],
-  });
-  const [errors, setErrors] = React.useState({});
+	if (!input.imgurl) errors.imgurl = 'La URL de la imagen es obligatoria';
+	else if (
+		!/^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})$/.test(
+			input.imgurl,
+		)
+	)
+		errors.imgurl = 'El formato de la URL no es correcto..';
 
-  function handleChange(e) {
-    setInput({
-      ...input,
-      [e.target.name] : e.target.value
-    });
-  };
+	if (!input.price) errors.price = 'El monto del Precio es obligatorio.';
+	else if (!/\d+\.\d{2}/.test(input.price)) errors.price = 'El formato de Precio es inválido.';
 
-  function handleSelect(e) {
-    setInput({
-      ...input,
-      categories: [
-        ...input.categories,
-        e.target.value
-      ]
-    });
-  };
+	if (!input.stock) errors.stock = 'El Stock es obligatorio.';
+	else if (!/\d/.test(input.stock)) errors.stock = 'El formato de Stock es inválido.';
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    dispatch(addProduct(input));
-    alert("Producto creado exitosamente.");
-    setInput({
-      image_url: '',
-      name: '',
-      description: '',
-      price: '',
-      categories: [],
-    });
-    history.push('/addProducts');
-  };
+	return errors;
+}
 
+export default function AddProducts() {
+	const dispatch = useDispatch();
+	const history = useHistory();
+
+	var categories = useSelector((state) => state.categories);
+  categories = categories.map(e=> {
+    return {
+      value: e._id,
+      label: e.name,
+    }
+  })
+  
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
+  
+  const [value, setValue] = useState([])
+  //console.log('value is:',value);
 
-  return (
-    <div>
-      <h1>Cargar productos:</h1>
-      <form onSubmit={e => {handleSubmit(e)}}>
-        <div>
-          <label>Nombre del producto:</label>
-          <input
-            type='text'
-            value={input.name}
-            name='name'
-            className={`${errors.name && 'danger'}`}
-            onChange={e => handleChange(e)}>
-              {errors.name && (<p className="danger">{errors.name}</p>)}
-          </input>
-        </div>
-        <div>
-          <label>Precio:</label>
-          <input
-            type='number'
-            value={input.price}
-            name='price'
-            className={`${errors.price && 'danger'}`}
-            onChange={e => handleChange(e)}>
-              {errors.price && (<p className="danger">{errors.price}</p>)}
-          </input>
-        </div>
-        <div>
-          <label>Descripción:</label>
-          <input
-            type='text'
-            value={input.description}
-            name='description'
-            className={`${errors.description && 'danger'}`}
-            onChange={e => handleChange(e)}>
-              {errors.description && (<p className="danger">{errors.description}</p>)}
-          </input>
-        </div>
-        <div>
-          <label>Imagen:</label>
-          <input
-            type='text'
-            value={input.image_url}
-            name='image_url'
-            className={`${errors.image_url && 'danger'}`}
-            onChange={e => handleChange(e)}>
-              {errors.image_url && (<p className="danger">{errors.image_url}</p>)}
-          </input>
-        </div>
-        <div>
-          <select onChange={e => handleSelect(e)}>
-            {categories.map(i => (
-                <option value={i.name}>
-                  {i.name}
-                </option>
-            ))}
-            <ul>
-              <li>{input.categories.map(i => i + ", ")}</li>
-            </ul>
-          </select>
-          <button type='submit'>Cargar producto</button>
-        </div>
-      </form>
-    </div>
-  );
-};
+	const [input, setInput] = useState({
+		name: '',
+		description: '',
+		image_url: '',
+		price: '',
+		stock: '',
+	});
+
+	const [errors, setErrors] = useState({});
+
+	function handleChange(e) {
+		setErrors(
+			validate({
+				...input,
+				[e.target.name]: e.target.value,
+			}),
+		);
+
+		setInput({
+			...input,
+			[e.target.name]: e.target.value,
+      //categories: [...input.categories, 456],
+		});
+	}
+
+  function onSelectChange(e){
+    setValue(e);
+    //console.log(e[0].value)
+  }
+
+	function handleSubmit(e) {
+		e.preventDefault();
+    //setInput({ ...input, input.categories= [789] })
+    const dataSend ={
+      name: input.name,
+      description: input.description,
+			image_url: input.image_url,
+			price: input.price,
+			stock: input.stock,
+      categories: value.map(e => e.value),
+    }
+		console.log('enviar: ', dataSend);
+ 		dispatch(addProduct(input));
+		//alert("Categoría creada exitosamente.");
+		setInput({
+			name: '',
+			description: '',
+			image_url: '',
+			price: '',
+			stock: '',
+			categories: [],
+		});
+		history.push('/admin/prdcreate'); 
+	}
+
+	return (
+		<div className={ctgStyle.ProdContent}>
+			<fieldset className={ctgStyle.ProdFieldset}>
+				<legend> Crear Producto </legend>
+				<form onSubmit={(e) => { handleSubmit(e); }} >
+					<div className={ctgStyle.inputs}>
+						<label for="name">Nombre</label>
+						<input
+							type="text"
+							name="name"
+							value={input.name}
+							onChange={(e) => handleChange(e)}
+							placeholder="Nombre Producto nuevo.."
+							required
+						></input>
+						{errors.name && <p className="danger">{errors.name}</p>}
+					</div>
+
+					<div className={ctgStyle.inputs}>
+						<label for="description">Descripcion</label>
+						<textarea
+							name="description"
+							value={input.description}
+							onChange={(e) => handleChange(e)}
+							placeholder="Descripcion.."
+							rows="3"
+							required
+						></textarea>
+						{errors.description && <p className="danger">{errors.description}</p>}
+					</div>
+
+					<div className={ctgStyle.inputs}>
+						<label for="imgurl">Imagen URL</label>
+						<input
+							type="text"
+							name="image_url"
+							value={input.image_url}
+							onChange={(e) => handleChange(e)}
+							placeholder="URL de la imagen.."
+							required
+						></input>
+						{errors.image_url && <p className="danger">{errors.image_url}</p>}
+					</div>
+
+					<div className={ctgStyle.inputs}>
+						<label for="price">Precio</label>
+						<input
+							type="text"
+							name="price"
+							value={input.price}
+							onChange={(e) => handleChange(e)}
+							placeholder="Formato: ####.##"
+							required
+						></input>
+						{errors.price && <p className="danger">{errors.price}</p>}
+					</div>
+
+					<div className={ctgStyle.inputs}>
+						<label for="stock">Stock</label>
+						<input
+							type="text"
+							name="stock"
+							value={input.stock}
+							onChange={(e) => handleChange(e)}
+							placeholder="Formato: ####"
+							required
+						></input>
+						{errors.stock && <p className="danger">{errors.stock}</p>}
+					</div>
+
+					<div className={ctgStyle.ProdSelect}>
+						<label for="categories">Categorias</label>
+						<Select 
+              value={value}
+              options={categories}
+              onChange={(e) => onSelectChange(e)}
+              isMulti
+            />
+					</div>
+
+					<div>
+						<button className={ctgStyle.myButton} type="submit">
+							Guardar
+						</button>
+					</div>
+				</form>
+			</fieldset>
+		</div>
+	);
+}
