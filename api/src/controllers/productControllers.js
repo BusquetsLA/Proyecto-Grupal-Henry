@@ -26,9 +26,9 @@ async function getProductById(req, res, next) {
 }
 
 async function createProducts(req, res, next) {
-    const {name, price, description, image_url, categories} = req.body;
+    const {name, price, description, image_url, categories, stock} = req.body;
     try {
-        const product = new Product({name, price, description, image_url, categories});
+        const product = new Product({name, price, description, image_url, categories, stock});
         await product.save();
         return res.status(200).send('Producto creado correctamente');
     } catch (error) {
