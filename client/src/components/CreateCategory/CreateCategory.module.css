@@ -1,11 +1,11 @@
-.content{
+.Catcontent{
     display: flex;
     justify-content: center;
     width: 100%;
 
 }
 
-fieldset{
+.CatFieldset{
     width: 500px;
     background-color: white;
     margin-top: 10px;

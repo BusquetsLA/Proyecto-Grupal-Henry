@@ -46,8 +46,8 @@ export default function AddCategories() {
 	}
 
 	return (
-		<div className={ctgStyle.content}>
-			<fieldset>
+		<div className={ctgStyle.Catcontent}>
+			<fieldset className={ctgStyle.CatFieldset}>
 				<legend> Crear Categoria </legend>
 				<form onSubmit={(e) => {handleSubmit(e); }} >
 					<div className={ctgStyle.inputs} >

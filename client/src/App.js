@@ -18,6 +18,7 @@ import Our from './components/Our/Our';
 import SignIn from './components/Login/SignIn';
 import SignUp from './components/Register/SignUp';
 import CreateCategory from './components/CreateCategory/CreateCategory';
+import CreateProduct from './components/CreateProduct/CreateProduct';
 
 function App() {
 	return (
@@ -37,6 +38,7 @@ function App() {
 					<Route exact path="/team" component={Team} />
 					<Route exact path="/our" component={Our} />
 					<Route exact path="/admin/catcreate" component={CreateCategory} />
+					<Route exact path="/admin/prdcreate" component={CreateProduct} />
 					<Route path="*" component={Error404} />
 				</Switch>
 			</div>
