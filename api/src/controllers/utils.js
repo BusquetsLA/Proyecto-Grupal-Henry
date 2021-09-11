@@ -1,20 +1,11 @@
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
-const generateToken = (user) => {
+const generateToken = (id) => {
   return jwt.sign(
-    {
-      // para generar el token
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-    }, // el JWT_SECRET vendría siendo el metodo de encriptado, esta en un .env
-    // process.env.JWT_SECRET || "somethingsecret", // probemos si esta bien
+    { id },
     JWT_SECRET,
-    {
-      expiresIn: "30d",
-    }
+    { expiresIn: "30d", },
   );
 };
 
