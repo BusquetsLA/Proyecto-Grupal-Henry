@@ -51,6 +51,30 @@ export const signin = ({email, password}) => {
     }
 }
 
+export const signinfirebase = (email) => {
+    console.log(email)
+    return async(dispatch) => {
+        dispatch({
+            type: USER_SIGNIN_REQUEST, 
+            payload: {email}
+        });
+        const {data} = await axios.post('http://localhost:3001/user/signinfirebase', {email});
+        if(data.token){
+            dispatch({
+                type: USER_SIGNIN_SUCCESS,
+                payload: data
+            });
+            localStorage.setItem('userInfo', JSON.stringify(data));
+        }else {
+            dispatch({
+                type: USER_SIGNIN_FAIL,
+                payload: data.msg
+            })
+        }
+        
+    }
+}
+
 export const signout = () => (dispatch) => {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('cart');
