@@ -90,7 +90,32 @@ async function getUsers(req, res, next) {
   }
 };
 
+async function signInFirebase(req, res, next) {
+    try {
+        console.log(req.body);
+        const {email} = req.body;
+        const user = await User.findOne({email: email});
+        if(user) {
+            // bcrypt.compareSync(password, user.password) ? 
+                res.send({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                    token: generateToken(user)
+                }) 
+                // :
+            // res.send({msg: 'Contraseña incorrecta.'})
+        }else {
+            return res.send({msg: 'Email incorrecto.'});
+        }   
+    } catch (error) {
+        next(error);
+    } 
+};
+
 module.exports = {
+  signInFirebase,
   signUp,
   signIn,
   getUserById,
