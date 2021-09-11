@@ -41,14 +41,14 @@ async function createCategory(req, res, next) {
 
 async function updateCategory(req, res, next) {
     const { id } = req.params;
-    const { image_url, name } = req.body;
+    const { image_url, name, products } = req.body;
     try {
         const category = await Category.findById(id);
         if (!category) {
             return res.status(404).send('La categoría no existe')
         } else {
-            await Category.updateOne({ _id: id }, { image_url, name })
-            return res.status(200).send('Categoría actualizada');
+            await Category.updateOne({ _id: id }, { image_url, name, products })
+            return res.status(200).send(category );
         }
     } catch (error) {
         next(error);
