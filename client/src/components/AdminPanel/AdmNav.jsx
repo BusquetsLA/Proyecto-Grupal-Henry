@@ -6,7 +6,7 @@ import { withRouter } from 'react-router'
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: theme.spacing(1),
       },
 }))
 
@@ -16,12 +16,12 @@ export default function AdmNav() {
         <div>
             <AppBar position="fixed" color="primary">
               <Toolbar>
-                <IconButton>
+{/*                 <IconButton>
                     <MenuIcon 
                         color="inherit" aria-label="menu" 
                         className={classes.menuButton}
                         />
-                </IconButton>
+                </IconButton> */}
                 <Typography variant="h6">
                     Panel de Adminstrador
                 </Typography>
