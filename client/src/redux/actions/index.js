@@ -159,3 +159,16 @@ export const orderByRangePrice = (payload) => {
     payload,
   };
 };
+
+export const sendEmail = (email) => {
+  return async (dispatch) => {
+    try {
+      await axios.post(`${BASE_URL}/sendEmail`, email);
+      return dispatch({
+        type: types.SEND_EMAIL,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

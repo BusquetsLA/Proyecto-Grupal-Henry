@@ -18,6 +18,9 @@ const FILTER_BY_PRICE_RANGE = "FILTER_BY_PRICE_RANGE";
 // Order
 const ORDER_BY_PRICE = "ORDER_BY_PRICE";
 
+// Email
+const SEND_MAIL = "SEND_MAIL";
+
 const TYPES = {
   GET_PRODUCTS,
   GET_PRODUCTS_BY_NAME,
@@ -31,6 +34,7 @@ const TYPES = {
   ORDER_BY_PRICE,
   FILTER_BY_CATEGORY,
   FILTER_BY_PRICE_RANGE,
+  SEND_EMAIL,
 };
 
 export default TYPES;

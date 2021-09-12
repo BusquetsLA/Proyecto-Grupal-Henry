@@ -164,6 +164,11 @@ const rootReducer = (state = initialState, action) => {
         signupError: action.payload,
       };
 
+      case types.SEND_EMAIL:
+        return {
+          ...state,
+        }
+
     default:
       return state;
   }
