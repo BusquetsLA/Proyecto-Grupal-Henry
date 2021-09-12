@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-//import { useHistory } from 'react-router-dom';
-import { getCategories } from '../../../redux/actions/index';
+import { useHistory } from 'react-router-dom';
+import { deleteCategory, getCategories } from '../../../redux/actions/index';
 import AdmNav from '../AdmNav';
 import ctgStyle from './CreateCategory.module.css';
 
@@ -37,17 +37,17 @@ export default function AddCategories() {
 		dispatch(getCategories());
 	  }, [dispatch]);
 
-//	const history = useHistory();
+	const history = useHistory();
 
-/* 	function handleSubmit(e) {
-		e.preventDefault();
-		dispatch(addCategory(input));
-		alert("Categoría creada exitosamente.");
-		setInput({
-			name: '',
-		});
-		history.push('/admin/adminpanel/categories');
-	} */
+    function handleClickUpdate(e) {
+        history.push('/admin/adminpanel/categoriesUpdate/'+e);
+      }
+
+    function handleClickDelete(e) {
+        dispatch(deleteCategory(e));
+        alert("Categoria borrada: "+e)
+        history.push('/admin/adminpanel/categories');
+      }
 
 	return (
 		<>
@@ -104,10 +104,10 @@ export default function AddCategories() {
 							}
 						</TableCell>
 						<TableCell align="right">
-							<button className={ctgStyle.myButton2} >Actualizar</button>
+							<button className={ctgStyle.myButton2}  onClick={(e) => handleClickUpdate(row._id)}>Actualizar</button>
 						</TableCell>
 						<TableCell align="right">
-							<button className={ctgStyle.myButton3} >Borrar</button>
+							<button className={ctgStyle.myButton3}  onClick={(e) => handleClickDelete(row._id)}>Borrar</button>
 						</TableCell>
 					</TableRow>
 				))}

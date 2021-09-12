@@ -58,6 +58,16 @@ const rootReducer = (state = initialState, action) => {
         ...state,
       };
 
+    case types.DELETE_CATEGORY:
+        return {
+          ...state,
+        };
+
+    case types.UPDATE_CATEGORY:
+          return {
+            ...state,
+          };
+
     case types.GET_CATEGORIES:
       return {
         ...state,
