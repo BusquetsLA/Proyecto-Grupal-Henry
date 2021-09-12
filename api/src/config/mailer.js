@@ -1,7 +1,7 @@
   //Requerimos el paquete
-  const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
  //require("dotenv").config();
- const { MAILUSER, MAILPASS } = process.env;
+const { MAILUSER, MAILPASS } = process.env;
 //  //Creamos el objeto de transporte
 //  let transporter = nodemailer.createTransport({
 //    service: 'gmail',
@@ -36,6 +36,9 @@ export const transporter = nodemailer.createTransport({
       user: MAILUSER, // generated ethereal user
       pass: MAILPASS, // generated ethereal password
     },
+    tls: {
+        rejectUnauthorized: false
+    }
   });
 
 transporter.verify().then(()=>{

@@ -13,8 +13,11 @@ dotenv.config();
 
 server.name = 'API';
 
+
+
 server.use(morgan('dev'));
 //server.use(express.urlencoded());
+server.use(express.urlencoded({extended: false})); 
 server.use(express.json())
 server.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
