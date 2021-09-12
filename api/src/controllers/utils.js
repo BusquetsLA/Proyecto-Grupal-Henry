@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
+const Order = require('../models/Order.js')
 
 const generateToken = (id) => {
   return jwt.sign(
@@ -32,8 +33,15 @@ const isAdmin = (req, res, next) => {
   else return res.status(401).send({ msg: "No tienes un token de usuario" });
 };
 
+async function getOrder(userId, orderId){
+  const orders = await Order.find({userId})
+  const order = orders.find(ord => ord._id === orderId)
+  return order
+}
+
 module.exports = {
   generateToken,
   isAuth,
   isAdmin,
+  getOrder
 };
