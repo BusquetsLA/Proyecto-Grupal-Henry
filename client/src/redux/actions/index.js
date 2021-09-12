@@ -1,3 +1,4 @@
+import { Category } from "@material-ui/icons";
 import axios from "axios";
 import types from "../constants/types";
 const BASE_URL = "http://localhost:3001";
@@ -103,6 +104,32 @@ export const addCategory = (category) => {
       await axios.post(`${BASE_URL}/categories/create`, category);
       return dispatch({
         type: types.POST_CATEGORY,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteCategory = (categoryID) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`${BASE_URL}/categories/delete/${categoryID}`);
+      return dispatch({
+        type: types.DELETE_CATEGORY,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updateCategory = (category) => {
+  return async (dispatch) => {
+    try {
+      await axios.put(`${BASE_URL}/categories/update/`, category);
+      return dispatch({
+        type: types.UPDATE_CATEGORY,
       });
     } catch (error) {
       console.log(error);

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addCategory } from '../../redux/actions/index';
+import { addCategory, getCategories } from '../../../redux/actions/index';
+import AdmNav from '../AdmNav';
 import ctgStyle from './CreateCategory.module.css';
+
 
 export function validate(input) {
 	let errors = {};
@@ -13,6 +15,10 @@ export function validate(input) {
 
 export default function AddCategories() {
 	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(getCategories());
+	  }, [dispatch]);
+
 	const history = useHistory();
 
 	const [input, setInput] = useState({
@@ -38,27 +44,28 @@ export default function AddCategories() {
 	function handleSubmit(e) {
 		e.preventDefault();
 		dispatch(addCategory(input));
-    alert("Categoría creada exitosamente.");
-    setInput({
-      name: '',
-    });
-    history.push('/admin/catcreate');
+		alert("Categoría creada exitosamente.");
+		setInput({
+			name: '',
+		});
+		history.push('/admin/adminpanel/categories');
 	}
 
 	return (
-		<div className={ctgStyle.Catcontent}>
+		<>
+		<AdmNav />
+ 		<div className={ctgStyle.Catcontent}>
 			<fieldset className={ctgStyle.CatFieldset}>
-				<legend> Crear Categoria </legend>
+				<legend className={ctgStyle.CatLegend}> Crear Categoria </legend>
 				<form onSubmit={(e) => {handleSubmit(e); }} >
 					<div className={ctgStyle.inputs} >
-						<label for="name">Nombre</label>
 						<input 
-              type="text"
-               name="name" 
-               value={input.name} 
-               onChange={(e) => handleChange(e)}
-               placeholder="Nombre Categoria nueva.."
-               required></input>
+							type="text"
+							name="name" 
+							value={input.name} 
+							onChange={(e) => handleChange(e)}
+							placeholder="Nombre Categoria nueva.."
+							required></input>
 					{errors.name && <p className="danger">{errors.name}</p>}
 					</div>
 					<div>
@@ -67,5 +74,6 @@ export default function AddCategories() {
 				</form>
 			</fieldset>
 		</div>
+		</>
 	);
 }
