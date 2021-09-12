@@ -8,6 +8,22 @@ const generateToken = (id) => {
     { expiresIn: "30d", },
   );
 };
+/*
+const generateToken = (user) => {
+  return jwt.sign(
+    {
+      // para generar el token
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    }, // el JWT_SECRET vendría siendo el metodo de encriptado, esta en un .env
+    process.env.JWT_SECRET || "somethingsecret", // probemos si esta bien
+    // JWT_SECRET,
+    { expiresIn: "30d", },
+  );
+};
+*/
 
 const isAuth = (req, res, next) => {
   const { authorization } = req.headers;
