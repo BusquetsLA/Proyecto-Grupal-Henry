@@ -8,10 +8,10 @@ import Detail   from './components/Detail/Detail';
 import Error404 from './components/Error404/Error404';
 
 import './App.css';
-import SignInOutContainer from './components/Login';
+// import SignInOutContainer from './components/Login';
 //import Login from './components/Login/Login';
 //import Register from './components/Register/Register';
-import Checkout from './components/Checkout/Index';
+import Checkout from './components/Checkout/Checkout';
 import Company from './components/Company/Company';
 import Team from './components/Team/Team';
 import Our from './components/Our/Our';
