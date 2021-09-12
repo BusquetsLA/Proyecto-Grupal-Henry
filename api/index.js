@@ -36,6 +36,6 @@ mongoose.connect(db)
     console.log(err);
 });
 
-server.listen(PORT, () => {
-  console.log('listening at ', PORT); // eslint-disable-line no-console
+server.listen(process.env.PORT || 3001, () => {
+  console.log(`listening at port.. ${process.env.PORT || 3001}`, ); // eslint-disable-line no-console
 });
