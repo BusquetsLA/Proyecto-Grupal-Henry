@@ -24,7 +24,7 @@ const Help = () => {
       <NavLink className={styles.link_text} to="/">
         Inicio
       </NavLink>
-      <form id="form" action="" className={styles.form}>
+      <form id="form" action="/sendEmail" method="POST" className={styles.form}>
         <h3 className={styles.tag}>
           <span>SI TIENES ALGUNA DUDA O SUGERENCIA ENVIANOS UN CORREO</span>
         </h3>
@@ -54,7 +54,7 @@ const Help = () => {
           enviar mensaje
         </button>
       </form>
-      <a href="mailto:estilopropio@gmail.com" id="oculto"></a>
+      {/* <a href="mailto:estilopropio@gmail.com" id="oculto"></a> */}
     </div>
   );
 };
