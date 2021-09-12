@@ -3,6 +3,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { Link } from "react-router-dom";
 import utils from "../../redux/utils/index";
 import BeatLoader from "react-spinners/BeatLoader";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Container,
   Grid,
@@ -11,9 +12,33 @@ import {
   Typography,
   CardContent,
   ButtonGroup,
+  ButtonBase,
 } from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    margin: "auto",
+    maxWidth: 500,
+  },
+  image: {
+    width: 128,
+    height: 128,
+  },
+  img: {
+    margin: "auto",
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "100%",
+  },
+}));
+
 const Cart = () => {
+  const classes = useStyles();
+
   const [cart, setCart] = useLocalStorage("cart", {
     productsList: [],
     totalPrice: 0,
@@ -56,39 +81,53 @@ const Cart = () => {
   };
 
   const listProducts = cart.productsList.map((elem, idx) => (
-    <Card key={idx} style={{ margin: 20, padding: 20 }} variant="outlined">
-      <CardContent>
-        <img src={elem.image_url} alt={elem.name} width="200" height="200" />
-        <Typography variant="h5" component="h2">
-          {elem.name}
-        </Typography>
-        <Typography variant="body2">
-          Precio: $ {utils.roundNumber(elem.price * elem.quantity)}
-        </Typography>
-        <Typography>Cantidad: {elem.quantity}</Typography>
-        <ButtonGroup disableElevation variant="contained">
-          <Button
-            color="primary"
-            onClick={() => handleUpdateQuantity({ id: elem._id, value: "min" })}
-          >
-            -
-          </Button>
-          <Button
-            color="primary"
-            onClick={() => handleUpdateQuantity({ id: elem._id, value: "max" })}
-          >
-            +
-          </Button>
-        </ButtonGroup>
-      </CardContent>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => handleRemoveProduct(elem._id)}
-      >
-        Remove
-      </Button>
-    </Card>
+    <div key={idx} className={classes.root}>
+      <Card style={{ margin: 20, padding: 20 }} variant="outlined">
+        <CardContent>
+          <ButtonBase>
+            <img
+            className={classes.img}
+              src={elem.image_url}
+              alt={elem.name}
+              width="200"
+              height="200"
+            />
+          </ButtonBase>
+          <Typography gutterBottom variant="h5">
+            {elem.name}
+          </Typography>
+          <Typography variant="body2">
+            Precio: $ {utils.roundNumber(elem.price * elem.quantity)}
+          </Typography>
+          <Typography variant="subtitle1">Cantidad: {elem.quantity}</Typography>
+          <ButtonGroup disableElevation variant="contained">
+            <Button
+              color="primary"
+              onClick={() =>
+                handleUpdateQuantity({ id: elem._id, value: "min" })
+              }
+            >
+              -
+            </Button>
+            <Button
+              color="primary"
+              onClick={() =>
+                handleUpdateQuantity({ id: elem._id, value: "max" })
+              }
+            >
+              +
+            </Button>
+          </ButtonGroup>
+        </CardContent>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => handleRemoveProduct(elem._id)}
+        >
+          Remove
+        </Button>
+      </Card>
+    </div>
   ));
 
   if (!listProducts) {
@@ -103,22 +142,26 @@ const Cart = () => {
           <br />
           Vuelve a la tienda y agrega los productos que desees comprar.
         </Typography>
-        <Link to="/">
-          <Button style={{ margin: 50 }} variant="contained" color="secondary">
-            VOLVER A LA TIENDA
-          </Button>
-        </Link>
+        <Button
+          component={Link}
+          to="/"
+          style={{ margin: 50 }}
+          variant="contained"
+          color="secondary"
+        >
+          VOLVER A LA TIENDA
+        </Button>
       </Container>
     );
   }
 
   return (
     <Grid container justifyContent="center">
-      <Link to="/">
-        <Button variant="contained" color="primary">
+      <Grid>
+        <Button component={Link} to="/" variant="contained" color="primary">
           Volver
         </Button>
-      </Link>
+      </Grid>
       <Grid item style={{ margin: 20 }}>
         <Typography>Precio total: $ {totalPrice}</Typography>
         <Button
@@ -132,16 +175,16 @@ const Cart = () => {
         {listProducts}
         <Grid item>
           {listProducts.length && (
-            <Link to="/checkout">
-              <Button
-                variant="contained"
-                style={{ margin: 30 }}
-                color="primary"
-                onClick={() => handleCheckout()}
-              >
-                COMPRAR
-              </Button>
-            </Link>
+            <Button
+              component={Link}
+              to="/checkout"
+              variant="contained"
+              style={{ margin: 30 }}
+              color="primary"
+              onClick={() => handleCheckout()}
+            >
+              COMPRAR
+            </Button>
           )}
         </Grid>
       </Grid>
