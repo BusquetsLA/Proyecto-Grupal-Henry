@@ -18,7 +18,8 @@ import Our from './components/Our/Our';
 import SignIn from './components/Login/SignIn';
 import SignUp from './components/Register/SignUp';
 import Admin from './components/AdminPanel/Admin';
-import CreateCategory from './components/AdminPanel/CreateCategory/CreateCategory';
+import Categories from './components/AdminPanel/Categories/Categories';
+import CreateCategory from './components/AdminPanel/Categories/CreateCategory';
 import CreateProduct from './components/CreateProduct/CreateProduct';
 
 function App() {
@@ -41,7 +42,8 @@ function App() {
 
 					{/* --- Panel del Administrador  */}
 					<Route exact path="/admin/adminpanel" component={Admin} />
-					<Route exact path="/admin/adminpanel/categories" component={CreateCategory} />
+					<Route exact path="/admin/adminpanel/categories" component={Categories} />
+					<Route exact path="/admin/adminpanel/categoriesCreate" component={CreateCategory} />
 					<Route exact path="/admin/prdcreate" component={CreateProduct} />
 					{/* --- Fin: Panel del Administrador  */}
 					<Route path="*" component={Error404} />
