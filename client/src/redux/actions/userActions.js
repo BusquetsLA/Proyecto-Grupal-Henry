@@ -37,9 +37,9 @@ export const signin = ({email, password}) => {
             payload: {email, password}
         });
         const {data} = await axios.post('http://localhost:3001/user/signin', {email, password});
-        console.log(data)
+        console.log('esta es la data',data)
         // if(data.token){
-            if(data){
+            if(data.name){
             dispatch({
                 type: USER_SIGNIN_SUCCESS,
                 payload: data
