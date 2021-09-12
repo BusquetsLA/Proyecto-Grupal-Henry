@@ -4,3 +4,24 @@ body{
     margin: 0;
     display: flex;
 }
+
+.contentGroup{
+    /* background-color: brown; */
+    min-width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.contentBtn{
+    /* background-color: cadetblue; */
+    /* min-width: 100vw; */
+    height: 260px;
+    display: grid;
+    grid-template-columns: 200px;
+    grid-template-rows: 25% 25% 25% 25%;
+    align-items: center;
+}
+
+.contentBtn{
+    color: white;
+}
