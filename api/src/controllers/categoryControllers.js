@@ -40,7 +40,7 @@ async function createCategory(req, res, next) {
 }
 
 async function updateCategory(req, res, next) {
-    const { id, name } = req.body;
+    const { id, name, products} = req.body;
     //const { image_url, name, products } = req.body;
     console.log(req.body)
     try {
@@ -48,8 +48,8 @@ async function updateCategory(req, res, next) {
         if (!category) {
             return res.status(404).send('La categoría no existe')
         } else {
-            await Category.updateOne({ _id: id }, { name })
-            return res.status(200).send(category );
+            await Category.updateOne({ _id: id }, { name, products })
+            return res.status(200).send(category);
             //await Category.updateOne({ _id: id }, { image_url, name, products })
             //return res.status(200).send(`La categoría ${name} ha sido actualizada`);
 
