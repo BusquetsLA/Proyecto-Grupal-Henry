@@ -1,9 +1,52 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, componentDidMount  } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { signin } from '../../redux/actions/userActions';
+import { signin,signinfirebase } from '../../redux/actions/userActions';
+import { FirebaseAuth } from 'react-firebaseui';
+import firebase from "firebase"
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
 
+firebase.initializeApp({
+    apiKey: "AIzaSyB2SWhaL9z0_2ttfnkCk6aMq9lD0e8xtJ4",
+    authDomain: "fir-auth-muebleria.firebaseapp.com"
+  })
+  
 function SignIn(props) {
+    const [isSignedIn, setisSignedIn] = useState(false)
+
+    let uiConfig = {
+        signInFlow: "popup",
+        signInOptions: [
+          firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        ],
+        callbacks: {
+          signInSuccess: () => false
+        }
+      }
+
+      useEffect(() => {
+        firebase.auth().onAuthStateChanged(user => {
+        //   this.setState({ isSignedIn: !!user })
+        //   setisSignedIn(!!user)
+          console.log("user", user)
+          
+          if(user){
+            console.log(firebase.auth().currentUser.email)
+            dispatch(signinfirebase(firebase.auth().currentUser.email));
+            if(userInfo){
+                props.history.push(redirect);
+            }
+            
+          }
+        })
+      })
+
+
+
+
+
+
     const dispatch = useDispatch();
     const [input, setInput] = useState({
         email: '',
@@ -28,6 +71,7 @@ function SignIn(props) {
         dispatch(signin(input));
     }
     useEffect(() => {
+        console.log(userInfo)
         if(userInfo) {
             props.history.push(redirect);
         }
@@ -75,7 +119,24 @@ function SignIn(props) {
                         <Link to='/'> Volver al inicio</Link>
                     </div>
                 </div>
-            </form>
+            </form> 
+            {isSignedIn ? (
+          <span>
+            <div>Signed In!</div>
+            <button onClick={() => firebase.auth().signOut()}>Sign out!</button>
+            <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
+            <img
+              alt="profile picture"
+              src={firebase.auth().currentUser.photoURL}
+            />
+          </span>
+        ) : (
+
+            <StyledFirebaseAuth
+            uiConfig={uiConfig}
+            firebaseAuth={firebase.auth()}
+            />
+            )}
         </div>
     )
 }

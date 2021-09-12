@@ -58,6 +58,16 @@ const rootReducer = (state = initialState, action) => {
         ...state,
       };
 
+    case types.DELETE_CATEGORY:
+        return {
+          ...state,
+        };
+
+    case types.UPDATE_CATEGORY:
+          return {
+            ...state,
+          };
+
     case types.GET_CATEGORIES:
       return {
         ...state,
@@ -153,6 +163,11 @@ const rootReducer = (state = initialState, action) => {
         loading: false,
         signupError: action.payload,
       };
+
+      case types.SEND_EMAIL:
+        return {
+          ...state,
+        }
 
     default:
       return state;

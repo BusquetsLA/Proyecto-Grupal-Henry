@@ -4,6 +4,7 @@ import styles from "./NavBar.module.css";
 import { NavLink } from "react-router-dom";
 import Logo from "../../media/LogoEstiloPropio.png";
 import { useDispatch, useSelector } from "react-redux";
+import firebase from "firebase"
 import {
   getCategories,
   getProducts,
@@ -28,6 +29,7 @@ const NavBar = ({ setOrder }) => {
   }
 
   function handleSignout() {
+    firebase.auth().signOut()
     dispatch(signout());
   }
 

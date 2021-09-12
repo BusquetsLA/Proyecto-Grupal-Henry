@@ -7,7 +7,9 @@ export const signup = ({name, email, password}) => {
             type: USER_SIGNUP_REQUEST, 
             payload: {name, email, password}
         });
+        console.log(name)
         const {data} = await axios.post('http://localhost:3001/user/signup', {name, email, password});
+        
         if(data.token){
             dispatch({
                 type: USER_SIGNUP_SUCCESS,
@@ -35,7 +37,34 @@ export const signin = ({email, password}) => {
             payload: {email, password}
         });
         const {data} = await axios.post('http://localhost:3001/user/signin', {email, password});
-        if(data.token){
+        console.log('esta es la data',data)
+        // if(data.token){
+            if(data.name){
+            dispatch({
+                type: USER_SIGNIN_SUCCESS,
+                payload: data
+            });
+            localStorage.setItem('userInfo', JSON.stringify(data));
+        }else {
+            dispatch({
+                type: USER_SIGNIN_FAIL,
+                payload: data.msg
+            })
+        }
+        
+    }
+}
+
+export const signinfirebase = (email) => {
+    console.log(email)
+    return async(dispatch) => {
+        dispatch({
+            type: USER_SIGNIN_REQUEST, 
+            payload: {email}
+        });
+        const {data} = await axios.post('http://localhost:3001/user/signinfirebase', {email});
+        // if(data.token){
+        if(data){    
             dispatch({
                 type: USER_SIGNIN_SUCCESS,
                 payload: data

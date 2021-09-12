@@ -20,13 +20,16 @@
     "express": "^4.17.1",
     "ioredis": "^4.19.2",
     "jsonwebtoken": "^8.5.1",
+    "mercadopago": "^1.5.8",
     "mongoose": "^6.0.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.12",
+    "nodemailer": "^6.6.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^8.2.1",
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.12",
     "supertest": "^6.0.1",
     "supertest-session": "^4.1.0"
   }

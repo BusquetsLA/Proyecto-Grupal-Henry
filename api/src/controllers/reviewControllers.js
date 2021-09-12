@@ -50,3 +50,10 @@ async function deleteReview(req, res, next){
         next(error)
     }
 }
+
+module.exports = {
+    getReviews,
+    createReview,
+    updateReview,
+    deleteReview
+};

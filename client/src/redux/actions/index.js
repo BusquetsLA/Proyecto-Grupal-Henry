@@ -1,3 +1,4 @@
+import { Category } from "@material-ui/icons";
 import axios from "axios";
 import types from "../constants/types";
 const BASE_URL = "http://localhost:3001";
@@ -110,6 +111,32 @@ export const addCategory = (category) => {
   };
 };
 
+export const deleteCategory = (categoryID) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`${BASE_URL}/categories/delete/${categoryID}`);
+      return dispatch({
+        type: types.DELETE_CATEGORY,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updateCategory = (category) => {
+  return async (dispatch) => {
+    try {
+      await axios.put(`${BASE_URL}/categories/update/`, category);
+      return dispatch({
+        type: types.UPDATE_CATEGORY,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 // Filter
 export const filterByCategory = (id) => (dispatch) => {
   return dispatch({
@@ -130,5 +157,18 @@ export const orderByRangePrice = (payload) => {
   return {
     type: types.FILTER_BY_PRICE_RANGE,
     payload,
+  };
+};
+
+export const sendEmail = (email) => {
+  return async (dispatch) => {
+    try {
+      await axios.post(`${BASE_URL}/sendEmail`, email);
+      return dispatch({
+        type: types.SEND_EMAIL,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 };

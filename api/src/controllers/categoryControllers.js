@@ -40,35 +40,43 @@ async function createCategory(req, res, next) {
 }
 
 async function updateCategory(req, res, next) {
-    const { id } = req.params;
-    const { image_url, name } = req.body;
+    const { id, name } = req.body;
+    //const { image_url, name, products } = req.body;
+    console.log(req.body)
     try {
         const category = await Category.findById(id);
         if (!category) {
             return res.status(404).send('La categoría no existe')
         } else {
-            await Category.updateOne({ _id: id }, { image_url, name })
-            return res.status(200).send('Categoría actualizada');
+            await Category.updateOne({ _id: id }, { name })
+            return res.status(200).send(category );
+            //await Category.updateOne({ _id: id }, { image_url, name, products })
+            //return res.status(200).send(`La categoría ${name} ha sido actualizada`);
+
         }
     } catch (error) {
         next(error);
         return res.send(`Categoría no encontrada`);
-    }
+    } 
 }
 
 async function deleteCategory(req, res, next) {
     const { id } = req.params;
+    console.log('id',id)
     try {
         const category = await Category.findById(id);
-        if(!category){
+        console.log('category',category)
+        if(category){
+            console.log('existe categoria')
             await Category.deleteOne({_id: id});
             return res.status(200).send('Categoría eliminada');
         }else{
+            console.log('NO existe categoria')
             return res.status(404).send('Categoría no encontrada');
         }
     } catch (error) {
         next(error)
-    }
+    }  
 }
 
 module.exports = {
