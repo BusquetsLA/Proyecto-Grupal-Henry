@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const { generateToken, isAuth } = require("./utils");
-var findOrCreate = require('mongoose-findorcreate')
+// var findOrCreate = require('mongoose-findorcreate')
 
 async function signUp(req, res, next) {
   const { name, email, password, isAdmin, susbscribed } = req.body;

@@ -48,7 +48,7 @@ async function updateCategory(req, res, next) {
             return res.status(404).send('La categoría no existe')
         } else {
             await Category.updateOne({ _id: id }, { image_url, name, products })
-            return res.status(200).send(category );
+            return res.status(200).send(`La categoría ${name} ha sido actualizada`);
         }
     } catch (error) {
         next(error);
