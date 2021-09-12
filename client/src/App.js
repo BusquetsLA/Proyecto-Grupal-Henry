@@ -18,7 +18,7 @@ import Our from './components/Our/Our';
 import SignIn from './components/Login/SignIn';
 import SignUp from './components/Register/SignUp';
 import Admin from './components/AdminPanel/Admin';
-import CreateCategory from './components/CreateCategory/CreateCategory';
+import CreateCategory from './components/AdminPanel/CreateCategory/CreateCategory';
 import CreateProduct from './components/CreateProduct/CreateProduct';
 
 function App() {
@@ -38,9 +38,12 @@ function App() {
 					<Route exact path="/company" component={Company} />
 					<Route exact path="/team" component={Team} />
 					<Route exact path="/our" component={Our} />
+
+					{/* --- Panel del Administrador  */}
 					<Route exact path="/admin/adminpanel" component={Admin} />
-					<Route exact path="/admin/catcreate" component={CreateCategory} />
+					<Route exact path="/admin/adminpanel/categories" component={CreateCategory} />
 					<Route exact path="/admin/prdcreate" component={CreateProduct} />
+					{/* --- Fin: Panel del Administrador  */}
 					<Route path="*" component={Error404} />
 				</Switch>
 			</div>
