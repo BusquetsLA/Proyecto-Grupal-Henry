@@ -6,6 +6,8 @@ const categoryRouter = require('./category.js');
 const userRouter = require('./userRoutes');
 const reviewRouter = require('./review.js');
 const sendMailRouter = require('./sendMail.js');
+const order = require('./order.js');
+const mercadoPago = require('./mercadoPago.js');
 
 const router = Router();
 
@@ -15,5 +17,7 @@ router.use('/categories', categoryRouter);
 router.use('/user', userRouter);
 router.use('/reviews', reviewRouter);
 router.use('/sendMail', sendMailRouter);
+router.use('/order', order);
+router.use('/mercadopago', mercadoPago)
 
 module.exports =  router;
