@@ -71,6 +71,7 @@ function SignIn(props) {
         dispatch(signin(input));
     }
     useEffect(() => {
+        console.log(userInfo)
         if(userInfo) {
             props.history.push(redirect);
         }
