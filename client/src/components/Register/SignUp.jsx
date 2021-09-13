@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { sendEmail } from '../../redux/actions';
 import { signup } from '../../redux/actions/userActions';
 
 function SignUp(props) {
     const dispatch = useDispatch();
+    const history = useHistory()
     const userInfo = useSelector(state => state.userInfo);
     const loading = useSelector(state => state.loading);
     const error = useSelector(state => state.signupError);
@@ -28,6 +30,11 @@ function SignUp(props) {
             alert('La contraseña que confirmaste debe ser igual la que elegiste');
         }else {
             dispatch(signup(input));
+            dispatch(sendEmail(input));
+            setInput({
+                name: "", email: "", password: '',
+                confirmPass: ''});
+            history.push('/');
         }
     }
 
