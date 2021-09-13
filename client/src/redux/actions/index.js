@@ -190,7 +190,7 @@ export const orderByRangePrice = (payload) => {
 export const sendHelpEmail = (email) => { // correo de sugerencias o consultas
   return async (dispatch) => {
     try {
-      await axios.post(`${BASE_URL}/sendHelpEmail`, email);
+      await axios.post(`${BASE_URL}/email/sendHelpEmail`, email);
       return dispatch({
         type: types.SEND_HELP_EMAIL, // va de ellos a nosotros
       });
@@ -203,7 +203,7 @@ export const sendHelpEmail = (email) => { // correo de sugerencias o consultas
 export const sendRegisterEmail = (email) => { // correo de confirmacion de registro
   return async (dispatch) => {
     try {
-      await axios.post(`${BASE_URL}/sendRegisterEmail`, email);
+      await axios.post(`${BASE_URL}/email/sendRegisterEmail`, email);
       return dispatch({
         type: types.SEND_REGISTER_EMAIL, // va de nosotros a ellos
       });
@@ -216,7 +216,7 @@ export const sendRegisterEmail = (email) => { // correo de confirmacion de regis
 export const sendPaymentEmail = (email) => { // correo de confirmación de la compra
   return async (dispatch) => {
     try {
-      await axios.post(`${BASE_URL}/sendPaymentEmail`, email);
+      await axios.post(`${BASE_URL}/email/sendPaymentEmail`, email);
       return dispatch({
         type: types.SEND_PAYMENT_EMAIL, // va de nosotros a ellos
       });
