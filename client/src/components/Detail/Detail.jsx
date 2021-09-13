@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { getProductsById } from "../../redux/actions";
 import NavBar from "../NavBar/NavBar";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -10,6 +10,7 @@ import detStyle from "./Detail.module.css";
 export default function Detail() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
   var productDetail = useSelector((state) => state.productDetails);
   var productId = location.pathname.split("/").pop();
 
@@ -33,6 +34,7 @@ export default function Detail() {
         productsList: [...cart.productsList, productDetail],
       });
     }
+    history.push("/cart");
   };
 
   return (
