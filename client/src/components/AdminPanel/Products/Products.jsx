@@ -73,7 +73,7 @@ export default function AddCategories() {
 							style={{backgroundColor: 'black', color:'white', width:'80px'}} align="left">
 							Stock</TableCell>
 						<TableCell 
-							style={{backgroundColor: '#999', color:'white', width:'150px'}} align="left">
+							style={{backgroundColor: '#999', color:'white', minWidth:'200px'}} align="left">
 							Imagen URL</TableCell>
 						<TableCell 
 							style={{backgroundColor: 'black', color:'white', width:'100px'}} align="left">
@@ -105,7 +105,7 @@ export default function AddCategories() {
 							{row.stock}
 						</TableCell>
 						<TableCell component="th" scope="row">
-							{/* <img src={row.image_url} alt="imagen" width="60px"/> */} {row.image_url}
+							<a href={row.image_url} target="blank"> <img src={row.image_url} alt="imagen" width="60px"/> </a> {/*  {row.image_url} */}
 						</TableCell>
 						<TableCell align="right">
 							<button className={prdStyle.myButton2}  onClick={(e) => handleClickUpdate(row._id)}>Actualizar</button>
