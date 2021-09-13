@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { sendEmail } from '../../redux/actions';
+import { sendRegisterEmail } from '../../redux/actions';
 import { signup } from '../../redux/actions/userActions';
 
 function SignUp(props) {
@@ -30,7 +30,7 @@ function SignUp(props) {
             alert('La contraseña que confirmaste debe ser igual la que elegiste');
         }else {
             dispatch(signup(input));
-            dispatch(sendEmail(input));
+            dispatch(sendRegisterEmail(input));
             setInput({
                 name: "", email: "", password: '',
                 confirmPass: ''});
