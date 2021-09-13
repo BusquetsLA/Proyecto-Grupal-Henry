@@ -22,10 +22,10 @@ const mongoose = require('mongoose');
 const PORT = 3001;
 
 // Conexion con BD remota >>
-const db = process.env.MONGO_URI;
+//const db = process.env.MONGO_URI;
 
 // Conexion con BD local >>
-// const db = 'mongodb://localhost/requests';
+const db = 'mongodb://localhost/requests';
 // ---- fin conexiones <<<
 
 mongoose.connect(db)
