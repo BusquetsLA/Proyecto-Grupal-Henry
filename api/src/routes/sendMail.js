@@ -6,8 +6,9 @@ const  {registerEmail,
 
 const router = Router();
 
-router.post('/', registerEmail);
-router.post('/', helpEmail);
-router.post('/', paymentEmail);
+router.post('/sendRegisterEmail', registerEmail);
+router.post('/sendHelpEmail', helpEmail);
+router.post('/sendPaymentEmail', paymentEmail);
+
 
 module.exports = router;

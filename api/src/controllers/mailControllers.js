@@ -21,9 +21,8 @@ async function registerEmail(req, res, next) {
 
 async function helpEmail(req, res, next) {
   try {
-    const { name, email, message, password } = req.body;
+    const { name, email, message } = req.body;
     //send mail with defined transport object
-    if (!password) {
         console.log("entre al if")
         let info = await transporter.sendMail({
         from: '"Estilo Propio 👻" <epropio35@gmail.com>', // sender address
@@ -36,7 +35,7 @@ async function helpEmail(req, res, next) {
     <p>Mensaje: ${message}</p>`,
       });
       console.log("Message send", info);
-    } 
+    
   } catch (error) {
     next(error);
   }
@@ -47,21 +46,19 @@ async function paymentEmail(req, res, next) {
   try {
     const { name, email, password } = req.body;
     //send mail with defined transport object
-    if (!password) {
         console.log("entre al if")
         let info = await transporter.sendMail({
         from: '"Estilo Propio 👻" <epropio35@gmail.com>', // sender address
         to: `${email}`, // list of receivers
-        subject: "Hola Tengo una Novedad con tú Pagina ❌", // Subject line
+        subject: "Tu pedido y pago se han ejecutado Correctamente ✅", // Subject line
         // text: "Hello world?", // plain text body
         html: `<br><br> 
-    <b>Nombre de Cliente: ${name}</b><br><br>
-    <b>Correo: ${email}</b><br><br>
-    <p>Mensaje: ${message}</p>`,
+    <b>Hola ${name}</b><br><br>
+    <b>Tu pago se ha ejecutado sin novedad a traves de Mercado pago</b><br><br>
+    <button>Click aqui para continuar comprando</button>`,
       });
       console.log("Message send", info);
-    } 
-  } catch (error) {
+     } catch (error) {
     next(error);
   }
 }
