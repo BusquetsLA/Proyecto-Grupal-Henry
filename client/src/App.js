@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import Home from './components/Home/Home';
 import About from './components/About/About';
 import Shop from './components/Shop/Shop';
@@ -19,13 +19,16 @@ import SignIn from './components/Login/SignIn';
 import SignUp from './components/Register/SignUp';
 import Admin from './components/AdminPanel/Admin';
 import Categories from './components/AdminPanel/Categories/Categories';
-import CreateCategory from './components/AdminPanel/Categories/CreateCategory';
-import UpdateCategory from './components/AdminPanel/Categories/UpdateCategory';
-import CreateProduct from './components/CreateProduct/CreateProduct';
+import CategoryCreate from './components/AdminPanel/Categories/CategoryCreate';
+import CategoryUpdate from './components/AdminPanel/Categories/CategoryUpdate';
+import Products from './components/AdminPanel/Products/Products';
+import ProductCreate from './components/AdminPanel//Products/ProductCreate';
+import ProductUpdate from './components/AdminPanel//Products/ProductUpdate';
+
 
 function App() {
 	return (
-		<BrowserRouter>
+		<HashRouter>
 			<div className="App">
 				<Switch>
 					<Route exact path="/" component={Home} />
@@ -44,14 +47,17 @@ function App() {
 					{/* --- Panel del Administrador  */}
 					<Route exact path="/admin/adminpanel" component={Admin} />
 					<Route exact path="/admin/adminpanel/categories" component={Categories} />
-					<Route exact path="/admin/adminpanel/categoriesCreate" component={CreateCategory} />
-					<Route exact path="/admin/adminpanel/categoriesUpdate/:id" component={UpdateCategory} />
-					<Route exact path="/admin/prdcreate" component={CreateProduct} />
+					<Route exact path="/admin/adminpanel/categoriesCreate" component={CategoryCreate} />
+					<Route exact path="/admin/adminpanel/categoriesUpdate/:id" component={CategoryUpdate} />
+
+					<Route exact path="/admin/adminpanel/products" component={Products} />
+					<Route exact path="/admin/adminpanel/productCreate" component={ProductCreate} />
+					<Route exact path="/admin/adminpanel/productUpdate/:id" component={ProductUpdate} />
 					{/* --- Fin: Panel del Administrador  */}
 					<Route path="*" component={Error404} />
 				</Switch>
 			</div>
-		</BrowserRouter>
+		</HashRouter>
 	);
 }
 

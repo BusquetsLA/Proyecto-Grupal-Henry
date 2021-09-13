@@ -25,3 +25,7 @@ body{
 .contentBtn{
     color: white;
 }
+
+.btnMenu{
+    width: 200px;
+}

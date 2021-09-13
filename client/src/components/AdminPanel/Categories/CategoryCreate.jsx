@@ -43,6 +43,7 @@ export default function AddCategories() {
 
 	function handleSubmit(e) {
 		e.preventDefault();
+		input.name = input.name[0].toLocaleUpperCase() + input.name.slice(1)
 		dispatch(addCategory(input));
 		alert("Categoría creada exitosamente.");
 		setInput({

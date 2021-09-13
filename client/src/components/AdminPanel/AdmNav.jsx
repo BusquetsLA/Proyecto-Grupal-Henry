@@ -1,5 +1,6 @@
 import React from 'react'
 import { AppBar, Toolbar, Typography, makeStyles, Button } from '@material-ui/core'
+import { NavLink } from 'react-router-dom';
 import { withThemeCreator } from '@material-ui/styles'
 //import MenuIcon  from '@material-ui/icons/Menu'
 
@@ -29,13 +30,16 @@ export default function AdmNav() {
                 <Typography variant="h6" className={classes.tittle} >
                     Panel de Adminstrador
                 </Typography>
-                <Button 
-                variant="contained" 
-                color="primary"
-                size="large"
-                href="/admin/adminpanel"
-                disableElevation
-                > Home </Button>
+                
+                <NavLink to="/admin/adminpanel" >
+                    <Button 
+                        variant="contained" 
+                        color="primary"
+                        size="large"
+                        //href="/admin/adminpanel"
+                        disableElevation
+                    > Home </Button>
+                </NavLink>
               </Toolbar>
             </AppBar>
             <div className={classes.offset}></div>

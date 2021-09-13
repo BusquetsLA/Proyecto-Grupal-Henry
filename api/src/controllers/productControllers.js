@@ -37,14 +37,15 @@ async function createProducts(req, res, next) {
 }
 
 async function updateProductById(req, res, next) {
-    const {id} = req.params;
-    const {name, image_url, price, description, categories} = req.body;
+    //const {id} = req.params;
+    //console.log(req.body)
+    const {id, name, image_url, price, description, stock, categories} = req.body;
     try {
         const product = await Product.findById(id);
         if(!product){
             return res.status(404).send("Producto no encontrado")
         }else{
-            await Product.updateOne({_id: id}, {name, image_url, price, description, categories})
+            await Product.updateOne({_id: id}, {name, image_url, price, description, stock, categories})
             return res.status(200).send("Producto actualizado correctamente");
         }
     } catch (error) {

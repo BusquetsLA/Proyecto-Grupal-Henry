@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addProduct, getCategories } from '../../redux/actions/index';
-import ctgStyle from './CreateProduct.module.css';
+import { useLocation } from "react-router";
+import { updateProduct,getProductsById, getCategories } from '../../../redux/actions/index';
+import prdStyle from './Products.module.css';
 import Select from 'react-select';
+import AdmNav from '../AdmNav';
 
 export function validate(input) {
 	let errors = {};
@@ -14,13 +16,13 @@ export function validate(input) {
 	if (!input.description) errors.description = 'La descripcion es obligatoria.';
 	else if (!/([A-Z]|[a-z])\w+/.test(input.description)) errors.description = 'El nombre de la descripcion es inválido.';
 
-	if (!input.imgurl) errors.imgurl = 'La URL de la imagen es obligatoria';
+	if (!input.image_url) errors.image_url = 'La URL de la imagen es obligatoria';
 	else if (
 		!/^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})$/.test(
-			input.imgurl,
+			input.image_url,
 		)
 	)
-		errors.imgurl = 'El formato de la URL no es correcto..';
+		errors.image_url = 'El formato de la URL no es correcto..';
 
 	if (!input.price) errors.price = 'El monto del Precio es obligatorio.';
 	else if (!/\d+\.\d{2}/.test(input.price)) errors.price = 'El formato de Precio es inválido.';
@@ -33,19 +35,39 @@ export function validate(input) {
 
 export default function AddProducts() {
 	const dispatch = useDispatch();
+	var productDetail = useSelector((state) => state.productDetails);
+	const location = useLocation();
+    var productId = location.pathname.split("/").pop();
+	console.log(productDetail)
+
+	useEffect(() => {
+		dispatch(getProductsById(productId));
+        setInput({
+            id: productId,
+            name: productDetail.name,
+            description: productDetail.description,
+            image_url: productDetail.image_url,
+			price: productDetail.price,
+			stock: productDetail.stock,
+        }); 
+	  }, [dispatch,productId,productDetail.name,
+		productDetail.description,productDetail.image_url,
+		productDetail.price,productDetail.stock]);
+
+
 	const history = useHistory();
 
 	var categories = useSelector((state) => state.categories);
-  categories = categories.map(e=> {
-    return {
-      value: e._id,
-      label: e.name,
-    }
-  })
+	categories = categories.map(e=> {
+		return {
+			value: e._id,
+			label: e.name,
+		}
+	})
   
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(getCategories());
+	}, [dispatch]);
   
   const [value, setValue] = useState([])
   //console.log('value is:',value);
@@ -71,7 +93,6 @@ export default function AddProducts() {
 		setInput({
 			...input,
 			[e.target.name]: e.target.value,
-      //categories: [...input.categories, 456],
 		});
 	}
 
@@ -82,17 +103,18 @@ export default function AddProducts() {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-    //setInput({ ...input, input.categories= [789] })
-    const dataSend ={
-      name: input.name,
-      description: input.description,
+    	//setInput({ ...input, input.categories= [789] })
+		const dataSend ={
+			id: productId,
+			name: input.name,
+			description: input.description,
 			image_url: input.image_url,
 			price: input.price,
 			stock: input.stock,
-      categories: value.map(e => e.value),
-    }
+			categories: value.map(e => e.value),
+		}
 		console.log('enviar: ', dataSend);
- 		dispatch(addProduct(input));
+ 		dispatch(updateProduct(dataSend));
 		//alert("Categoría creada exitosamente.");
 		setInput({
 			name: '',
@@ -102,16 +124,19 @@ export default function AddProducts() {
 			stock: '',
 			categories: [],
 		});
-		history.push('/admin/prdcreate'); 
+		history.push('/admin/adminpanel/products'); 
 	}
 
 	return (
-		<div className={ctgStyle.ProdContent}>
-			<fieldset className={ctgStyle.ProdFieldset}>
-				<legend> Crear Producto </legend>
+		<>
+		<AdmNav />
+
+		<div className={prdStyle.ProdContent}>
+			<fieldset className={prdStyle.ProdFieldset}>
+				<legend className={prdStyle.ProdLegend}> Crear Producto </legend>
 				<form onSubmit={(e) => { handleSubmit(e); }} >
-					<div className={ctgStyle.inputs}>
-						<label for="name">Nombre</label>
+					<div className={prdStyle.inputs}>
+						<label for="name" >Nombre</label>
 						<input
 							type="text"
 							name="name"
@@ -123,7 +148,7 @@ export default function AddProducts() {
 						{errors.name && <p className="danger">{errors.name}</p>}
 					</div>
 
-					<div className={ctgStyle.inputs}>
+					<div className={prdStyle.inputs}>
 						<label for="description">Descripcion</label>
 						<textarea
 							name="description"
@@ -136,8 +161,8 @@ export default function AddProducts() {
 						{errors.description && <p className="danger">{errors.description}</p>}
 					</div>
 
-					<div className={ctgStyle.inputs}>
-						<label for="imgurl">Imagen URL</label>
+					<div className={prdStyle.inputs}>
+						<label for="image_url">Imagen URL</label>
 						<input
 							type="text"
 							name="image_url"
@@ -149,7 +174,7 @@ export default function AddProducts() {
 						{errors.image_url && <p className="danger">{errors.image_url}</p>}
 					</div>
 
-					<div className={ctgStyle.inputs}>
+					<div className={prdStyle.inputs}>
 						<label for="price">Precio</label>
 						<input
 							type="text"
@@ -162,7 +187,7 @@ export default function AddProducts() {
 						{errors.price && <p className="danger">{errors.price}</p>}
 					</div>
 
-					<div className={ctgStyle.inputs}>
+					<div className={prdStyle.inputs}>
 						<label for="stock">Stock</label>
 						<input
 							type="text"
@@ -175,23 +200,24 @@ export default function AddProducts() {
 						{errors.stock && <p className="danger">{errors.stock}</p>}
 					</div>
 
-					<div className={ctgStyle.ProdSelect}>
+					<div className={prdStyle.ProdSelect}>
 						<label for="categories">Categorias</label>
 						<Select 
-              value={value}
-              options={categories}
-              onChange={(e) => onSelectChange(e)}
-              isMulti
-            />
+							value={value}
+							options={categories}
+							onChange={(e) => onSelectChange(e)}
+							isMulti
+							/>
 					</div>
 
 					<div>
-						<button className={ctgStyle.myButton} type="submit">
+						<button className={prdStyle.myButton} type="submit">
 							Guardar
 						</button>
 					</div>
 				</form>
 			</fieldset>
 		</div>
+	</>
 	);
 }

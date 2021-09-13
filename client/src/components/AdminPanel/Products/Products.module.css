@@ -1,4 +1,4 @@
-.Catcontent{
+.Prodcontent{
     display: flex;
     justify-content: flex-start;
     width: 100vw;
@@ -7,17 +7,18 @@
     margin-bottom: 10px;
 }
 
-.CatFieldset{
+.ProdFieldset{
     width: 500px;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     margin-top: 10px;
+    margin-left: 20px;
     padding-left: 10px;
     border-radius: 10px;
-    height: 160px;
+    height: 660px;
     border: 1px solid black;
 }
 
-.CatLegend{
+.ProdLegend{
     text-align: left;
     font-weight: bold;
     font-size: 1.0rem;
@@ -37,7 +38,8 @@ form{
 }
 
 .inputs label{
-    padding-bottom: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
     padding-left: 5px;
 }
 
@@ -45,6 +47,17 @@ form{
     height: 40px;
     width: 96%;
     padding-left: 10px;
+    margin-bottom: 5px;
+}
+
+.inputs textarea{
+    width: 96%;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+.ProdSelect{
+    width: 96%;
 }
 
 .myButton {
@@ -97,5 +110,6 @@ form{
 .myButton3:hover {
 	background-color:#be160a;
 }
+
 
 
