@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from "react-router-dom";
 import styles from "./Help.module.css";
-import { sendEmail } from '../../redux/actions';
+import { sendHelpEmail } from '../../redux/actions';
 
 
 const Help = () => {
@@ -26,7 +26,7 @@ function handleChange(e){
 function handleSubmit(e){
   e.preventDefault()
   console.log(input)
-  dispatch(sendEmail(input))
+  dispatch(sendHelpEmail(input))
   setInput({
       name: "", email: "", message: "",})
   history.push('/')
