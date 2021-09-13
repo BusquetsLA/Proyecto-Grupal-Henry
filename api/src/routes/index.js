@@ -19,11 +19,9 @@ router.use('/categories', categoryRouter);
 router.use('/user', userRouter);
 router.use('/reviews', reviewRouter);
 
-router.use('/sendHelpEmail', sendMailRouter);
-router.use('/sendRegisterEmail', sendMailRouter);
-router.use('/sendPaymentEmail', sendMailRouter);
+router.use('/email', sendMailRouter);
 router.use('/order', order);
-router.use('/mercadopago', mercadoPago)
+router.use('/mercadopago', mercadoPago);
 
 
 module.exports =  router;
