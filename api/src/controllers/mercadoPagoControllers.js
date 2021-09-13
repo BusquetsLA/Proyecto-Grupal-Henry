@@ -1,9 +1,10 @@
 const Order = require('../models/Order.js')
 const mercadopago = require ('mercadopago')
+require('dotenv').config()
 const { ACCESS_TOKEN } = process.env
 const {getOrder} = require('./utils.js')
 
-mercadopago.configure({access_token: ACCESS_TOKEN})
+mercadopago.configure({access_token: `${ACCESS_TOKEN}`})
 
 async function getId(req, res, next){
     const {user_id, order_id} = req.params
