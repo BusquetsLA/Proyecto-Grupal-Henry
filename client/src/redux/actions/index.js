@@ -160,12 +160,39 @@ export const orderByRangePrice = (payload) => {
   };
 };
 
-export const sendEmail = (email) => {
+// Email
+export const sendHelpEmail = (email) => { // correo de sugerencias o consultas
   return async (dispatch) => {
     try {
       await axios.post(`${BASE_URL}/sendMail`, email);
       return dispatch({
-        type: types.SEND_EMAIL,
+        type: types.SEND_HELP_EMAIL, // va de ellos a nosotros
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const sendRegisterEmail = (email) => { // correo de confirmacion de registro
+  return async (dispatch) => {
+    try {
+      await axios.post(`${BASE_URL}/sendMail`, email);
+      return dispatch({
+        type: types.SEND_REGISTER_EMAIL, // va de nosotros a ellos
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const sendPaymentEmail = (email) => { // correo de confirmación de la compra
+  return async (dispatch) => {
+    try {
+      await axios.post(`${BASE_URL}/sendMail`, email);
+      return dispatch({
+        type: types.SEND_PAYMENT_EMAIL, // va de nosotros a ellos
       });
     } catch (error) {
       console.log(error);
