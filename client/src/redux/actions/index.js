@@ -69,6 +69,32 @@ export const addProduct = (product) => {
   };
 };
 
+export const updateProduct = (product) => {
+  return async (dispatch) => {
+    try {
+      await axios.put(`${BASE_URL}/products/update/`, product);
+      return dispatch({
+        type: types.UPDATE_PRODUCT,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteProduct = (productID) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`${BASE_URL}/products/delete/${productID}`);
+      return dispatch({
+        type: types.DELETE_PRODUCT,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 // Categories
 export const getCategories = () => {
   return async (dispatch) => {

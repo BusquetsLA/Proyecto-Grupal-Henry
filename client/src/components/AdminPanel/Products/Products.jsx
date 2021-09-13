@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
-import { deleteCategory, getCategories } from '../../../redux/actions/index';
+import { getProducts, deleteProduct } from '../../../redux/actions/index';
 import AdmNav from '../AdmNav';
-import ctgStyle from './CreateCategory.module.css';
-
-//import { DataGrid } from '@material-ui/data-grid';
-//import { makeStyles } from '@material-ui/core/styles';
+import prdStyle from './Products.module.css';
 
 import { Button } from '@material-ui/core'
 
@@ -20,59 +17,41 @@ import Paper from '@material-ui/core/Paper';
 
 
 export default function AddCategories() {
-	var categoriesArr = useSelector((state) => state.categories);
-/* 
-	var rows = categoriesArr.map(e => {
-		return {
-			id: e._id,
-			name: e.name,
-			products: e.products.map(e => e.name),
-			update: '--'
-		}
-	})
- */
+	var productsArr = useSelector((state) => state.products.all);
+	//console.log(productsArr)
 
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(getCategories());
-	  }, [dispatch,categoriesArr]);
+		dispatch(getProducts());
+	  }, [dispatch,productsArr]);
 
 	const history = useHistory();
 
     function handleClickUpdate(e) {
-        history.push('/admin/adminpanel/categoriesUpdate/'+e);
+        history.push('/admin/adminpanel/productUpdate/'+e);
       }
 
     function handleClickDelete(e) {
-        dispatch(deleteCategory(e));
-        alert("Categoria borrada: "+e)
-        history.push('/admin/adminpanel/categories');
-      }
+        dispatch(deleteProduct(e));
+        alert("Producto borrado: "+e)
+        history.push('/admin/adminpanel/products');
+      } 
 
 	return (
 		<>
 		<AdmNav />
- 		<div className={ctgStyle.Catcontent}>
-            {/* <button className={ctgStyle.myButton} type="submit">Crear Categoria</button> */}
-			<NavLink to="/admin/adminpanel/categoriesCreate" >
+ 		<div className={prdStyle.Prodcontent}>
+			<NavLink to="/admin/adminpanel/productCreate" >
             <Button 
                 variant="contained" 
                 color="primary"
                 size="medium"
                 style={{marginTop: '10px'}}
                 disableElevation
-                > Crear Categoria </Button>
+                > Crear Producto </Button>
 			</NavLink>
 		</div>
 		
-{/* 		<div style={{ height: 400, width: '100%' }}>
-		<DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        disableSelectionOnClick
-      	/>
-		  </div> */}
 
  		<TableContainer style={{marginLeft:'20px'}} component={Paper}>
 			<Table style={{backgroundColor:'white', width: 'auto'}} aria-label="simple table">
@@ -80,10 +59,22 @@ export default function AddCategories() {
 					<TableRow>
 						<TableCell 
 							style={{backgroundColor: 'black', color:'white', width:'150px' }}>
-							Categoria</TableCell>
+							Producto</TableCell>
 						<TableCell 
-							style={{backgroundColor: '#999', color:'white', width:'400px'}} align="left">
-							Detalle</TableCell>
+							style={{backgroundColor: '#999', color:'white', width:'300px'}} align="left">
+							Categorias</TableCell>
+						<TableCell 
+							style={{backgroundColor: 'black', color:'white', width:'250px'}} align="left">
+							Descripcion</TableCell>
+						<TableCell 
+							style={{backgroundColor: '#999', color:'white', width:'120px'}} align="left">
+							Precio</TableCell>
+						<TableCell 
+							style={{backgroundColor: 'black', color:'white', width:'80px'}} align="left">
+							Stock</TableCell>
+						<TableCell 
+							style={{backgroundColor: '#999', color:'white', width:'150px'}} align="left">
+							Imagen URL</TableCell>
 						<TableCell 
 							style={{backgroundColor: 'black', color:'white', width:'100px'}} align="left">
 							Actualizar</TableCell>
@@ -92,27 +83,39 @@ export default function AddCategories() {
 							Borrar</TableCell>
 					</TableRow>
 				</TableHead>
-				<TableBody>
-				{categoriesArr.map((row) => (
+ 				<TableBody>
+				{productsArr.map((row) => (
 					<TableRow key={row._id}>
 						<TableCell component="th" scope="row">
 							{row.name}
 						</TableCell>
 						<TableCell align="left">
-							{row.products.map(e => (
+							{row.categories.map(e => (
 								<p>{e.name}</p>
 							))
 							}
 						</TableCell>
-						<TableCell align="right">
-							<button className={ctgStyle.myButton2}  onClick={(e) => handleClickUpdate(row._id)}>Actualizar</button>
+						<TableCell component="th" scope="row">
+							{row.description}
+						</TableCell>
+						<TableCell component="th" scope="row">
+							{row.price}
+						</TableCell>
+						<TableCell component="th" scope="row">
+							{row.stock}
+						</TableCell>
+						<TableCell component="th" scope="row">
+							{/* <img src={row.image_url} alt="imagen" width="60px"/> */} {row.image_url}
 						</TableCell>
 						<TableCell align="right">
-							<button className={ctgStyle.myButton3}  onClick={(e) => handleClickDelete(row._id)}>Borrar</button>
+							<button className={prdStyle.myButton2}  onClick={(e) => handleClickUpdate(row._id)}>Actualizar</button>
+						</TableCell>
+						<TableCell align="right">
+							<button className={prdStyle.myButton3}  onClick={(e) => handleClickDelete(row._id)}>Borrar</button>
 						</TableCell>
 					</TableRow>
 				))}
-		        </TableBody>
+		        </TableBody> 
       		</Table>
     	</TableContainer> 
 		</>

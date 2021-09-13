@@ -14,7 +14,7 @@ export function validate(input) {
 	return errors;
 }
 
-export default function AddCategories() {
+export default function CategoryUpdate() {
 	const dispatch = useDispatch();
     var categoryDetail = useSelector((state) => state.categoryDetails);
     const location = useLocation();
@@ -56,7 +56,7 @@ export default function AddCategories() {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-        //console.log('input: ',input)
+        input.name = input.name[0].toLocaleUpperCase() + input.name.slice(1)
 		dispatch(updateCategory(input));
 		alert("Categoría actualizada exitosamente.");
 		setInput({

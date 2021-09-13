@@ -53,6 +53,16 @@ const rootReducer = (state = initialState, action) => {
         ...state,
       };
 
+    case types.UPDATE_PRODUCT:
+        return {
+          ...state,
+        };
+
+      case types.DELETE_PRODUCT:
+        return {
+          ...state,
+        };
+
     case types.POST_CATEGORY:
       return {
         ...state,
