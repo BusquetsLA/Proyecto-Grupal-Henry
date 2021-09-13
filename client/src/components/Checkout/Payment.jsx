@@ -15,19 +15,12 @@ const Payment = ({ productsList, totalPrice, data }) => {
   useEffect(() => {
     const script = document.createElement("script");
     script.type = "text/javascript";
-
     const attr_data_preference = document.createAttribute("data-preference-id");
     attr_data_preference.value = data.id;
-
     script.src =
       "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
     script.setAttributeNode(attr_data_preference);
-
     document.getElementById("form1").appendChild(script);
-
-    return () => {
-      document.getElementById("form1").removeChild(script);
-    };
   }, [data]);
 
   if (!productsList || !totalPrice || !data) {

@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { Link } from "react-router-dom";
 import utils from "../../redux/utils/index";
@@ -38,6 +40,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Cart = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const userInfo = useSelector((state) => state.userInfo);
 
   const [cart, setCart] = useLocalStorage("cart", {
     productsList: [],
@@ -73,23 +77,24 @@ const Cart = () => {
     });
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = (e) => {
+    e.preventDefault();
     setCart({
       ...cart,
       totalPrice: totalPrice,
     });
+    history.push("/checkout");
   };
 
   const listProducts = cart.productsList.map((elem, idx) => (
     <div key={idx} className={classes.root}>
       <Card style={{ margin: 20, padding: 20 }} variant="outlined">
         <CardContent>
-          <ButtonBase>
+          <ButtonBase component={Link} to={`/detail/${elem._id}`}>
             <img
-            className={classes.img}
+              className={classes.img}
               src={elem.image_url}
               alt={elem.name}
-              width="200"
               height="200"
             />
           </ButtonBase>
@@ -124,17 +129,13 @@ const Cart = () => {
           color="secondary"
           onClick={() => handleRemoveProduct(elem._id)}
         >
-          Remove
+          Remover de la lista
         </Button>
       </Card>
     </div>
   ));
 
-  if (!listProducts) {
-    return <BeatLoader />;
-  }
-
-  if (!listProducts.length) {
+  if (!listProducts || !listProducts.length) {
     return (
       <Container style={{ margin: 50 }}>
         <Typography variant="h4">
@@ -159,7 +160,7 @@ const Cart = () => {
     <Grid container justifyContent="center">
       <Grid>
         <Button component={Link} to="/" variant="contained" color="primary">
-          Volver
+          Agrega otro producto
         </Button>
       </Grid>
       <Grid item style={{ margin: 20 }}>
@@ -174,17 +175,34 @@ const Cart = () => {
         </Button>
         {listProducts}
         <Grid item>
-          {listProducts.length && (
-            <Button
-              component={Link}
-              to="/checkout"
-              variant="contained"
-              style={{ margin: 30 }}
-              color="primary"
-              onClick={() => handleCheckout()}
-            >
-              COMPRAR
-            </Button>
+          {!userInfo ? (
+            <Container>
+              <Typography>
+                Debes estar registrado para poder continuar con la compra
+              </Typography>
+              <Button
+                component={Link}
+                to="/login"
+                variant="contained"
+                color="primary"
+                style={{ margin: 30 }}
+              >
+                Registrate
+              </Button>
+            </Container>
+          ) : (
+            listProducts.length && (
+              <Container>
+                <Button
+                  variant="contained"
+                  style={{ margin: 30 }}
+                  color="primary"
+                  onClick={(e) => handleCheckout(e)}
+                >
+                  COMPRAR
+                </Button>
+              </Container>
+            )
           )}
         </Grid>
       </Grid>
