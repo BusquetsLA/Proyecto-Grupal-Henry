@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { Link } from "react-router-dom";
 import { Button, Container, Grid, Typography } from "@material-ui/core";
@@ -12,13 +13,36 @@ const Checkout = () => {
     productsList: [],
     totalPrice: 0,
   };
+
+  const userInfo = useSelector((state) => state.userInfo);
   // eslint-disable-next-line
   const [cart, setCart] = useLocalStorage("cart", emptyCart);
   const [data, setData] = useState({});
+  const [order, setOrder] = useState("")
+
+  //OrderId
+  const getOrderId = async (userId) => {
+    try {
+      const { data } = await axios.get(`http://localhost:3001/user/${userId}`)
+      const order = data.orders.find((elem) => elem.status === "created")
+      return order._id
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if (userInfo._id) {
+      axios
+        .get(`http://localhost:3001/order/${userInfo._id}/`)
+        .then((response) => setOrder(response.status))
+        .catch((error) => console.log(error));
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/mercadopago")
+      .post(`http://localhost:3001/mercadopago/${userInfo._id}/${order._id}`)
       .then((response) => setData(response.data))
       .catch((error) => console.error(error));
   }, []);
