@@ -1,9 +1,10 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { Link } from "react-router-dom";
 import utils from "../../redux/utils/index";
+import { getCartFromUser } from "../../redux/actions/index";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Container,
@@ -37,15 +38,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/*
+Si estoy logueado, renderizo el carrito del usuario.
+Si estoy logueado debería actualizar en tiempo real el carrito del usuario
+*/
+
 const Cart = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
+
   const userInfo = useSelector((state) => state.userInfo);
+  const userCart = useSelector((state) => state.user.cart);
 
   const [cart, setCart] = useLocalStorage("cart", {
     productsList: [],
     totalPrice: 0,
   });
+
+  useEffect(() => {
+    if (userCart?.length) {
+      setCart({
+        ...cart,
+        productsList: [...cart.productsList, ...userCart],
+      });
+    }
+  }, [cart, setCart, userCart]);
 
   const totalPrice = cart
     ? cart.productsList.reduce((acc, cur) => {
@@ -54,6 +72,13 @@ const Cart = () => {
       }, 0)
     : 0;
 
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getCartFromUser(userInfo._id));
+    }
+  }, [dispatch, userInfo]);
+
+  // Handlers
   const handleUpdateQuantity = (option) => {
     setCart({
       ...cart,

@@ -11,6 +11,9 @@ const initialState = {
   productDetails: [],
   categories: [],
   categoryDetails: [],
+  user: {
+    cart: [],
+  },
   loading: false,
   dataState: "all",
   userInfo: localStorage.getItem("userInfo")
@@ -54,14 +57,14 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case types.UPDATE_PRODUCT:
-        return {
-          ...state,
-        };
+      return {
+        ...state,
+      };
 
-      case types.DELETE_PRODUCT:
-        return {
-          ...state,
-        };
+    case types.DELETE_PRODUCT:
+      return {
+        ...state,
+      };
 
     case types.POST_CATEGORY:
       return {
@@ -69,14 +72,14 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case types.DELETE_CATEGORY:
-        return {
-          ...state,
-        };
+      return {
+        ...state,
+      };
 
     case types.UPDATE_CATEGORY:
-          return {
-            ...state,
-          };
+      return {
+        ...state,
+      };
 
     case types.GET_CATEGORIES:
       return {
@@ -124,6 +127,15 @@ const rootReducer = (state = initialState, action) => {
             state.products.all,
             action.payload
           ),
+        },
+      };
+
+    case types.GET_CART_FROM_USER:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          cart: action.payload,
         },
       };
 
