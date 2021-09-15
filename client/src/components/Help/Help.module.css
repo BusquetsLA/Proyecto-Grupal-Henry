@@ -107,6 +107,7 @@ input::-webkit-input-placeholder {
   margin-right: 0px;
   padding: 10px;
 }
+
 @media screen and (max-width: 768px) {
   .form .tag span {
     display: block;
