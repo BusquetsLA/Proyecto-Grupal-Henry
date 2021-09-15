@@ -20,7 +20,7 @@ router.use('/user', userRouter);
 router.use('/reviews', reviewRouter);
 
 router.use('/email', sendMailRouter);
-router.use('/order', order);
+router.use('/orders', order);
 router.use('/mercadopago', mercadoPago);
 
 
