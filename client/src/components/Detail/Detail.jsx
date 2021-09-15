@@ -11,8 +11,11 @@ export default function Detail() {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  var productDetail = useSelector((state) => state.productDetails);
-  var productId = location.pathname.split("/").pop();
+
+  // const userInfo = useSelector((state) => state.userInfo);
+  // const order = useSelector((state) => state.order.detail);
+  const productDetail = useSelector((state) => state.productDetails);
+  const productId = location.pathname.split("/").pop();
 
   const [cart, setCart] = useLocalStorage("cart", {
     productsList: [],
@@ -22,6 +25,13 @@ export default function Detail() {
   useEffect(() => {
     dispatch(getProductsById(productId));
   }, [dispatch, productId]);
+
+  // If user is logged
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     dispatch(getOrderByUserId(userInfo._id));
+  //   }
+  // }, [dispatch, userInfo]);
 
   const handleAddProduct = () => {
     if (
