@@ -22,10 +22,13 @@ import Categories from './components/AdminPanel/Categories/Categories';
 import CategoryCreate from './components/AdminPanel/Categories/CategoryCreate';
 import CategoryUpdate from './components/AdminPanel/Categories/CategoryUpdate';
 import Products from './components/AdminPanel/Products/Products';
-import ProductCreate from './components/AdminPanel//Products/ProductCreate';
-import ProductUpdate from './components/AdminPanel//Products/ProductUpdate';
-import Politica from './components/Politica/Politica';
 
+import ProductCreate from './components/AdminPanel/Products/ProductCreate';
+import ProductUpdate from './components/AdminPanel/Products/ProductUpdate';
+
+import TestCode from './components/AdminPanel/Categories/testCode';
+
+import Politica from './components/Politica/Politica';
 
 function App() {
 	return (
@@ -54,6 +57,8 @@ function App() {
 					<Route exact path="/admin/adminpanel/products" component={Products} />
 					<Route exact path="/admin/adminpanel/productCreate" component={ProductCreate} />
 					<Route exact path="/admin/adminpanel/productUpdate/:id" component={ProductUpdate} />
+					
+					<Route exact path="/admin/adminpanel/test" component={TestCode} />
 					{/* --- Fin: Panel del Administrador  */}
 					<Route path="*" component={Error404} />
 				</Switch>

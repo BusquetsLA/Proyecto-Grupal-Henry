@@ -23,7 +23,7 @@ export default function AddCategories() {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(getProducts());
-	  }, [dispatch,productsArr]);
+	  }, [dispatch]);
 
 	const history = useHistory();
 
