@@ -3,6 +3,15 @@ const Product = require('../models/Product.js')
 const {getOrder} = require('./utils.js')
 
 async function getOrders(req, res, next){
+    try{
+        const orders = await Order.find()
+        return res.status(200).send(orders)
+    }catch(error){
+        next(error)
+    }
+}
+
+async function getUserOrders(req, res, next){
     const {user_id} = req.params
     try{
         const orders = await Order.find({user_id})
@@ -21,6 +30,18 @@ async function getOrderById(req, res, next){
         }else{
             return res.status(404).send("Orden no encontrada")
         }
+    }catch(error){
+        next(error)
+    }
+}
+
+async function createOrder(req, res, next){
+    const {user_id} = req.params
+    const {products} = req.body
+    try{
+        const order = await Order.create(products)
+        console.log("Orden: ", order)
+        await order.save();
     }catch(error){
         next(error)
     }
@@ -81,7 +102,9 @@ async function deleteOrderItem(req, res, next){
 
 module.exports = {
     getOrders,
+    getUserOrders,
     getOrderById,
+    createOrder,
     addOrderItem,
     deleteOrderItem
 }

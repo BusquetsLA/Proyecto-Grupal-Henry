@@ -9,7 +9,12 @@ const userSchema = mongoose.Schema(
         reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'review'}],
         orders: [{type:mongoose.Schema.Types.ObjectId, ref: 'Order'}],
         suscribed: {type: Boolean, default: false},
-        blocked: {type: Boolean, default: false}
+        blocked: {type: Boolean, default: false},
+        logged: {type: Boolean, default:false},
+        cart: [{
+            product: {type:mongoose.Schema.Types.ObjectId, ref:'products'},
+            quantity: {type:Number, required: true, default:1}
+        }]
     },
     { timestamp: true }
 )
