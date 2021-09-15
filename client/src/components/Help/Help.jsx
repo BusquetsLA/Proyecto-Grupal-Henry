@@ -64,7 +64,8 @@ function handleSubmit(e){
           onChange={(e)=>handleChange(e)}/>
         <label for="message">Mensaje <span>*</span></label>
         <textarea id="message" required name="message" cols="30" rows="9" onChange={(e)=>handleChange(e)}></textarea>
-        <div className={styles.checkbox}><input required type="checkbox" id="politica" value="politica" onChange={(e)=>handleChange(e)}/><label for="politica">Aceptas Nuestra <NavLink to="/politica"><u> Politica de Tratamiento de Datos</u> </NavLink>
+        <div className={styles.checkbox}><input required type="checkbox" id="politica" value="politica" onChange={(e)=>handleChange(e)}/><label for="politica">Aceptas Nuestra <a href="https://afl0r3s.github.io/Proyecto-Grupal-Henry-client/#/politica" target="_blank" rel="noreferrer">
+              <u>Politica de Tratamiento de Datos</u></a>
         <span>*</span></label>
         </div>
         <button type="submit" className={styles.btn}>

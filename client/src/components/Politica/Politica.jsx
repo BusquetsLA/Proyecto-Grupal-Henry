@@ -777,7 +777,7 @@ const Politica = () => {
           </p>
         </div>
       </div>
-      <NavLink to="/help">
+      <NavLink to="/">
         <h2 className={styles.home}>Home</h2>
       </NavLink>
     </div>
