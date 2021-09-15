@@ -1,17 +1,23 @@
-.fondo > p{
-    width: 55%;
-    margin: auto;
-    background-color: #EEE4D0;
-    border-radius: 80px 20px;
-    padding: 20px;
-    font-weight: bold;
-    font-style: italic;
-  }
+.fondo > p {
+  width: 55%;
+  margin: auto;
+  background-color: #eee4d0;
+  border-radius: 80px 20px;
+  padding: 20px;
+  font-weight: bold;
+  font-style: italic;
+}
 
 .home {
-    opacity: 0.8;
-  }
+  opacity: 0.8;
+}
 
 .home:hover {
-    opacity: 1;
+  opacity: 1;
+}
+
+@media (max-width: 850px) {
+  .fondo > p {
+    width: 85%;
   }
+}

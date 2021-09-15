@@ -22,10 +22,13 @@ import Categories from './components/AdminPanel/Categories/Categories';
 import CategoryCreate from './components/AdminPanel/Categories/CategoryCreate';
 import CategoryUpdate from './components/AdminPanel/Categories/CategoryUpdate';
 import Products from './components/AdminPanel/Products/Products';
+
 import ProductCreate from './components/AdminPanel/Products/ProductCreate';
 import ProductUpdate from './components/AdminPanel/Products/ProductUpdate';
 
 import TestCode from './components/AdminPanel/Categories/testCode';
+
+import Politica from './components/Politica/Politica';
 
 function App() {
 	return (
@@ -44,7 +47,7 @@ function App() {
 					<Route exact path="/company" component={Company} />
 					<Route exact path="/team" component={Team} />
 					<Route exact path="/our" component={Our} />
-
+					<Route exact path="/politica" component={Politica} />
 					{/* --- Panel del Administrador  */}
 					<Route exact path="/admin/adminpanel" component={Admin} />
 					<Route exact path="/admin/adminpanel/categories" component={Categories} />

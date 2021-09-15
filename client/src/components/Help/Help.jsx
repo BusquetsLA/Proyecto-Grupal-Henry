@@ -62,10 +62,14 @@ function handleSubmit(e){
           required
           placeholder="Correo de Contacto"
           onChange={(e)=>handleChange(e)}/>
-        <label for="message">Mensaje</label>
-        <textarea id="message" name="message" cols="30" rows="9" onChange={(e)=>handleChange(e)}></textarea>
+        <label for="message">Mensaje <span>*</span></label>
+        <textarea id="message" required name="message" cols="30" rows="9" onChange={(e)=>handleChange(e)}></textarea>
+        <div className={styles.checkbox}><input required type="checkbox" id="politica" value="politica" onChange={(e)=>handleChange(e)}/><label for="politica">Aceptas Nuestra <a href="https://afl0r3s.github.io/Proyecto-Grupal-Henry-client/#/politica" target="_blank" rel="noreferrer">
+              <u>Politica de Tratamiento de Datos</u></a>
+        <span>*</span></label>
+        </div>
         <button type="submit" className={styles.btn}>
-          enviar mensaje
+          Enviar Mensaje
         </button>
       </form>
       {/* <a href="mailto:estilopropio@gmail.com" id="oculto"></a> */}

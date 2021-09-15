@@ -124,6 +124,18 @@ async function updateUserById(req, res, next) {
   }
 };
 
+async function updateCart(req, res, next){
+  const { id } = req.params
+  const {cart} = req.body
+  try{
+    const user = await User.findByIdAndUpdate(id, {cart: cart})
+    await user.save()
+    return res.status(200).send("Carrito actualizado")
+  }catch (error) {
+    next(error)
+  }
+}
+
 async function deleteUser(req, res, next) {
   const { id } = req.params;
   try {
@@ -179,6 +191,7 @@ module.exports = {
   signIn,
   getUserById,
   updateUserById,
+  updateCart,
   deleteUser,
   getUsers,
 };

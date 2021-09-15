@@ -52,7 +52,7 @@ const Team = () => {
         </div>
         <div className={styles.links}>
           <a
-            href="https://www.linkedin.com/in/camilo-cerquera/"
+            href=" linkedin.com/in/alejandro-flores-dev"
             target="_blank"
             rel="noreferrer"
           >
@@ -64,7 +64,7 @@ const Team = () => {
             />
           </a>
           <a
-            href="https://github.com/Keltuzad29"
+            href="github.com/afl0r3s"
             target="_blank"
             rel="noreferrer"
           >
@@ -87,7 +87,7 @@ const Team = () => {
         </div>
         <div className={styles.links}>
           <a
-            href="https://www.linkedin.com/in/camilo-cerquera/"
+            href="https://www.linkedin.com/in/esteban-choque"
             target="_blank"
             rel="noreferrer"
           >
@@ -99,7 +99,7 @@ const Team = () => {
             />
           </a>
           <a
-            href="https://github.com/Keltuzad29"
+            href="https://github.com/estebanchoque"
             target="_blank"
             rel="noreferrer"
           >
@@ -150,7 +150,7 @@ const Team = () => {
       <div className={styles.container}>
         <div className={styles.foto_nombre}>
           <img
-            src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png"
+            src="https://res.cloudinary.com/dulpsdgfw/image/upload/v1631742011/Fotos/Lautaro_wnctkt.png"
             alt="foto"
           />
           <h4>Lautaro Agustín Busquets</h4>

@@ -88,6 +88,25 @@ input::-webkit-input-placeholder {
 .link_text:hover{
   opacity: 1;
 }
+.checkbox{
+  display: flex;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.checkbox > input{
+  float: left;
+  width: 20px;
+  align-items: center;
+}
+.checkbox > label{
+  margin: auto;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 10px;
+}
 
 @media screen and (max-width: 768px) {
   .form .tag span {
