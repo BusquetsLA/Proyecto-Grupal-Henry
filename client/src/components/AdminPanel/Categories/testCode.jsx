@@ -1,4 +1,5 @@
-import * as React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 //import { DataGrid } from '@material-ui/data-grid';
 
 const columns = [
@@ -46,6 +47,21 @@ const rows = [
 ];
 
 export default function DataTable() {
+  const [imageSelect, setImageSelect] = useState("")
+  const [imageUpData, setImageUpData] = useState({})
+
+  function uploadImage () {
+    //console.log(files[0])
+    const formData = new FormData();
+    formData.append("file", imageSelect)
+    formData.append("upload_preset", "kp93ybsg")
+
+    axios.post("https://api.cloudinary.com/v1_1/afl0r3s/image/upload", formData)
+      .then(response => setImageUpData(response))
+  }
+
+  console.log('Result: ', imageUpData)
+
 	return (
 		<>
 			<div style={{ height: 100, width: 900, backgroundColor:'orange' }}>
@@ -60,7 +76,19 @@ export default function DataTable() {
 			</div>
 			<div>
         codigo de prueba<br/>
-        <input type="file" />
+        <input type="file" 
+          onChange={e=> setImageSelect(e.target.files[0]) }
+        />
+
+        <button onClick={uploadImage}>Upload Image</button>
+      </div>
+
+      <div>
+        Resultado: {imageUpData.statusText}
+      </div>
+      
+      <div>
+        URL: {imageUpData.data.secure_url}
       </div>
 		</>
 	);
