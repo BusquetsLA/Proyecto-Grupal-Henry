@@ -54,6 +54,8 @@ function App() {
 					<Route exact path="/admin/adminpanel/products" component={Products} />
 					<Route exact path="/admin/adminpanel/productCreate" component={ProductCreate} />
 					<Route exact path="/admin/adminpanel/productUpdate/:id" component={ProductUpdate} />
+					
+					<Route exact path="/admin/adminpanel/test" component={TestCode} />
 					{/* --- Fin: Panel del Administrador  */}
 					<Route path="*" component={Error404} />
 				</Switch>
