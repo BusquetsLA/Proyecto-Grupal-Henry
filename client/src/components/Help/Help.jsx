@@ -64,8 +64,11 @@ function handleSubmit(e){
           onChange={(e)=>handleChange(e)}/>
         <label for="message">Mensaje</label>
         <textarea id="message" name="message" cols="30" rows="9" onChange={(e)=>handleChange(e)}></textarea>
+        <div className={styles.checkbox}><input type="checkbox" id="politica" value="politica" onChange={(e)=>handleChange(e)}/><label for="politica">Aceptas Nuestra <NavLink to="/politica">Politica de Tratamiento de Datos</NavLink>
+         </label>
+        </div>
         <button type="submit" className={styles.btn}>
-          enviar mensaje
+          Enviar Mensaje
         </button>
       </form>
       {/* <a href="mailto:estilopropio@gmail.com" id="oculto"></a> */}

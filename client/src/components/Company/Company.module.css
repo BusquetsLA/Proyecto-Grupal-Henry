@@ -15,3 +15,9 @@
 .home:hover {
     opacity: 1;
   }
+
+  @media (max-width: 850px) {
+    .fondo > p {
+      width: 85%;
+    }
+  }

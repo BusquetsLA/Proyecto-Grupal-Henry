@@ -61,11 +61,14 @@
 
 @media (max-width: 850px) {
   .container {
-    width: 100%;
+    width: 80%;
   }
 
   .container > img {
     width: 100px;
     height: 100px;
+  }
+  .team{
+    gap: 5px;
   }
 }

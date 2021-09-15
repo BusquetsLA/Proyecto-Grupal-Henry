@@ -24,6 +24,7 @@ import CategoryUpdate from './components/AdminPanel/Categories/CategoryUpdate';
 import Products from './components/AdminPanel/Products/Products';
 import ProductCreate from './components/AdminPanel//Products/ProductCreate';
 import ProductUpdate from './components/AdminPanel//Products/ProductUpdate';
+import Politica from './components/Politica/Politica';
 
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
 					<Route exact path="/company" component={Company} />
 					<Route exact path="/team" component={Team} />
 					<Route exact path="/our" component={Our} />
-
+					<Route exact path="/politica" component={Politica} />
 					{/* --- Panel del Administrador  */}
 					<Route exact path="/admin/adminpanel" component={Admin} />
 					<Route exact path="/admin/adminpanel/categories" component={Categories} />

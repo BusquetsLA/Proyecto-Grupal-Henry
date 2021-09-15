@@ -1,0 +1,24 @@
+.titulo{
+    width: 80%;
+    margin: auto;
+}
+
+.container{
+    width: 100%;
+    margin: auto;
+}
+
+.wrapper > span{
+    font-weight: 400px;
+    text-align: left;
+}
+
+.wrapper > li{
+    font-weight: 800px;
+    text-align: left;
+}
+
+.wrapper > p{
+    text-align: left;
+}
+

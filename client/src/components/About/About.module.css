@@ -9,6 +9,15 @@
     background-color: #eee4d0b0;
 }
 
+.target > h2 {
+    padding-top: 20px;
+    
+}
+
+.target > p {
+    padding: 20px;
+}
+
 .link_text{
     color: black;
     font-size: 25px;
@@ -21,3 +30,9 @@
 .link_text:hover{
     opacity: 1;
 }
+
+@media (max-width: 850px) {
+    .container {
+      width: 100%;
+    }
+  }

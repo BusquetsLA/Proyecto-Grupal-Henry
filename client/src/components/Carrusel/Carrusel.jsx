@@ -9,12 +9,12 @@ const Carrusel = (props) => {
         {
             name: "No dejes de ver Nuestros Productos Especiales!",
             description: "Probably the most random thing you have ever seen!",
-            fondo: "https://res.cloudinary.com/dulpsdgfw/image/upload/v1631470344/Productos%20Madera/PNG/Fondo_Carrusel_lamparas_carv8z.png"
+            fondo: "https://res.cloudinary.com/dulpsdgfw/image/upload/v1631467422/Productos%20Madera/PNG/Fondo_Carrusel_tjgy21.png"
         },
         {
             name: "Random Name #2",
             description: "Hello World!",
-            fondo: "https://res.cloudinary.com/dulpsdgfw/image/upload/v1631467076/Productos%20Madera/PNG/Fondo_Carrusel_buiema.png"
+            fondo: "https://res.cloudinary.com/dulpsdgfw/image/upload/v1631470344/Productos%20Madera/PNG/Fondo_Carrusel_lamparas_carv8z.png"
         }
     ]
     
