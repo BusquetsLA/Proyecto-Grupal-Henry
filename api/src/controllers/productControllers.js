@@ -32,11 +32,11 @@ async function createProducts(req, res, next) {
         const product = new Product({name, price, description, image_url, categories, stock});
         //console.log("Product: ", product);
             await product.save(async () => {
-            for(let i=0; i<product.categories.length; i++){
-                let category = await Category.findById(product.categories[i])
-                category.products.push(product._id)
-                category.save()
-            }
+                for(let i=0; i<product.categories.length; i++){
+                    let category = await Category.findById(product.categories[i])
+                    category.products.push(product._id)
+                    category.save()
+                }
         });
         return res.status(200).send('Producto creado correctamente');
     } catch (error) {
@@ -54,6 +54,13 @@ async function updateProductById(req, res, next) {
             return res.status(404).send("Producto no encontrado")
         }else{
             await Product.updateOne({_id: id}, {name, image_url, price, description, stock, categories})
+                .exec(async () => {
+                    for(let i=0; i<Product.categories.length; i++){
+                        let category = await Category.findById(product.categories[i])
+                        category.products.push(product._id)
+                        category.save()
+                    }
+                })
             return res.status(200).send("Producto actualizado correctamente");
         }
     } catch (error) {
