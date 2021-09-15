@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 
 async function getProducts(req, res, next) {
     const {name} = req.query;
@@ -30,7 +31,7 @@ async function createProducts(req, res, next) {
     try {
         const product = new Product({name, price, description, image_url, categories, stock});
         //console.log("Product: ", product);
-        await product.save(async () => {
+            await product.save(async () => {
             for(let i=0; i<product.categories.length; i++){
                 let category = await Category.findById(product.categories[i])
                 category.products.push(product._id)
