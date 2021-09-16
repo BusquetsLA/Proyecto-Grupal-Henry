@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux';
-import {getProductsByName, getCategoriesByName} from '../../redux/actions';
+import {getProductsByName} from '../../redux/actions';
 import styles from './SearchBar.module.css';
 
 
@@ -19,7 +19,7 @@ const SearchBar = () => {
         e.preventDefault();
         if(name !== ""){
         dispatch(getProductsByName(name));
-        dispatch(getCategoriesByName(name));            
+        
         setName("");}
         else{
         alert("Ingresa un nombre para buscar")
