@@ -45,6 +45,16 @@ const rootReducer = (state = initialState, action) => {
         },
       };
 
+    case types.GET_CATEGORIES_BY_NAME:
+      return {
+        ...state,
+        dataState: "search",
+        products: {
+          ...state.products,
+          searchResults: action.payload,
+        },
+      };    
+
     case types.GET_PRODUCTS_BY_ID:
       return {
         ...state,

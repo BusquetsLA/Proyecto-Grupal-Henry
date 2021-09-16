@@ -109,6 +109,20 @@ export const getCategories = () => {
   };
 };
 
+export const getCategoriesByName = (name) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/categories?name=${name}`);
+      return dispatch({
+        type: types.GET_CATEGORIES_BY_NAME,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const getCategoryDetails = (id) => {
   return async (dispatch) => {
     try {
