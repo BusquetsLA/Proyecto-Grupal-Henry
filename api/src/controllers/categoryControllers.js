@@ -2,12 +2,18 @@ const Category = require('../models/Category');
 
 // Todas las rutas tienen funcionalidad 
 
-async function getCategories(_req, res, next) {
+async function getCategories(req, res, next) {
+    const {name} = req.query;
     try {
         const categories = await Category.find()
         .populate('products')
         .exec();
+        if(!name){
         return res.send(categories);
+         }else{
+            const categoriesByName = categories.filter( category => category.name.toLowerCase().includes(name.toLowerCase()));
+            return res.status(200).send(categoriesByName);
+        }
     } catch (error) {
         next(error);
     }
