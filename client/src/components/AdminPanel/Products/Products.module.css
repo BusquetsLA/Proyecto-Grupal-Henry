@@ -56,6 +56,10 @@ form{
     margin-bottom: 10px;
 }
 
+.inputs input[type="file"] {
+    display:block;
+}
+
 .ProdSelect{
     width: 96%;
 }
@@ -111,5 +115,9 @@ form{
 	background-color:#be160a;
 }
 
-
+.btnUp{
+    background-color: blueviolet;
+    height: 40px;
+    width: 200px;
+}
 

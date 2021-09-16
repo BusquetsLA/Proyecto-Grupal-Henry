@@ -51,6 +51,19 @@ const rootReducer = (state = initialState, action) => {
         productDetails: action.payload,
       };
 
+    case types.STATUS_CHANGE:
+        return {
+          ...state,
+          loading: true,
+        };
+
+
+    case userTypes.USER_SIGNIN_REQUEST:
+        return {
+          ...state,
+          loading: true,
+        };
+
     case types.POST_PRODUCT:
       return {
         ...state,
@@ -85,6 +98,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         categories: action.payload,
+        loading: false,
       };
 
     case types.GET_CATEGORY_DETAILS:
