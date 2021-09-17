@@ -3,14 +3,14 @@ import React from 'react'
 export function validate(input) {
   let errors = {};
   if (!input.name) {
-    errors.name = 'Username is required';
+    errors.name = 'Debe ingresar su nombre';
   } else if (!/^(([A-Za-z]+[\-\']?)*([A-Za-z]+)?\s)+([A-Za-z]+[\-\']?)*([A-Za-z]+)?$/.test(input.name)) {
-    errors.name = 'Username is invalid';
+    errors.name = 'Ese nombre es inválido';
   }
   if (!input.email) {
-    errors.email = 'Username is required';
+    errors.email = 'Debe ingresar su correo electrónico';
   } else if (!/\S+@\S+\.\S+/.test(input.email)) {
-    errors.email = 'Username is invalid';
+    errors.email = 'Ese correo es inválido';
   }
 };
 
@@ -38,7 +38,18 @@ const NewsletterSignUp = () => {
 
   return (
     <div>
-      //
+      <form onSubmit={handleSubmit}>
+        <h1>Login</h1>
+        <div>
+          <input type='text' name='name' placeholder="Nombre" className={`${errors.name && 'danger'}`} value={input.name} onChange={handleInputChange}/>
+            {errors.name && (<p className="danger">{errors.name}</p>)}
+        </div>
+        <div>
+          <input type='text' name='email' placeholder="Correo" className={`${errors.email && 'danger'}`} value={input.email} onChange={handleInputChange}/>
+            {errors.email && (<p className="danger">{errors.email}</p>)}
+        </div>
+        <button type='submit'> Suscribirse </button>
+      </form>
     </div>
   )
 };
