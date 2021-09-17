@@ -7,7 +7,7 @@ router.post('/signup', signUp);
 router.post('/signin', signIn);
 router.post('/signinfirebase', signInFirebase);
 router.put('/update/:id', updateUserById);
-router.put('/updateCart/:id', updateCart)
+router.post('/updateCart/:id', updateCart)
 router.delete('/delete/:id', deleteUser);
 
 module.exports = router;
