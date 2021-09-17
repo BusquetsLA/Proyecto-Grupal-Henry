@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getProductsByName} from '../../redux/actions';
 import styles from './SearchBar.module.css';
 
@@ -7,8 +7,8 @@ import styles from './SearchBar.module.css';
 const SearchBar = () => {
     const dispatch = useDispatch()
     const [name, setName] = useState("")
-
-
+    var products = useSelector((state) => state.products.all);
+    
     function handleInputChange(e){
         e.preventDefault();
         setName(e.target.value)
