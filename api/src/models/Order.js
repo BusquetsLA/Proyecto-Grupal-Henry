@@ -5,7 +5,7 @@ const orderSchema = mongoose.Schema(
     user_id: {type:mongoose.Schema.Types.ObjectId, ref:'User'},
     items: [
       {
-        product_id: {type:mongoose.Schema.Types.ObjectId, ref:'product'},
+        _id: {type:mongoose.Schema.Types.ObjectId, ref:'product'},
         name: {type:String, required:true},
         quantity: {type:Number, required:true, default:1},
         price: {type:mongoose.Schema.Types.Decimal128, required:true}
