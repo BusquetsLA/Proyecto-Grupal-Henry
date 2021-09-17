@@ -3,12 +3,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getProductsByName} from '../../redux/actions';
 import { AutoSuggest } from 'react-autosuggestions';
 import styles from './SearchBar.module.css';
-
+import Select from 'react-select';
 
 const SearchBar = () => {
     const dispatch = useDispatch()
     const [name, setName] = useState("")
-    var products = useSelector((state) => state.products.all);
+    // var products = useSelector((state) => state.products.all);
     
     function handleInputChange(e){
         e.preventDefault();
@@ -16,14 +16,28 @@ const SearchBar = () => {
         //console.log(name)
     }
 
+    var products = useSelector((state) => state.products.all);
+	products = products.map(e=> {
+		return {
+			value: e._id,
+			label: e.name,
+		}
+	})
+
+    function onSelectChange(e){
+        setName(e);
+        //console.log(e.label)
+      }
+
     function handleSubmit(e){
+        // console.log(name)
         e.preventDefault();
         if(name !== ""){
-        dispatch(getProductsByName(name));
+        dispatch(getProductsByName(name.label));
         
         setName("");}
         else{
-        alert("Ingresa un nombre para buscar")
+        alert("Ingresa o Selecciona un producto para buscar")
         }
     }
     return (
@@ -31,7 +45,7 @@ const SearchBar = () => {
              <form onSubmit={handleSubmit} > 
             
             <div className={styles.searchBar}>
-            <AutoSuggest
+            {/* <AutoSuggest
             className={styles.auto}
                 type="text"
                 options={products.map(e=>e.name)}
@@ -39,7 +53,14 @@ const SearchBar = () => {
                 onChange= {handleInputChange}
                 value={name}
                 placeholder="Buscar Producto..."
-            />    
+            />   */}
+            <Select 
+							className={styles.input} 
+                            value={name}
+							options={products}
+							onChange={(e) => onSelectChange(e)}
+							
+							/>  
             {/* <input
             className={styles.input} 
             type="text"
