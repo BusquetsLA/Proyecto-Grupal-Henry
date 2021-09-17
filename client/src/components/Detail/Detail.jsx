@@ -6,6 +6,12 @@ import { getProductsById } from "../../redux/actions";
 import NavBar from "../NavBar/NavBar";
 import BeatLoader from "react-spinners/BeatLoader";
 import detStyle from "./Detail.module.css";
+import ReactImageZoom from 'react-image-zoom';
+
+
+
+ 
+
 
 export default function Detail() {
   const dispatch = useDispatch();
@@ -26,6 +32,7 @@ export default function Detail() {
     dispatch(getProductsById(productId));
   }, [dispatch, productId]);
 
+  
   // If user is logged
   // useEffect(() => {
   //   if (userInfo) {
@@ -47,6 +54,10 @@ export default function Detail() {
     history.push("/cart");
   };
 
+  const props = {width: 400, height: 400, zoomWidth: 500, img: productDetail.image_url};
+
+
+
   return (
     <div>
       <NavBar />
@@ -55,7 +66,8 @@ export default function Detail() {
         productDetail._id === productId ? (
           <div className={detStyle.content}>
             <div className={detStyle.info1}>
-              <img src={productDetail.image_url} alt="product" />
+              {/* <img id="zoom_mw" src={productDetail.image_url} alt="product" data-zoom-image={productDetail.image_url}/> */}
+              <ReactImageZoom {...props} />
             </div>
             <div className={detStyle.info2}>
               <div className={detStyle.data1}>{productDetail.name}</div>
@@ -84,3 +96,5 @@ export default function Detail() {
     </div>
   );
 }
+
+

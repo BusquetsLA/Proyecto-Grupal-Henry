@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addProduct, getCategories } from '../../../redux/actions/index';
+import axios from 'axios';
 import prdStyle from './Products.module.css';
 import Select from 'react-select';
 import AdmNav from '../AdmNav';
@@ -75,6 +76,35 @@ export default function AddProducts() {
 		});
 	}
 
+	const [imageSelect, setImageSelect] = useState("")
+  	const [imageUpData, setImageUpData] = useState(null)
+
+	function uploadImage () {
+		const formData = new FormData();
+		formData.append("file", imageSelect)
+		formData.append("upload_preset", "kp93ybsg")
+	
+		axios.post("https://api.cloudinary.com/v1_1/afl0r3s/image/upload", formData)
+		  .then(response => {
+			  setImageUpData(response)
+
+			  if(response.statusText === "OK"){
+					console.log('Result: ', response.data.secure_url)
+					setInput({
+						...input,
+						image_url: response.data.secure_url
+					})
+				}
+				else{
+				  console.log('Sin respuesta')
+			  	}
+			})
+	}
+
+
+
+
+
   function onSelectChange(e){
     setValue(e);
     //console.log(e[0].value)
@@ -141,13 +171,19 @@ export default function AddProducts() {
 
 					<div className={prdStyle.inputs}>
 						<label for="image_url">Imagen URL</label>
+						<input type="file" 
+				          onChange={e=> setImageSelect(e.target.files[0]) }
+						  accept="image/*"
+        				/>
+						<button className={prdStyle.btnUp} onClick={uploadImage}>Upload Image</button>
+
 						<input
 							type="text"
 							name="image_url"
 							value={input.image_url}
 							onChange={(e) => handleChange(e)}
 							placeholder="URL de la imagen.."
-							required
+							readonly="readonly"
 						></input>
 						{errors.image_url && <p className="danger">{errors.image_url}</p>}
 					</div>

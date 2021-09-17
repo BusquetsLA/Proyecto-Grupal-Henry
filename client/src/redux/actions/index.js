@@ -109,6 +109,20 @@ export const getCategories = () => {
   };
 };
 
+export const getCategoriesByName = (name) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/categories?name=${name}`);
+      return dispatch({
+        type: types.GET_CATEGORIES_BY_NAME,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const getCategoryDetails = (id) => {
   return async (dispatch) => {
     try {
@@ -126,9 +140,10 @@ export const getCategoryDetails = (id) => {
 export const addCategory = (category) => {
   return async (dispatch) => {
     try {
-      await axios.post(`${BASE_URL}/categories/create`, category);
+      const result = await axios.post(`${BASE_URL}/categories/create`, category);
       return dispatch({
         type: types.POST_CATEGORY,
+        result
       });
     } catch (error) {
       console.log(error);
@@ -169,6 +184,14 @@ export const filterByCategory = (id) => {
     payload: id,
   };
 };
+
+
+export const statusChange = () => {
+  return {
+    type: types.STATUS_CHANGE,
+  };
+};
+
 
 // Order
 export const orderByPrice = (payload) => {

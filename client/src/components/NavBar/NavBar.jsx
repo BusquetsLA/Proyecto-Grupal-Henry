@@ -100,11 +100,11 @@ const NavBar = ({ setOrder }) => {
             >
               Inicio
             </NavLink>
-            <NavLink className={styles.link_text} to="/about">
-              Sobre Nosotros
-            </NavLink>
             <NavLink className={styles.link_text} to="/shop">
               Tienda
+            </NavLink>
+            <NavLink className={styles.link_text} to="/about">
+              Sobre Nosotros
             </NavLink>
             <NavLink className={styles.link_text} to="/help">
               Ayuda

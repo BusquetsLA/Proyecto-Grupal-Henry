@@ -2,12 +2,18 @@ const Category = require('../models/Category');
 
 // Todas las rutas tienen funcionalidad 
 
-async function getCategories(_req, res, next) {
+async function getCategories(req, res, next) {
+    const {name} = req.query;
     try {
         const categories = await Category.find()
         .populate('products')
         .exec();
+        if(!name){
         return res.send(categories);
+         }else{
+            const categoriesByName = categories.filter( category => category.name.toLowerCase().includes(name.toLowerCase()));
+            return res.status(200).send(categoriesByName);
+        }
     } catch (error) {
         next(error);
     }
@@ -31,9 +37,16 @@ async function getCategory(req, res, next) {
 async function createCategory(req, res, next) {
     const { image_url, name } = req.body;
     try {
-        const category = new Category({ image_url, name });
-        await category.save();
-        return res.status(200).send(`La categoría ${name} ha sido creada`);
+        let searchTxt = await Category.findOne({ name: name }).exec();
+        if(!searchTxt){
+            /* 
+            const category = new Category({ image_url, name });
+            await category.save();
+             */
+            return res.status(200).send({message: `La categoría ${name} ha sido creada`});
+        }else{
+            return res.status(202).send({message: `La categoría ${name} ya existe, no se puede crear Categorias repetidas`});
+        }
     } catch (error) {
         next(error);
     }
