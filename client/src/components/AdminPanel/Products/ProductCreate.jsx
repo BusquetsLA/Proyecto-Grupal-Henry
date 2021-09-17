@@ -173,8 +173,9 @@ export default function AddProducts() {
 						<label for="image_url">Imagen URL</label>
 						<input type="file" 
 				          onChange={e=> setImageSelect(e.target.files[0]) }
+						  accept="image/*"
         				/>
-						<button onClick={uploadImage}>Upload Image</button>
+						<button className={prdStyle.btnUp} onClick={uploadImage}>Upload Image</button>
 
 						<input
 							type="text"

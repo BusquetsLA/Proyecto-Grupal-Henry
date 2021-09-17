@@ -140,9 +140,10 @@ export const getCategoryDetails = (id) => {
 export const addCategory = (category) => {
   return async (dispatch) => {
     try {
-      await axios.post(`${BASE_URL}/categories/create`, category);
+      const result = await axios.post(`${BASE_URL}/categories/create`, category);
       return dispatch({
         type: types.POST_CATEGORY,
+        result
       });
     } catch (error) {
       console.log(error);
@@ -183,6 +184,14 @@ export const filterByCategory = (id) => (dispatch) => {
     payload: id,
   });
 };
+
+
+export const statusChange = () => {
+  return {
+    type: types.STATUS_CHANGE,
+  };
+};
+
 
 // Order
 export const orderByPrice = (payload) => {

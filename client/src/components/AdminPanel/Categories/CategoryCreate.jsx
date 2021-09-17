@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { addCategory, getCategories } from '../../../redux/actions/index';
 import AdmNav from '../AdmNav';
 import ctgStyle from './CreateCategory.module.css';
-
+import swal from 'sweetalert';
 
 export function validate(input) {
 	let errors = {};
@@ -14,11 +14,17 @@ export function validate(input) {
 }
 
 export default function AddCategories() {
-	const dispatch = useDispatch();
+	
+	//Revision de codigo para Borrar !!
+	/*
+	
 	useEffect(() => {
 		dispatch(getCategories());
-	  }, [dispatch]);
-
+	}, [dispatch]);
+	
+	*/
+	
+	const dispatch = useDispatch();
 	const history = useHistory();
 
 	const [input, setInput] = useState({
@@ -41,15 +47,34 @@ export default function AddCategories() {
 		});
 	}
 
-	function handleSubmit(e) {
+	async function handleSubmit(e) {
 		e.preventDefault();
 		input.name = input.name[0].toLocaleUpperCase() + input.name.slice(1)
-		dispatch(addCategory(input));
-		alert("Categoría creada exitosamente.");
+		let message = await dispatch(addCategory(input));
+		console.log(message.result);
+		if(message.result.statusText === "OK"){
+			swal({
+				title:'Resultado',
+				text: message.result.data.message,
+				icon: 'success',
+				button: "Ok"
+			})
+			.then(respuesta => {
+				if(respuesta) history.push('/admin/adminpanel/categories');
+			})
+		}else{
+			swal({
+				title:'Resultado',
+				text: message.result.data.message,
+				icon: 'warning',
+				button: "Ok"
+			})
+		}
+		//alert("Categoría creada exitosamente.");
+		//history.push('/admin/adminpanel/categories');
 		setInput({
 			name: '',
 		});
-		history.push('/admin/adminpanel/categories');
 	}
 
 	return (

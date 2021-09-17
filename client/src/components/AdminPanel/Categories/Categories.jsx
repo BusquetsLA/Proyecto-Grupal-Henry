@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
-import { deleteCategory, getCategories } from '../../../redux/actions/index';
+import { deleteCategory, getCategories, statusChange } from '../../../redux/actions/index';
 import AdmNav from '../AdmNav';
 import ctgStyle from './CreateCategory.module.css';
 
@@ -21,6 +21,7 @@ import Paper from '@material-ui/core/Paper';
 
 export default function AddCategories() {
 	var categoriesArr = useSelector((state) => state.categories);
+	var loading = useSelector((state) => state.loading);
 /* 
 	var rows = categoriesArr.map(e => {
 		return {
@@ -35,7 +36,11 @@ export default function AddCategories() {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(getCategories());
-	  }, [dispatch,categoriesArr]);
+	  }, [dispatch]);
+
+	  if(loading){
+		dispatch(getCategories())
+	  }
 
 	const history = useHistory();
 
@@ -45,6 +50,7 @@ export default function AddCategories() {
 
     function handleClickDelete(e) {
         dispatch(deleteCategory(e));
+		dispatch(statusChange())
         alert("Categoria borrada: "+e)
         history.push('/admin/adminpanel/categories');
       }
@@ -75,8 +81,8 @@ export default function AddCategories() {
 		  </div> */}
 
  		<TableContainer style={{marginLeft:'20px'}} component={Paper}>
-			<Table style={{backgroundColor:'white', width: 'auto'}} aria-label="simple table">
-				<TableHead>
+			<Table style={{backgroundColor:'white', width: 'auto'  }} aria-label="simple table">
+				<TableHead className={ctgStyle.tableHead}>
 					<TableRow>
 						<TableCell 
 							style={{backgroundColor: 'black', color:'white', width:'150px' }}>

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useLocation } from "react-router";
 import { getCategoryDetails, updateCategory, getProducts } from '../../../redux/actions/index';
 import AdmNav from '../AdmNav';
-import Select from 'react-select';
+//import Select from 'react-select';
 import ctgStyle from './CreateCategory.module.css';
 
 
@@ -28,23 +28,23 @@ export default function CategoryUpdate() {
             id: categoryId,
             name: categoryDetail.name,
         });
-	  }, [dispatch, categoryId,categoryDetail.name]);
+	  }, [dispatch,categoryDetail.name]);
 
 	const history = useHistory();
 
-	var productsArr = useSelector((state) => state.products.all);
+	/* var productsArr = useSelector((state) => state.products.all);
 	productsArr = productsArr.map(e=> {
 		return {
 			value: e._id,
 			label: e.name,
 		}
-	})
+	}) */
   
 	useEffect(() => {
 		dispatch(getProducts());
 	}, [dispatch]);
 
-	const [value, setValue] = useState([])
+	/* const [value, setValue] = useState([]) */
 
 	const [input, setInput] = useState({
         id: 0,
@@ -68,17 +68,17 @@ export default function CategoryUpdate() {
 		});
 	}
 
-	function onSelectChange(e){
+/* 	function onSelectChange(e){
 		setValue(e);
 		//console.log(e[0].value)
-	  }
+	} */
 
 	function handleSubmit(e) {
 		e.preventDefault();
         input.name = input.name[0].toLocaleUpperCase() + input.name.slice(1)
 		const dataSend ={
 			...input,
-			products: value.map(e => e.value),
+			//products: value.map(e => e.value),
 		}
 		console.log(dataSend)
 		dispatch(updateCategory(dataSend));
@@ -109,7 +109,7 @@ export default function CategoryUpdate() {
 					{errors.name && <p className="danger">{errors.name}</p>}
 					</div>
 
-					<div className={ctgStyle.ProdSelect}>
+					{/* <div className={ctgStyle.ProdSelect}>
 						<label for="products">Productos</label>
 						<Select 
 							value={value}
@@ -117,7 +117,7 @@ export default function CategoryUpdate() {
 							onChange={(e) => onSelectChange(e)}
 							isMulti
 							/>
-					</div>
+					</div> */}
 					<div>
 						<button className={ctgStyle.myButton} type="submit">Guardar</button>
 					</div>
