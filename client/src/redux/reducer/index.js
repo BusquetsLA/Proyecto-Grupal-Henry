@@ -154,6 +154,11 @@ const rootReducer = (state = initialState, action) => {
         },
       };
 
+    case types.UPDATE_USER_CART:
+      return {
+        ...state,
+      };
+
     case types.GET_CART_FROM_USER:
       return {
         ...state,

@@ -178,11 +178,11 @@ export const updateCategory = (category) => {
 };
 
 // Filter
-export const filterByCategory = (id) => (dispatch) => {
-  return dispatch({
+export const filterByCategory = (id) => {
+  return {
     type: types.FILTER_BY_CATEGORY,
     payload: id,
-  });
+  };
 };
 
 
@@ -256,7 +256,10 @@ export const getCartFromUser = (user_id) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(`${BASE_URL}/user/${user_id}`);
-      const userCart = data.cart;
+      const userCart = data.cart.map((elem) => ({
+        ...elem,
+        price: elem.price.$numberDecimal,
+      }));
       return dispatch({
         type: types.GET_CART_FROM_USER,
         payload: userCart,
@@ -267,19 +270,15 @@ export const getCartFromUser = (user_id) => {
   };
 };
 
-export const updateOrder = (user_id, cart) => {
+export const updateUserCart = (user_id, cart) => {
   return async (dispatch) => {
     try {
-      await axios.put(`${BASE_URL}/updateCart/${user_id}`, cart);
-      return dispatch({ type: types.UPDATE_ORDER });
+      await axios.post(`${BASE_URL}/user/updateCart/${user_id}`, {
+        cart: cart,
+      });
+      return dispatch({ type: types.UPDATE_USER_CART });
     } catch (error) {
       console.log(error);
     }
   };
 };
-
-// Si el usuario no está registrado no se debería crear la orden.
-
-// Si el usuario se loguea, primero se tiene que buscar si existe una orden en "created".
-// Si existe order, le sumamos a esa order todos los productos que tenga en el localStorage.
-// Si no existe order, le creamos una con todos los productos que agregó al carrito (del localStorage).
