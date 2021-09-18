@@ -110,9 +110,9 @@ export default function AddProducts() {
 	function uploadImage () {
 		const formData = new FormData();
 		formData.append("file", imageSelect)
-		formData.append("upload_preset", "kp93ybsg")
+		formData.append("upload_preset", "e4hxifnb")
 	
-		axios.post("https://api.cloudinary.com/v1_1/afl0r3s/image/upload", formData)
+		axios.post("https://api.cloudinary.com/v1_1/dulpsdgfw/image/upload", formData)
 			.then(response => {
 				setImageUpData(response)
 				if(response.statusText === "OK"){
