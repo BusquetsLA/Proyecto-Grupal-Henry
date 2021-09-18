@@ -1,72 +1,59 @@
 import React from 'react';
-import admStyle from './Admin.module.css';
-import { Button  } from '@material-ui/core';
-import AdmNav from './AdmNav';
+import { Button } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
-//import CategoryIcon from '@material-ui/icons/Category';
-import { BsCardChecklist, BsArchiveFill, BsFilePost, BsFillPeopleFill } from "react-icons/bs";
-
+import {BsCardChecklist, 
+        BsArchiveFill, 
+        BsFilePost, 
+        BsFillPeopleFill, } from 'react-icons/bs';
+import AdmNav from './AdmNav';
+import admStyle from './Admin.module.css';
 
 export default function AdminPanel() {
-    //const AdminUrl = "/admin/adminpanel";
-    
-    return (
-        <div className={admStyle.main}>
-            <AdmNav />
+	const AdminUrl = '/admin/adminpanel';
 
-            <div className={admStyle.contentGroup}>
-            <div className={admStyle.contentBtn}>
-            <NavLink to="/admin/adminpanel/categories"  >
-            <Button 
-                variant="contained" 
-                color="secondary"
-                size="large"
-                className={admStyle.btnMenu}
-                disableElevation
-                >
-            {/* <IconButton>
-                    <CategoryIcon aria-label="menu" className={admStyle.iconClr} />
-                </IconButton>
-                <Icon>check-circle</Icon>
-                 */}
-                <BsCardChecklist size="1.5em" /> &nbsp; Categorias</Button>
-            </NavLink>
-            
-            <NavLink to="/admin/adminpanel/products" >
-            <Button 
-                variant="contained" 
-                color="secondary"
-                size="large"
-                className={admStyle.btnMenu}
-                //href={AdminUrl+"/products"}
-                disableElevation
-                ><BsArchiveFill size="1.5em" /> &nbsp; Productos</Button>
-            </NavLink>
+	return (
+		<div className={admStyle.main}>
+			<AdmNav />
 
-            <NavLink to="/admin/adminpanel/orders" >
-            <Button 
-                variant="contained" 
-                color="secondary"
-                size="large"
-                className={admStyle.btnMenu}
-                //href={AdminUrl+"/orders"}
-                disableElevation
-                ><BsFilePost size="1.5em" /> &nbsp; Ordenes</Button>
-            </NavLink>
+			<div className={admStyle.contentGroup}>
+				<div className={admStyle.contentBtn}>
+					<NavLink to={`${AdminUrl}/categories`}>
+						<Button 
+                            variant="contained" 
+                            className={admStyle.btnMenu} 
+                            disableElevation>
+							<BsCardChecklist size="1.5em" /> &nbsp; Categorias
+						</Button>
+					</NavLink>
 
-            <NavLink to="/admin/adminpanel/users" >
-            <Button 
-                variant="contained" 
-                color="secondary"
-                size="large"
-                className={admStyle.btnMenu}
-                //href={AdminUrl+"/users"}
-                disableElevation
-                ><BsFillPeopleFill size="1.5em" /> &nbsp; Usuarios</Button>
-            </NavLink>
+					<NavLink to={`${AdminUrl}/products`}>
+						<Button
+							variant="contained"
+							className={admStyle.btnMenu}
+							disableElevation>
+							<BsArchiveFill size="1.5em" /> &nbsp; Productos
+						</Button>
+					</NavLink>
 
-            </div>
-            </div>
-        </div>
-    )
+					<NavLink to="/admin/adminpanel/orders">
+						<Button
+							variant="contained"
+							className={admStyle.btnMenu}
+							disableElevation>
+							<BsFilePost size="1.5em" /> &nbsp; Ordenes
+						</Button>
+					</NavLink>
+
+					<NavLink to="/admin/adminpanel/users">
+						<Button
+							variant="contained"
+							className={admStyle.btnMenu}
+							disableElevation>
+							<BsFillPeopleFill size="1.5em" /> &nbsp; Usuarios
+						</Button>
+					</NavLink>
+				</div>
+			</div>
+		</div>
+	);
 }
