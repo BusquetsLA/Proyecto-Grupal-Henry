@@ -7,7 +7,7 @@ const {
 
 const router = Router();
 
-router.get('/:user_id/:order_id', getId)
+router.get('/:user_id', getId)
 router.get('/pagos', getPayments)
 router.get('/pagos/:id', getPaymentOrder)
 

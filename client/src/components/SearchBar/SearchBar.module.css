@@ -4,6 +4,8 @@
     align-items: center;
     margin-left: 30px;
     margin-right: 30px;
+    width: 96%;
+  
 }
 
 .input {
@@ -46,9 +48,13 @@
     font-weight:normal;
   }
 
+  input#Search-input.searchfield{
+      font-size: 10px;
+  }
+
   .boton{
     width: 100px;
-    height: 20px;
+    height: 40px;
     text-decoration: none;
     padding: 3px;
     font-weight: 80;
@@ -58,6 +64,8 @@
     border-radius: 6px;
     border: 1px solid #A05D31;
     opacity: 0.8;
+    margin: 5px;
+    margin-left: 20px;
 }
   
   .boton:hover{

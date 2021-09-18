@@ -1,23 +1,29 @@
 const Order = require('../models/Order.js')
+const User = require('../models/User.js')
 const mercadopago = require ('mercadopago')
 require('dotenv').config()
 const { ACCESS_TOKEN } = process.env
-const {getOrder} = require('./utils.js')
 
 mercadopago.configure({access_token: `${ACCESS_TOKEN}`})
 
 async function getId(req, res, next){
-    const {user_id, order_id} = req.params
+    const {user_id} = req.params
     try{
-        const order = await getOrder(user_id, order_id)
+        const user = await User.findById(user_id)
+        let items = user.cart
+        let total = 0;
+        items.map(product => {
+            total += product.quantity * product.price
+        })
+        const order = await Order.create({user_id, items, total})
         const items_mp = order.items.map(item => ({
             title: item.name,
-            unit_price: item.price,
+            unit_price: parseFloat(item.price),
             quantity: item.quantity
         }))
         let preference = {
             items: items_mp,
-            external_reference : `${order_id}`,
+            external_reference : `${order._id}`,
             payment_methods: {
                 excluded_payment_types: [
                   {
@@ -50,7 +56,8 @@ async function getPayments(req, res, next){
         order.merchant_order_id = merchant_order_id
         order.status = "completed"
         await order.save()
-        return res.status(200).send("¡Compra completada!")
+        console.log("Compra completada")
+        return res.redirect("http://localhost:3000")
     }catch(error){
         next(error)
     }

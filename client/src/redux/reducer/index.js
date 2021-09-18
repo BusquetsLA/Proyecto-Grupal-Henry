@@ -12,6 +12,7 @@ const initialState = {
   categories: [],
   categoryDetails: [],
   user: {
+    preference: {},
     cart: [],
   },
   loading: false,
@@ -53,7 +54,7 @@ const rootReducer = (state = initialState, action) => {
           ...state.products,
           searchResults: action.payload,
         },
-      };    
+      };
 
     case types.GET_PRODUCTS_BY_ID:
       return {
@@ -147,6 +148,11 @@ const rootReducer = (state = initialState, action) => {
         },
       };
 
+    case types.UPDATE_USER_CART:
+      return {
+        ...state,
+      };
+
     case types.GET_CART_FROM_USER:
       return {
         ...state,
@@ -216,6 +222,15 @@ const rootReducer = (state = initialState, action) => {
     case types.SEND_PAYMENT_EMAIL:
       return {
         ...state,
+      };
+
+    case types.GET_DATA_FROM_MP:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          preference: action.payload,
+        },
       };
 
     default:

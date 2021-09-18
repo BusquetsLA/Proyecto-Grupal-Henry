@@ -4,7 +4,8 @@ import { useHistory } from "react-router-dom";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { Link } from "react-router-dom";
 import utils from "../../redux/utils/index";
-import { getCartFromUser } from "../../redux/actions/index";
+import { concatCarts } from "../../utils/index";
+import { getCartFromUser, updateUserCart } from "../../redux/actions/index";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Container,
@@ -38,11 +39,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/*
-Si estoy logueado, renderizo el carrito del usuario.
-Si estoy logueado debería actualizar en tiempo real el carrito del usuario
-*/
-
 const Cart = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -51,19 +47,9 @@ const Cart = () => {
   const userInfo = useSelector((state) => state.userInfo);
   const userCart = useSelector((state) => state.user.cart);
 
-  const [cart, setCart] = useLocalStorage("cart", {
-    productsList: [],
-    totalPrice: 0,
-  });
+  const emptyCart = { productsList: [], totalPrice: 0 };
 
-  useEffect(() => {
-    if (userCart?.length) {
-      setCart({
-        ...cart,
-        productsList: [...cart.productsList, ...userCart],
-      });
-    }
-  }, [cart, setCart, userCart]);
+  const [cart, setCart] = useLocalStorage("cart", emptyCart);
 
   const totalPrice = cart
     ? cart.productsList.reduce((acc, cur) => {
@@ -78,27 +64,57 @@ const Cart = () => {
     }
   }, [dispatch, userInfo]);
 
+  useEffect(() => {
+    if (userInfo && userCart?.length) {
+      const allCarts = concatCarts(userCart, cart.productsList);
+      setCart({
+        ...cart,
+        productsList: allCarts,
+      });
+      dispatch(updateUserCart(userInfo._id, allCarts));
+    }
+  }, [dispatch, userInfo, userCart]);
+
   // Handlers
   const handleUpdateQuantity = (option) => {
-    setCart({
-      ...cart,
-      productsList: utils.updateQuantity(cart.productsList, option),
-    });
+    if (userInfo) {
+      setCart({
+        ...cart,
+        productsList: utils.updateQuantity(cart.productsList, option),
+      });
+      dispatch(updateUserCart(userInfo._id, cart.productsList));
+    } else {
+      setCart({
+        ...cart,
+        productsList: utils.updateQuantity(cart.productsList, option),
+      });
+    }
   };
 
   const handleRemoveProduct = (id) => {
-    setCart({
-      ...cart,
-      productsList: cart.productsList.filter((elem) => elem._id !== id),
-      totalPrice: totalPrice,
-    });
+    if (userInfo) {
+      setCart({
+        ...cart,
+        productsList: cart.productsList.filter((elem) => elem._id !== id),
+        totalPrice: totalPrice,
+      });
+      dispatch(updateUserCart(userInfo._id, cart.productsList));
+    } else {
+      setCart({
+        ...cart,
+        productsList: cart.productsList.filter((elem) => elem._id !== id),
+        totalPrice: totalPrice,
+      });
+    }
   };
 
   const handleRemoveAll = () => {
-    setCart({
-      productsList: [],
-      totalPrice: 0,
-    });
+    if (userInfo) {
+      setCart(emptyCart);
+      dispatch(updateUserCart(userInfo._id, []));
+    } else {
+      setCart(emptyCart);
+    }
   };
 
   const handleCheckout = (e) => {
