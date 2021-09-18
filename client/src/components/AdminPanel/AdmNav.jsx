@@ -1,8 +1,14 @@
 import React from 'react'
-import { AppBar, Toolbar, Typography, makeStyles, Button } from '@material-ui/core'
+import { 
+    AppBar, 
+    Toolbar, 
+    Typography, 
+    makeStyles, 
+    Button } from '@material-ui/core'
+import {BsHouseDoorFill } from 'react-icons/bs';
 import { NavLink } from 'react-router-dom';
-import { withThemeCreator } from '@material-ui/styles'
-//import MenuIcon  from '@material-ui/icons/Menu'
+import admStyle from './Admin.module.css';
+
 
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
@@ -19,14 +25,8 @@ export default function AdmNav() {
     const classes = useStyles()
     return (
         <div>
-            <AppBar position="fixed" color="primary">
+            <AppBar position="fixed" style={{backgroundColor:" var(--color-fondo1)"}}>
               <Toolbar>
-{/*                 <IconButton>
-                    <MenuIcon 
-                        color="inherit" aria-label="menu" 
-                        className={classes.menuButton}
-                        />
-                </IconButton> */}
                 <Typography variant="h6" className={classes.tittle} >
                     Panel de Adminstrador
                 </Typography>
@@ -34,11 +34,9 @@ export default function AdmNav() {
                 <NavLink to="/admin/adminpanel" >
                     <Button 
                         variant="contained" 
-                        color="primary"
-                        size="large"
-                        //href="/admin/adminpanel"
+                        className={admStyle.btnNav} 
                         disableElevation
-                    > Home </Button>
+                    > <BsHouseDoorFill size="1.1em" /> &nbsp; Home </Button>
                 </NavLink>
               </Toolbar>
             </AppBar>

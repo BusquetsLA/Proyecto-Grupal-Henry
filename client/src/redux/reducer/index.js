@@ -67,13 +67,6 @@ const rootReducer = (state = initialState, action) => {
           loading: true,
         };
 
-
-    case userTypes.USER_SIGNIN_REQUEST:
-        return {
-          ...state,
-          loading: true,
-        };
-
     case types.POST_PRODUCT:
       return {
         ...state,

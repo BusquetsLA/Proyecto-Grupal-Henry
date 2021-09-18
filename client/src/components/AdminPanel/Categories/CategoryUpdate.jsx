@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { useLocation } from "react-router";
-import { getCategoryDetails, updateCategory, getProducts } from '../../../redux/actions/index';
+import { useDispatch, useSelector }   from 'react-redux';
+import { useHistory,NavLink }         from 'react-router-dom';
+import { Button }                     from '@material-ui/core';
+import { useLocation }                from "react-router";
+import swal                           from 'sweetalert';
+import { getCategoryDetails, updateCategory } from '../../../redux/actions/index';
+import { BiSave, BiArrowToLeft }          from "react-icons/bi";
 import AdmNav from '../AdmNav';
-//import Select from 'react-select';
-import ctgStyle from './CreateCategory.module.css';
+import ctgStyle from './Category.module.css';
 
 
 export function validate(input) {
@@ -17,10 +19,11 @@ export function validate(input) {
 
 export default function CategoryUpdate() {
 	const dispatch = useDispatch();
-    var categoryDetail = useSelector((state) => state.categoryDetails);
     const location = useLocation();
-    var categoryId = location.pathname.split("/").pop();
-    //console.log(categoryDetail)
+	const history = useHistory();
+    const categoryDetail = useSelector((state) => state.categoryDetails);
+    
+	const categoryId = location.pathname.split("/").pop();
     
 	useEffect(() => {
 		dispatch(getCategoryDetails(categoryId));
@@ -28,23 +31,8 @@ export default function CategoryUpdate() {
             id: categoryId,
             name: categoryDetail.name,
         });
-	  }, [dispatch,categoryDetail.name]);
+	}, [categoryDetail.name]);
 
-	const history = useHistory();
-
-	/* var productsArr = useSelector((state) => state.products.all);
-	productsArr = productsArr.map(e=> {
-		return {
-			value: e._id,
-			label: e.name,
-		}
-	}) */
-  
-	useEffect(() => {
-		dispatch(getProducts());
-	}, [dispatch]);
-
-	/* const [value, setValue] = useState([]) */
 
 	const [input, setInput] = useState({
         id: 0,
@@ -68,27 +56,34 @@ export default function CategoryUpdate() {
 		});
 	}
 
-/* 	function onSelectChange(e){
-		setValue(e);
-		//console.log(e[0].value)
-	} */
-
-	function handleSubmit(e) {
+	async function handleSubmit(e) {
 		e.preventDefault();
         input.name = input.name[0].toLocaleUpperCase() + input.name.slice(1)
-		const dataSend ={
-			...input,
-			//products: value.map(e => e.value),
+		let message = await dispatch(updateCategory(input));
+
+		if(message.result.statusText === "OK"){
+			swal({
+				title:'Resultado',
+				text: message.result.data.message,
+				icon: 'success',
+				button: "Ok"
+			})
+			.then(respuesta => {
+				if(respuesta) history.push('/admin/adminpanel/categories');
+			})
+		}else{
+			swal({
+				title:'Resultado',
+				text: message.result.data.message,
+				icon: 'warning',
+				button: "Ok"
+			})
 		}
-		console.log(dataSend)
-		dispatch(updateCategory(dataSend));
-		alert("Categoría actualizada exitosamente.");
 		setInput({
             id: 0,
 			name: '',
 			products: [],
 		});
-		history.push('/admin/adminpanel/categories'); 
 	}
 
 	return (
@@ -109,17 +104,24 @@ export default function CategoryUpdate() {
 					{errors.name && <p className="danger">{errors.name}</p>}
 					</div>
 
-					{/* <div className={ctgStyle.ProdSelect}>
-						<label for="products">Productos</label>
-						<Select 
-							value={value}
-							options={productsArr}
-							onChange={(e) => onSelectChange(e)}
-							isMulti
-							/>
-					</div> */}
 					<div>
-						<button className={ctgStyle.myButton} type="submit">Guardar</button>
+						<Button 
+							variant="contained" 
+							className={ctgStyle.btnSave}
+							type="submit"
+							disableElevation>
+								<BiSave size="1.3em" />&nbsp;Guardar
+						</Button>
+						&nbsp; &nbsp;
+						<NavLink to={`/admin/adminpanel/categories`}>
+							<Button 
+								variant="contained" 
+								className={ctgStyle.btn1}
+								type="submit"
+								disableElevation>
+									<BiArrowToLeft size="1.3em" />&nbsp;Volver
+							</Button>
+						</NavLink>
 					</div>
 				</form>
 			</fieldset>
