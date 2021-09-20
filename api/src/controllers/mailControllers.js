@@ -67,8 +67,35 @@ async function paymentEmail(req, res, next) {
   }
 }
 
+async function passResetEmail(req, res, next) {
+  try {
+    const { email, name, id } = req.body;
+    //send mail with defined transport object
+    console.log("entre al if");
+    let info = await transporter.sendMail({
+      from: '"Estilo Propio 👻" <epropio35@gmail.com>', // sender address
+      to: `${email}`, // list of receivers
+      subject: "Restablecer contraseña", // Subject line
+      // text: "Hello world?", // plain text body
+      html: `<br><br> 
+    <b>Hola ${name}</b><br><br>
+    <b>Hemos recibido tu solicitud para restablecer tu contraseña.</b><br><br>
+    <b>Click aqui para restablecer tu contraseña: </b>
+    <a className={styles.list} href="http://localhost:3000/user/reset/${id}" target="_blank" rel="noreferrer">
+    <button>Restablecer contraseña</button></a>
+    <br><br><br>
+    <b>Si no enviaste la solicitud por favor ignorá éste mensaje</b>`,
+    
+    });
+    console.log("Message send", info);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   registerEmail,
   helpEmail,
   paymentEmail,
+  passResetEmail,
 };
