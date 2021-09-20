@@ -69,7 +69,7 @@ async function paymentEmail(req, res, next) {
 
 async function passResetEmail(req, res, next) {
   try {
-    const { email, name, id } = req.body;
+    const { email, name, id } = req.body; // el id es para generar un url personalizado para el cambio de pass
     //send mail with defined transport object
     console.log("entre al if");
     let info = await transporter.sendMail({
