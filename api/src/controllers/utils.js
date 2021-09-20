@@ -55,9 +55,21 @@ async function getOrder(userId, orderId){
   return order
 }
 
+// Password reset requests
+const requests = []; // ver esto que es macana total
+function createResetRequest(resetRequest) {
+  requests.push(resetRequest);
+}
+function getResetRequest(id) {
+  const request = requests.find(req => req.id === id);
+  return request;
+}
+
 module.exports = {
   generateToken,
   isAuth,
   isAdmin,
-  getOrder
+  getOrder,
+  createResetRequest,
+  getResetRequest,
 };
