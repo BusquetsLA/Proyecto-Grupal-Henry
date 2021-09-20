@@ -1,14 +1,17 @@
-const { Router } = require('express');
+const { Router } = require("express");
 
-const {registerEmail,
+const {
+  registerEmail,
   helpEmail,
-  paymentEmail} = require('../controllers/mailControllers.js');
+  paymentEmail,
+  passResetEmail,
+} = require("../controllers/mailControllers.js");
 
 const router = Router();
 
-router.post('/sendRegisterEmail', registerEmail); 
-router.post('/sendHelpEmail', helpEmail);
-router.post('/sendPaymentEmail', paymentEmail);
-
+router.post("/sendRegisterEmail", registerEmail);
+router.post("/sendHelpEmail", helpEmail);
+router.post("/sendPaymentEmail", paymentEmail);
+router.post("/sendPassResetEmail", passResetEmail);
 
 module.exports = router;
