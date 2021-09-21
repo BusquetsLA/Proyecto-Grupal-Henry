@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch}    from 'react-redux';
 import { useHistory, NavLink }        from 'react-router-dom';
 import { useLocation }                from "react-router";
-import {Button} from '@material-ui/core';
-import swal     from 'sweetalert';
-import Select   from 'react-select';
-import axios    from 'axios';
-import AdmNav   from '../AdmNav';
-import prdStyle from './Products.module.css';
+import {Button}                       from '@material-ui/core';
+import swal                           from 'sweetalert';
+import Select                         from 'react-select';
+import axios                          from 'axios';
+import AdmNav                         from '../AdmNav';
+import prdStyle                       from './Products.module.css';
 import { updateProduct,getProductsById, getCategories } from '../../../redux/actions/index';
 import { BiImageAdd, BiUpload, BiSave, BiArrowToLeft } from 'react-icons/bi';
 

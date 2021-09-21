@@ -1,6 +1,6 @@
 import React, { useEffect }         from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useHistory }      from 'react-router-dom';
+import { useHistory }      from 'react-router-dom';
 import { getUsers } from '../../../redux/actions/index';
 import {Button, 
 		Table, 
@@ -22,7 +22,7 @@ export default function AddCategories() {
 	const loading = useSelector((state) => state.loading);
 	const history = useHistory();
 	const dispatch = useDispatch();
-	console.log(usersArr)
+	//console.log(usersArr)
 
 	useEffect(() => {
 		dispatch(getUsers());

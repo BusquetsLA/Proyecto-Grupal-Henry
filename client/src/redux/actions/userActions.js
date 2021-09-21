@@ -1,4 +1,10 @@
-import { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNOUT, USER_SIGNUP_REQUEST, USER_SIGNUP_SUCCESS, USER_SIGNUP_FAIL } from '../constants/userConstants';
+import {USER_SIGNIN_REQUEST, 
+        USER_SIGNIN_SUCCESS, 
+        USER_SIGNIN_FAIL, 
+        USER_SIGNOUT, 
+        USER_SIGNUP_REQUEST, 
+        USER_SIGNUP_SUCCESS, 
+        USER_SIGNUP_FAIL } from '../constants/userConstants';
 import axios from 'axios';
 
 export const signup = ({name, email, password}) => {
@@ -7,8 +13,8 @@ export const signup = ({name, email, password}) => {
             type: USER_SIGNUP_REQUEST, 
             payload: {name, email, password}
         });
-        console.log(name)
         const {data} = await axios.post('http://localhost:3001/user/signup', {name, email, password});
+        //console.log(data);
         
         if(data.token){
             dispatch({
@@ -26,7 +32,7 @@ export const signup = ({name, email, password}) => {
                 payload: data.msg
             })
         }
-        
+        return data;
     }
 }
 
@@ -39,7 +45,7 @@ export const signin = ({email, password}) => {
         const {data} = await axios.post('http://localhost:3001/user/signin', {email, password});
         console.log('esta es la data',data)
         // if(data.token){
-            if(data.name){
+        if(data.name){
             dispatch({
                 type: USER_SIGNIN_SUCCESS,
                 payload: data
@@ -51,20 +57,21 @@ export const signin = ({email, password}) => {
                 payload: data.msg
             })
         }
-        
+        return data;
     }
 }
 
-export const signinfirebase = (email) => {
-    console.log(email)
+export const signinfirebase = (info) => {
+    //console.log(info)
     return async(dispatch) => {
         dispatch({
             type: USER_SIGNIN_REQUEST, 
-            payload: {email}
+            payload: info
         });
-        const {data} = await axios.post('http://localhost:3001/user/signinfirebase', {email});
+        const {data} = await axios.post('http://localhost:3001/user/signinfirebase', info);
+        //console.log(data)
         // if(data.token){
-        if(data){    
+        if(data.name){    
             dispatch({
                 type: USER_SIGNIN_SUCCESS,
                 payload: data
@@ -76,7 +83,7 @@ export const signinfirebase = (email) => {
                 payload: data.msg
             })
         }
-        
+        return data;
     }
 }
 
