@@ -198,6 +198,20 @@ export const getUsers = () => {
   };
 };
 
+export const deleteUser = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`${BASE_URL}/user/delete/${id}`);
+      return dispatch({
+        type: types.DELETE_USERS,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 
 
 

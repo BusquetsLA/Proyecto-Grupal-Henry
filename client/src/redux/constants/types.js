@@ -34,6 +34,7 @@ const SEND_PAYMENT_EMAIL = "SEND_PAYMENT_EMAIL";
 
 // Users
 const GET_USERS = "GET_USERS";
+const DELETE_USERS = "DELETE_USERS";
 
 
 const TYPES = {
@@ -59,6 +60,7 @@ const TYPES = {
   UPDATE_USER_CART,
   STATUS_CHANGE,
   GET_USERS,
+  DELETE_USERS,
 };
 
 export default TYPES;
