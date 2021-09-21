@@ -45,7 +45,7 @@ const Team = () => {
       <div className={styles.container}>
         <div className={styles.foto_nombre}>
           <img
-            src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png"
+            src="https://res.cloudinary.com/dulpsdgfw/image/upload/v1632253931/Fotos/Alejo1_vcaklp.png"
             alt="foto"
           />
           <h4>Alejandro Flores</h4>
@@ -80,7 +80,7 @@ const Team = () => {
       <div className={styles.container}>
         <div className={styles.foto_nombre}>
           <img
-            src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png"
+            src="https://res.cloudinary.com/dulpsdgfw/image/upload/v1632260192/Fotos/Esteban1_axa9zi.png"
             alt="foto"
           />
           <h4>Esteban Choque</h4>
@@ -115,14 +115,14 @@ const Team = () => {
       <div className={styles.container}>
         <div className={styles.foto_nombre}>
           <img
-            src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png"
+            src="https://res.cloudinary.com/dulpsdgfw/image/upload/v1632259362/Fotos/Facundo_kyi8da.png"
             alt="foto"
           />
           <h4>Facundo Figueroa</h4>
         </div>
         <div className={styles.links}>
           <a
-            href="www.linkedin.com/in/facundo-figueroa-dev"
+            href="https://www.linkedin.com/in/facundo-figueroa-dev"
             target="_blank"
             rel="noreferrer"
           >
@@ -150,7 +150,7 @@ const Team = () => {
       <div className={styles.container}>
         <div className={styles.foto_nombre}>
           <img
-            src="https://res.cloudinary.com/dulpsdgfw/image/upload/v1631742011/Fotos/Lautaro_wnctkt.png"
+            src="https://res.cloudinary.com/dulpsdgfw/image/upload/v1632253931/Fotos/Lautaro1_xslsio.png"
             alt="foto"
           />
           <h4>Lautaro Agustín Busquets</h4>
@@ -185,7 +185,7 @@ const Team = () => {
       <div className={styles.container}>
         <div className={styles.foto_nombre}>
           <img
-            src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png"
+            src="https://res.cloudinary.com/dulpsdgfw/image/upload/v1632254279/Fotos/Mauro1_idrsud.png"
             alt="foto"
           />
           <h4>Mauricio Serrano</h4>
