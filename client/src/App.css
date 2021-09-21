@@ -52,3 +52,26 @@ body{
     transform: rotate(360deg);
   }
 }
+
+/* Variables globales (Paleta de colores) */
+:root {
+  --color-text: #ffffff;
+  --color-text1: black;
+  
+  --color-fondo1: #3c2e27;
+  --color-fondo2: #6d1f09;
+  --color-fondo3: #a05d31;
+  --color-fondo4: #cfa67c;
+  --color-fondo5: #eee4d0;
+
+  --color-btnSave:       #0d47a1;
+  --color-btnSaveHover:  #0a3577;
+  --color-btnUpdate:     #2e7d32;
+  --color-btnUpdateHover:#1a641d;
+  --color-btnDelete:     #d50000;
+  --color-btnDeleteHover:#7c0e0e;
+  --color-btnReset:      #e2cd13;
+  --color-btnResetHover: #b9a917;
+
+  --btn-size1: 0.9rem;
+}

@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const { generateToken, isAuth } = require("./utils");
+const { generateToken, isAuth, createResetRequest, getResetRequest, } = require("./utils");
+
 // var findOrCreate = require('mongoose-findorcreate')
 
 // async function signUp(req, res, next) {
@@ -114,7 +115,7 @@ async function updateUserById(req, res, next) {
   try {
     const user = await User.findById(id);
     if (user) {
-      await User.updateOne({_id: id}, { name, email, password, isAdmin, susbscribed });
+      await User.updateOne({_id: id}, { name, email, password, isAdmin, susbscribed }); // no debería updatear la pass acá
       return res.status(200).send('Usuario actualizado correctamente.');
     } else {
       return res.status(400).send('Usuario no encontrado.');
@@ -185,6 +186,39 @@ async function signInFirebase(req, res, next) {
     } 
 };
 
+async function passwordForgot(req, res, next) {
+  const { email } = req.body;
+  console.log(req.body);
+  try {
+    const user = await User.findOne({email: email});
+    if (user) {
+      const id = uuidv1(); // se genera un id que se envia al usuario
+      const request = { email: user.email, name: user.name, id }; // como puedo guardar la request en la do la store? pq la neesito para comparar el id
+      createResetRequest(request);
+      // passResetEmail(user.email, user.name, id); // ver si es así que se manda
+      res.status(200).send('Solicitud de restablecimiento enviada.');
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+async function passwordReset(req, res, next) {
+  const { email } = getResetRequest(req.body.id);
+  try {
+    if (request) {
+      // const user = await User.findOne({email: email});
+      const password = bcrypt.hashSync(req.body.password, 8); // la pass nueva que viene por form
+      await User.updateOne({ email: email }, { password });
+      return res.status(200).send('Contraseña actualizada correctamente.');
+    } else {
+      return res.status(400).send('Usuario no encontrado.');
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signInFirebase,
   signUp,
@@ -194,4 +228,6 @@ module.exports = {
   updateCart,
   deleteUser,
   getUsers,
+  passwordForgot,
+  passwordReset,
 };

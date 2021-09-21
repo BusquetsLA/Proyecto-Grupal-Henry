@@ -186,6 +186,19 @@ form{
     background-color: var(--color-btnDeleteHover) !important;
 }
 
+.btnReset{
+    width: auto;
+    height: 45px;
+    font-size: var(--btn-size1) !important;
+    background-color: var(--color-btnReset) !important;
+    color: var(--color-text) !important;
+    position:static !important;
+}
+
+.btnReset:hover{
+    background-color: var(--color-btnResetHover) !important;
+}
+
 
 
 

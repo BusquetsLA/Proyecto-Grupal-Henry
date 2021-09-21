@@ -39,10 +39,8 @@ async function createCategory(req, res, next) {
     try {
         let searchTxt = await Category.findOne({ name: name }).exec();
         if(!searchTxt){
-            /* 
             const category = new Category({ image_url, name });
             await category.save();
-             */
             return res.status(200).send({message: `La categoría ${name} ha sido creada`});
         }else{
             return res.status(202).send({message: `La categoría ${name} ya existe, no se puede crear Categorias repetidas`});
@@ -62,10 +60,10 @@ async function updateCategory(req, res, next) {
             return res.status(404).send('La categoría no existe')
         } else {
             await Category.updateOne({ _id: id }, { name, products })
-            return res.status(200).send(category);
+            return res.status(200).send({message: `Se actualizo la categoría ${name} `});
+            //return res.status(200).send(category);
             //await Category.updateOne({ _id: id }, { image_url, name, products })
             //return res.status(200).send(`La categoría ${name} ha sido actualizada`);
-
         }
     } catch (error) {
         next(error);
@@ -75,17 +73,17 @@ async function updateCategory(req, res, next) {
 
 async function deleteCategory(req, res, next) {
     const { id } = req.params;
-    console.log('id',id)
+    //console.log('id',id)
     try {
         const category = await Category.findById(id);
-        console.log('category',category)
+        //console.log('category',category)
         if(category){
-            console.log('existe categoria')
+            //console.log('existe categoria')
             await Category.deleteOne({_id: id});
-            return res.status(200).send('Categoría eliminada');
+            return res.status(200).send({message: `Categoría eliminada con exito! `});
         }else{
-            console.log('NO existe categoria')
-            return res.status(404).send('Categoría no encontrada');
+            //console.log('NO existe categoria')
+            return res.status(404).send({message: `Categoría no encontrada `});
         }
     } catch (error) {
         next(error)

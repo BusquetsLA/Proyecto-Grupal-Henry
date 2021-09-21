@@ -38,7 +38,8 @@ async function createProducts(req, res, next) {
                     category.save()
                 }
         });
-        return res.status(200).send('Producto creado correctamente');
+        return res.status(200).send({message: `Producto: ${name} creado correctamente`});
+        //return res.status(200).send('Producto creado correctamente');
     } catch (error) {
         next(error);
     }
@@ -51,17 +52,17 @@ async function updateProductById(req, res, next) {
     try {
         const product = await Product.findById(id);
         if(!product){
-            return res.status(404).send("Producto no encontrado")
+            return res.status(404).send({message: `Producto no encontrado`});
         }else{
             await Product.updateOne({_id: id}, {name, image_url, price, description, stock, categories})
-                .exec(async () => {
-                    for(let i=0; i<Product.categories.length; i++){
-                        let category = await Category.findById(product.categories[i])
-                        category.products.push(product._id)
-                        category.save()
-                    }
-                })
-            return res.status(200).send("Producto actualizado correctamente");
+            .exec(async () => {
+                for(let i=0; i<Product.categories.length; i++){
+                    let category = await Category.findById(product.categories[i])
+                    category.products.push(product._id)
+                    category.save()
+                }
+            })
+            return res.status(200).send({message: `Producto actualizado correctamente`});
         }
     } catch (error) {
         next(error);
@@ -74,9 +75,9 @@ async function deleteProduct(req, res, next) {
         const product = await Product.findById(id);
         if(product){
             await Product.deleteOne({_id: id});
-            return res.status(200).send("Producto eliminado correctamente");
+            return res.status(200).send({message: `Producto eliminado correctamente! `});
         }else{
-            return res.status(404).send("Producto no encontrado");
+            return res.status(404).send({message: `Producto no encontrado.. `});
         }
     } catch (error) {
         next(error)
