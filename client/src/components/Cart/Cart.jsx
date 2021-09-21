@@ -151,6 +151,7 @@ const Cart = () => {
               onClick={() =>
                 handleUpdateQuantity({ id: elem._id, value: "min" })
               }
+              disabled={elem.quantity === 1 && true}
             >
               -
             </Button>

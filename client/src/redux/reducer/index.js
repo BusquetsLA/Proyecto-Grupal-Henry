@@ -13,7 +13,6 @@ const initialState = {
   categoryDetails: [],
   users: [],
   user: {
-    preference: {},
     cart: [],
   },
   loading: false,
@@ -64,10 +63,10 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case types.STATUS_CHANGE:
-        return {
-          ...state,
-          loading: true,
-        };
+      return {
+        ...state,
+        loading: true,
+      };
 
     case types.POST_PRODUCT:
       return {
@@ -233,15 +232,6 @@ const rootReducer = (state = initialState, action) => {
     case types.SEND_PAYMENT_EMAIL:
       return {
         ...state,
-      };
-
-    case types.GET_DATA_FROM_MP:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          preference: action.payload,
-        },
       };
 
     default:
