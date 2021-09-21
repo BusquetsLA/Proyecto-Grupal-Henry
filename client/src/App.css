@@ -70,6 +70,8 @@ body{
   --color-btnUpdateHover:#1a641d;
   --color-btnDelete:     #d50000;
   --color-btnDeleteHover:#7c0e0e;
+  --color-btnReset:      #e2cd13;
+  --color-btnResetHover: #b9a917;
 
   --btn-size1: 0.9rem;
 }
