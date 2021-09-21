@@ -8,29 +8,18 @@ import {
   ListItemText,
   Paper,
 } from "@material-ui/core";
-import { BounceLoader } from "react-spinners";
 import styles from "./Checkout.module.css";
 
-const Payment = ({ productsList, totalPrice, data }) => {
+const Payment = ({ productsList, totalPrice, preference }) => {
   useEffect(() => {
     const script = document.createElement("script");
     script.type = "text/javascript";
-    const attr_data_preference = document.createAttribute("data-preference-id");
-    attr_data_preference.value = data.id;
     script.src =
       "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
-    script.setAttributeNode(attr_data_preference);
-    document.getElementById("form1").appendChild(script);
-  }, [data]);
-
-  if (!productsList || !totalPrice || !data) {
-    return (
-      <Container>
-        <BounceLoader />
-        <Typography>Cargando...</Typography>
-      </Container>
-    );
-  }
+    script.setAttribute("data-preference-id", preference.id);
+    const form = document.getElementById("payment-form");
+    form.appendChild(script);
+  }, [preference]);
 
   return (
     <div className={styles.container}>
@@ -57,7 +46,7 @@ const Payment = ({ productsList, totalPrice, data }) => {
             </ListItem>
           </List>
         </Container>
-        <form id="form1" method="GET" />
+        <form id="payment-form" method="GET" />
       </Paper>
     </div>
   );

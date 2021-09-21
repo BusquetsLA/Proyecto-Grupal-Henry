@@ -1,17 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { getDataFromMP } from "../../redux/actions/index";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { BounceLoader } from "react-spinners";
 import Payment from "./Payment";
 import styles from "./Checkout.module.css";
-
-/*
-Agregar dispatch para cambiar el status de la order a "processing"
-Agregar dispatch para volver al carrito y setear el status de la orden en "created"
-*/
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -19,15 +14,18 @@ const Checkout = () => {
   const emptyCart = { productsList: [], totalPrice: 0 };
 
   const userInfo = useSelector((state) => state.userInfo);
-  const preference = useSelector((state) => state.user.preference);
   // eslint-disable-next-line
   const [cart, setCart] = useLocalStorage("cart", emptyCart);
+  const [preference, setPreference] = useState(null);
+  console.log("Preference en componente Checkout", preference);
 
   useEffect(() => {
-    dispatch(getDataFromMP(userInfo._id));
+    axios(`http://localhost:3001/mercadopago/${userInfo._id}`)
+      .then(({ data }) => setPreference(data))
+      .catch((error) => console.error(error));
   }, [dispatch, userInfo._id]);
 
-  if (!preference || !Object.keys(preference).length) {
+  if (!preference) {
     return (
       <Grid container>
         <Button component={Link} to="/cart" size="medium" variant="contained">
@@ -46,7 +44,7 @@ const Checkout = () => {
       </Button>
       <Grid className={styles.checkout}>
         <Payment
-          data={preference}
+          preference={preference}
           productsList={cart.productsList}
           totalPrice={cart.totalPrice}
         />

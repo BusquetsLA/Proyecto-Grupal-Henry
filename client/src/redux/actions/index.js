@@ -282,17 +282,3 @@ export const updateUserCart = (user_id, cart) => {
     }
   };
 };
-
-export const getDataFromMP = (user_id) => {
-  return async (dispatch) => {
-    try {
-      const { data } = axios.get(`${BASE_URL}/mercadopago/${user_id}`)
-      return dispatch({
-        type: types.GET_DATA_FROM_MP,
-        payload: data,
-      })
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
