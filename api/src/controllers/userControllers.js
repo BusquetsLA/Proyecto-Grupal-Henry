@@ -141,19 +141,26 @@ async function updateCart(req, res, next){
   }
 }
 
+//Cambiamos la logica del Delete User, para solo cambiar su estado Bloqued->true
 async function deleteUser(req, res, next) {
   const { id } = req.params;
+  const blocked = true;
+  //console.log('id user:', id)
   try {
     const user = await User.findById(id);
-    if (user) {
-      await User.deleteOne({ _id: id });
-      return res.status(200).send('Usuario eliminado.');
+    //const user = await User.findById(id);
+    //console.log('usario', user)
+     if (user) {
+      await User.updateOne({_id: id}, { blocked });
+      return res.status(202).send({type: 'success', message: `Usuario bloqueado`}); 
+      //await User.deleteOne({ _id: id });
+      //return res.status(200).send('Usuario eliminado.');
     } else {
-      return res.status(400).send('Usuario no encontrado');
+      return res.status(202).send({type: 'error', message: `Usuario no enontrado`});
     }
   } catch (error) {
     next(error);
-  }
+  } 
 };
 
 async function getUsers(req, res, next) {
