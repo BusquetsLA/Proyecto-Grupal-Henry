@@ -34,7 +34,7 @@ code {
 
 .form input, button {
   padding: 1em;
-  border-radius: 1em;
+  /* border-radius: 1em; */
   outline: none;
 }
 .form button:hover {
