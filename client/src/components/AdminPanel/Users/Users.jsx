@@ -1,7 +1,9 @@
 import React, { useEffect }         from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory }      from 'react-router-dom';
-import { getUsers } from '../../../redux/actions/index';
+import {getUsers,
+		deleteUser,
+		statusChange } from '../../../redux/actions/index';
 import {Button, 
 		Table, 
 		TableBody, 
@@ -36,7 +38,12 @@ export default function AddCategories() {
         history.push('/admin/adminpanel/userUpdate/'+e);
     }
 
-    function handleClickDelete(e) {
+    async function handleClickDelete(e) {
+		console.log('delete: ',e)
+		let result = await dispatch(deleteUser(e))
+		console.log('resultado: ',result)
+		dispatch(statusChange())
+
 		/* swal({
 			title:'Eliminar',
 			text: 'Estas seguro que deseas borrar el Producto ? ',

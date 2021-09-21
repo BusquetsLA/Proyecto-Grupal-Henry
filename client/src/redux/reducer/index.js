@@ -163,13 +163,19 @@ const rootReducer = (state = initialState, action) => {
       };
 
 
-
+  // Reducer de Usuarios
   case types.GET_USERS:
       return {
         ...state,
         users: action.payload,
         loading: false,
       };
+
+  case types.DELETE_USERS:
+        return {
+          ...state,
+          loading: false,
+        };
 
         
     // eslint-disable-next-line no-fallthrough
