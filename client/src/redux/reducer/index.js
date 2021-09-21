@@ -11,6 +11,7 @@ const initialState = {
   productDetails: [],
   categories: [],
   categoryDetails: [],
+  users: [],
   user: {
     preference: {},
     cart: [],
@@ -162,6 +163,16 @@ const rootReducer = (state = initialState, action) => {
         },
       };
 
+
+
+  case types.GET_USERS:
+      return {
+        ...state,
+        users: action.payload,
+        loading: false,
+      };
+
+        
     // eslint-disable-next-line no-fallthrough
     case userTypes.USER_SIGNIN_REQUEST:
       return {

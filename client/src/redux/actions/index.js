@@ -182,6 +182,25 @@ export const updateCategory = (category) => {
   };
 };
 
+
+// Users
+export const getUsers = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/user`);
+      return dispatch({
+        type: types.GET_USERS,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+
+
+
 // Filter
 export const filterByCategory = (id) => {
   return {
