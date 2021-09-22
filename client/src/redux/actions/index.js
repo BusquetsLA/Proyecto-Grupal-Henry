@@ -319,7 +319,7 @@ export const sendPaymentEmail = (email) => {
 };
 
 export const sendPassResetEmail = (email) => {
-  // correo de confirmación de la compra
+  // correo de restablecimiento de password
   return async (dispatch) => {
     try {
       await axios.post(`${BASE_URL}/email/sendPassResetEmail`, email);

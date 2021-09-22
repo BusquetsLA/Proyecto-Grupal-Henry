@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory }      from "react-router-dom";
-import { sendRegisterEmail }        from "../../redux/actions";
+import { sendPassResetEmail }        from "../../redux/actions";
 import { signup }                   from "../../redux/actions/userActions";
 import prdStyle                     from "./ResetPassword.module.css";
 import { Button}                    from '@material-ui/core';
@@ -18,7 +18,6 @@ const ResetPassword = (props) => {
     const error    = useSelector((state) => state.signupError);
     
     const [input, setInput] = useState({
-      name: "",
       email: "",
       password: "",
       confirmPass: "",
@@ -44,9 +43,9 @@ const ResetPassword = (props) => {
         //console.log('input: ',input)
         let result = await dispatch(signup(input));
         console.log('result: ',result)
-        dispatch(sendRegisterEmail(input));
+        setInput({email: "busquetsla@gmail.com"});
+        dispatch(sendPassResetEmail(input));
         setInput({
-          name: "",
           email: "",
           password: "",
           confirmPass: "",
