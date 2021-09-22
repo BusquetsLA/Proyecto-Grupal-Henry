@@ -1,19 +1,16 @@
 import React from "react";
 import Carrusel from "../Carrusel/Carrusel";
-// import Footer from '../Footer/Footer'
-import NavBar from "../NavBar/NavBar";
-import Products from "../Products/Products";
+import Footer from '../Footer/Footer'
+import NavbarLanding from "./NavbarLanding";
 
 const Home = () => {
   // eslint-disable-next-line
-  const [order, setOrder] = React.useState("");
-  console.log('order:',order)
   return (
     <div>
-      <NavBar setOrder={setOrder} />
+      <NavbarLanding/>
       <Carrusel/>
-      <Products />
-      {/* <Footer/>  */}
+      {/* <Products /> */}
+      <Footer/> 
     </div>
   );
 };

@@ -107,7 +107,7 @@ const NavBar = ({ setOrder }) => {
             </NavLink>
              */}
             <NavLink className={styles.link_text} to="/about">
-              Sobre Nosotros
+              Nosotros
             </NavLink>
             <NavLink className={styles.link_text} to="/help">
             <BiHelpCircle size="1.9em" alt="Ayuda"/>
@@ -123,6 +123,9 @@ const NavBar = ({ setOrder }) => {
                     &#187; Sign Out &#171;
                   </NavLink>
                 </ul>
+                  <NavLink className={styles.link_text} to="/user/ordenes">
+                  Ordenes <i className="fa fa-caret-down"></i>
+                </NavLink>
               </div>)
               : (<NavLink className={styles.link_text} to="/login">
                 <BiUserCircle size="1.9em" alt="Usuario"/>
