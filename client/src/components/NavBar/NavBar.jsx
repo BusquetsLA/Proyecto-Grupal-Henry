@@ -104,7 +104,7 @@ const NavBar = ({ setOrder }) => {
               Tienda
             </NavLink>
             <NavLink className={styles.link_text} to="/about">
-              Sobre Nosotros
+              Nosotros
             </NavLink>
             <NavLink className={styles.link_text} to="/help">
               Ayuda
@@ -119,6 +119,9 @@ const NavBar = ({ setOrder }) => {
                     Sign Out
                   </NavLink>
                 </ul>
+                  <NavLink className={styles.link_text} to="/user/ordenes">
+                  Ordenes <i className="fa fa-caret-down"></i>
+                </NavLink>
               </div>)
               : (<NavLink className={styles.link_text} to="/login">
                   Logueo
