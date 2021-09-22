@@ -58,6 +58,7 @@ function SignIn(props) {
                         icon: 'warning',
                         button: "Ok"
                     })
+                    handleSignout()
                 }
                 if(result.type === 'success'){
                     swal({
