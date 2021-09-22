@@ -19,7 +19,7 @@ async function getProducts(req, res, next) {
 async function getProductById(req, res, next) {
   const { id } = req.params;
   try {
-    const detail = await Product.findById(id);
+    const detail = await Product.findById(id).populate('reviews').exec();
     return res.status(200).send(detail);
   } catch (error) {
     next(error);
