@@ -289,6 +289,20 @@ export const sendPaymentEmail = (email) => {
   };
 };
 
+export const sendPassResetEmail = (email) => {
+  // correo de confirmación de la compra
+  return async (dispatch) => {
+    try {
+      await axios.post(`${BASE_URL}/email/sendPassResetEmail`, email);
+      return dispatch({
+        type: types.SEND_PASS_RESET_EMAIL, // va de nosotros a ellos
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 // User Orders
 export const getCartFromUser = (user_id) => {
   return async (dispatch) => {
