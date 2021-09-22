@@ -24,7 +24,8 @@ export default function CategoryUpdate() {
     const userDetail = useSelector((state) => state.userDetail);
     
 	const userId = location.pathname.split("/").pop();
-
+	const [isAdm, setIsAdm] = useState(null)
+	const [isSub, setIsSub] = useState(null)
     
 	useEffect(() => {
 		dispatch(getUserById(userId));
@@ -49,28 +50,39 @@ export default function CategoryUpdate() {
 
 
 	function handleChange(e) {
+		if(e.target.value==="admin"){
+			input.isAdmin= true
 
-
-		setInput({
-			...input,
-            id: userId,
-			[e.target.name]: e.target.value,
-		});
+		}else{
+			input.isAdmin= false
+		}
+		console.log(input);
 	}
+	
+	function handleChange2(e) {
+		if(e.target.value==="suscrito"){
+			input.subscribed= true
+
+		}else{
+			input.subscribed= false
+		}
+		console.log(input);
+	}
+	console.log(isSub)
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		if(input.isAdmin === "admin") input.isAdmin = true;
+/* 		if(input.subscribed === "suscrito") input.subscribed = true;
 		else input.isAdmin = false;
 
 		if(input.subscribed === "suscrito") input.subscribed = true;
-		else input.subscribed = false;
-		//console.log(input)
+		else input.subscribed = false; */
+		console.log(input)
 		
-		let message = await dispatch(updateUserById(input));
+		//let message = await dispatch(updateUserById(input));
 		//console.log(message)
 
-		 if(message.payload.type === "success"){
+		/*  if(message.payload.type === "success"){
 			swal({
 				title:'Resultado',
 				text: message.payload.message,
@@ -91,7 +103,7 @@ export default function CategoryUpdate() {
 		setInput({
             id: 0,
 			name: '',
-		}); 
+		});  */
 	}
 
 	return (
@@ -144,16 +156,16 @@ export default function CategoryUpdate() {
 
 					<div className={ctgStyle.inputs} >
 						<label for="subscribed" >Suscrito</label>
-						<select name="subscribed" className={ctgStyle.selectCss} onChange={(e) => handleChange(e)}>
+						<select name="subscribed" className={ctgStyle.selectCss} onChange={(e) => handleChange2(e)}>
 							{userDetail.subscribed ? (
 								<>
-								<option value="suscrito" selected>Suscrito</option>
 								<option value="nosuscrito" >No Suscrito</option>
+								<option value="suscrito" selected>Suscrito</option>
 								</>
 							):(
 								<>
-								<option value="suscrito" >Suscrito</option>
 								<option value="nosuscrito" selected>No Suscrito</option>
+								<option value="suscrito" >Suscrito</option>
 								</>
 							)}
 						</select>
