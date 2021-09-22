@@ -212,6 +212,35 @@ export const deleteUser = (id) => {
   };
 };
 
+export const getUserById = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/user/${id}`);
+      return dispatch({
+        type: types.GET_USER_BY_ID,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const updateUserById = (user) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`${BASE_URL}/user/update/`,user);
+      return dispatch({
+        type: types.UPDATE_USER_BY_ID,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+
 
 
 

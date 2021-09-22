@@ -25,7 +25,7 @@ const PORT = 3001;
 const db = process.env.MONGO_URI;
 
 // Conexion con BD local >>
-//const db = 'mongodb://localhost/requests';
+// const db = 'mongodb://localhost/requests';
 // ---- fin conexiones <<<
 
 mongoose.connect(db)

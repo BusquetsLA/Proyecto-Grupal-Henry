@@ -1,4 +1,6 @@
 const Review = require('../models/Review');
+const Product = require('../models/Product');
+const User = require('../models/User');
 
 async function getReviews(req, res, next){
     try{
@@ -9,11 +11,31 @@ async function getReviews(req, res, next){
     }
 }
 
+async function getProductReviews(req, res, next){
+    const {product_id} = req.params
+    try{
+        const product = await Product.findById(product_id)
+        if(product.reviews) {
+            return res.status(200).send(product.reviews)
+        }else{
+            return res.status(404).send("No hay reviews")
+        }
+    }catch(error){
+        next(error)
+    }
+}
+
 async function createReview(req, res, next){
     const {title, description, product_id, user_id, calification} = req.body;
     try{
         const review = await new Review({title, description, product_id, user_id, calification});
         await review.save();
+        let user = await User.findById(user_id)
+        user.reviews.push(review._id)
+        await user.save()
+        let product = await Product.findById(product_id)
+        product.reviews.push(review._id)
+        await product.save()
         return res.status(200).send("Review creada correctamente");
     }catch(error){
         next(error);
@@ -55,5 +77,6 @@ module.exports = {
     getReviews,
     createReview,
     updateReview,
-    deleteReview
+    deleteReview,
+    getProductReviews
 };
