@@ -87,16 +87,20 @@ async function signIn(req, res, next) {
       const user = await User.findOne({email: email});
       console.log('user del logueo',user)
       if(user) {
+        if(user.blocked){
+          return res.status(202).send({type: 'error', message: `Usuario Bloqueado !!`});
+        }else{
           bcrypt.compareSync(password, user.password) ? 
-              res.status(200).send({
-                  _id: user._id,
-                  name: user.name,
-                  email: user.email,
-                  isAdmin: user.isAdmin,
-                  // token: generateToken(user)
-              }) : res.status(202).send({type: 'error', message: `Contraseña incorrecta.`}); 
+          res.status(200).send({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            // token: generateToken(user)
+          }) : res.status(202).send({type: 'error', message: `Contraseña incorrecta.`});
+        }
       }else {
-        return res.status(202).send({type: 'error', message: `E-mail incorrecto.`}); 
+        return res.status(202).send({type: 'error', message: `E-mail incorrecto.`});
       }   
   } catch (error) {
       next(error);
@@ -141,19 +145,25 @@ async function updateCart(req, res, next){
   }
 }
 
+//Cambiamos la logica del Delete User, para solo cambiar su estado Bloqued->true
 async function deleteUser(req, res, next) {
   const { id } = req.params;
+  //console.log('id user:', id)
   try {
     const user = await User.findById(id);
+    //console.log('usario', user)
     if (user) {
-      await User.deleteOne({ _id: id });
-      return res.status(200).send('Usuario eliminado.');
+      let blocked = !user.blocked;
+      await User.updateOne({_id: id}, { blocked });
+      return res.status(202).send({type: 'success', message: `Usuario bloqueado`}); 
+      //await User.deleteOne({ _id: id });
+      //return res.status(200).send('Usuario eliminado.');
     } else {
-      return res.status(400).send('Usuario no encontrado');
-    }
+      return res.status(202).send({type: 'error', message: `Usuario no enontrado`});
+    } 
   } catch (error) {
     next(error);
-  }
+  } 
 };
 
 async function getUsers(req, res, next) {
@@ -166,8 +176,8 @@ async function getUsers(req, res, next) {
 };
 
 async function signInFirebase(req, res, next) {
-    try {
-        console.log(req.body);
+  try {
+        //console.log(req.body);
         const {name, email} = req.body;
         const password='';
         const country='';
@@ -177,7 +187,7 @@ async function signInFirebase(req, res, next) {
         const typelogin='Google';
 
         const user = await User.findOne({email: email});
-        console.log('aqui esta el user',user)
+        //console.log('aqui esta el user',user)
         if(!user){
           User.create({ name, email, password: bcrypt.hashSync(password, 8), country, phone, address, isAdmin, typelogin }, function (err, userCreated) {
             if(err) {
@@ -198,12 +208,16 @@ async function signInFirebase(req, res, next) {
                 });
           });
         }else{
-          res.status(200).send({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-        })
+          if(user.blocked){
+            return res.status(202).send({type: 'error', message: `Usuario Bloqueado !!`});
+          }else{
+            res.status(200).send({
+              _id: user._id,
+              name: user.name,
+              email: user.email,
+              isAdmin: user.isAdmin,
+            })
+          }
         }
         /* if(user) {
             // bcrypt.compareSync(password, user.password) ? 
@@ -221,7 +235,7 @@ async function signInFirebase(req, res, next) {
         }   */ 
     } catch (error) {
         next(error);
-    } 
+      } 
 };
 
 async function passwordForgot(req, res, next) {

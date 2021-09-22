@@ -199,63 +199,9 @@ form{
     background-color: var(--color-btnResetHover) !important;
 }
 
-
-
-
-.myButton {
-	background-color:#0d6efd;
-	border-radius:10px;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size: 1rem;
-	text-decoration:none;
-    margin-top: 10px;
-    padding-top: 6px;
-    height: 30px;
-    border: 0px solid black;
+.alert{
+    background-color: red;
+    color: white;
+    padding: 5px 6px;
+    border-radius: 4px;
 }
-.myButton:hover {
-	background-color:#0b5fdd;
-}
-
-.myButton2 {
-	background-color:#04b448;
-	border-radius:10px;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size: 1rem;
-	text-decoration:none;
-    margin-top: 10px;
-    padding-top: 6px;
-    height: 30px;
-    border: 0px solid black;
-}
-.myButton2:hover {
-	background-color:#088d3b;
-}
-
-.myButton3 {
-	background-color:#e21708;
-	border-radius:10px;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size: 1rem;
-	text-decoration:none;
-    margin-top: 10px;
-    padding-top: 6px;
-    height: 30px;
-    border: 0px solid black;
-}
-.myButton3:hover {
-	background-color:#be160a;
-}
-
-.btnUp{
-    background-color: blueviolet;
-    height: 40px;
-    width: 200px;
-}
-

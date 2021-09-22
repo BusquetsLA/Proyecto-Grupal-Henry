@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
-import SearchBar from "../SearchBar/SearchBar";
-import styles from "./NavBar.module.css";
-import { NavLink } from "react-router-dom";
-import Logo from "../../media/LogoEstiloPropio.png";
+import SearchBar            from "../SearchBar/SearchBar";
+import styles               from "./NavBar.module.css";
+import { NavLink }          from "react-router-dom";
+import Logo                 from "../../media/LogoEstiloPropio.png";
+import firebase             from "firebase";
+import { signout }          from "../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
-import firebase from "firebase"
+import * as FaIcons from 'react-icons/fa';
+import { BiUserCircle,BiHelpCircle } from "react-icons/bi";
 import {
   getCategories,
   getProducts,
@@ -12,8 +15,6 @@ import {
   orderByPrice,
   orderByRangePrice,
 } from "../../redux/actions";
-import { signout } from "../../redux/actions/userActions";
-import * as FaIcons from 'react-icons/fa';
 
 const NavBar = ({ setOrder }) => {
   const dispatch = useDispatch();
@@ -100,23 +101,26 @@ const NavBar = ({ setOrder }) => {
             >
               Inicio
             </NavLink>
+{/* 
             <NavLink className={styles.link_text} to="/shop">
               Tienda
             </NavLink>
+             */}
             <NavLink className={styles.link_text} to="/about">
               Nosotros
             </NavLink>
             <NavLink className={styles.link_text} to="/help">
-              Ayuda
+            <BiHelpCircle size="1.9em" alt="Ayuda"/>
             </NavLink>
             {userInfo 
               ? (<div className="dropdown">
                 <NavLink className={styles.link_text} to="#">
-                  {userInfo.name} <i className="fa fa-caret-down"></i>
+                  <BiUserCircle size="1.9em" alt="Usuario"/>
                 </NavLink>
                 <ul className="dropdown-content">
-                  <NavLink to="#signout" onClick={handleSignout}>
-                    Sign Out
+                  {userInfo.name}<br/>
+                  <NavLink to="/" onClick={handleSignout}>
+                    &#187; Sign Out &#171;
                   </NavLink>
                 </ul>
                   <NavLink className={styles.link_text} to="/user/ordenes">
@@ -124,7 +128,7 @@ const NavBar = ({ setOrder }) => {
                 </NavLink>
               </div>)
               : (<NavLink className={styles.link_text} to="/login">
-                  Logueo
+                <BiUserCircle size="1.9em" alt="Usuario"/>
                 </NavLink>)
             }
           </div>

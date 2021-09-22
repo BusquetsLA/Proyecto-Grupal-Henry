@@ -9,6 +9,12 @@ const Shop = () => {
   console.log('order:',order)
     return (
         <div>
+            <NavLink
+              className={styles.link_text}
+              to="/"
+            >
+              Inicio
+            </NavLink>
             <NavBar setOrder={setOrder} />
             <Products />
         </div>
