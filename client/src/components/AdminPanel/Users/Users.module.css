@@ -1,4 +1,4 @@
-.Prodcontent{
+.Catcontent{
     display: flex;
     justify-content: flex-start;
     width: 100vw;
@@ -7,7 +7,7 @@
     margin-bottom: 10px;
 }
 
-.Prodcontent2{
+.Catcontent2{
     background-color: white;
     display: grid;
     grid-template-columns: auto;
@@ -18,7 +18,7 @@
     position: fixed;
 }
 
-.Prodcontent3{
+.Catcontent3{
     margin-top: 5px;
 }
 
@@ -34,7 +34,7 @@
 
 /* Estilos para el componente Create */
 
-.ProdFieldset{
+.CatFieldset{
     width: 500px;
     background-color: rgb(255, 255, 255);
     margin-top: 10px;
@@ -45,7 +45,7 @@
     border: 1px solid black;
 }
 
-.ProdLegend{
+.CatLegend{
     text-align: left;
     font-weight: bold;
     font-size: 1.0rem;
@@ -77,11 +77,25 @@ form{
     margin-bottom: 5px;
 }
 
-.inputs textarea{
+.inputs select{
     width: 96%;
     padding-left: 10px;
     margin-bottom: 10px;
+    height: 40px;
 }
+
+.selectCss:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222; 
+    outline: none;
+  }
+  .selectCss option {
+    font-weight:normal;
+    font-size: 1rem;
+    margin: 20px;
+  }
 
 .inputs input[type="file"] {
     display:none;
@@ -112,7 +126,7 @@ form{
 
 
 
-.ProdSelect{
+.CatSelect{
     width: 96%;
 }
 
