@@ -118,19 +118,20 @@ async function getUserById(req, res, next) {
 };
 
 async function updateUserById(req, res, next) {
-  const { id } = req.params;
-  const { name, email, password, isAdmin, susbscribed } = req.body;
+  //const { id } = req.params;
+  const { id, name, email, isAdmin, subscribed } = req.body;
+  console.log(req.body)
   try {
     const user = await User.findById(id);
     if (user) {
-      await User.updateOne({_id: id}, { name, email, password, isAdmin, susbscribed }); // no debería updatear la pass acá
-      return res.status(200).send('Usuario actualizado correctamente.');
+      await User.updateOne({_id: id}, { name, email, isAdmin, subscribed }); // no debería updatear la pass acá
+      return res.status(200).send({type: 'success', message: `Usuario ${email} actualizado correctamente.`});
     } else {
-      return res.status(400).send('Usuario no encontrado.');
+      return res.status(202).send({type: 'error', message: `'Usuario no encontrado.`});
     }
   } catch (error) {
     next(error);
-  }
+  } 
 };
 
 async function updateCart(req, res, next){
@@ -219,20 +220,6 @@ async function signInFirebase(req, res, next) {
             })
           }
         }
-        /* if(user) {
-            // bcrypt.compareSync(password, user.password) ? 
-                res.send({
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    isAdmin: user.isAdmin,
-                    // token: generateToken(user)
-                }) 
-                // :
-            // res.send({msg: 'Contraseña incorrecta.'})
-        }else {
-            return res.send({msg: 'Email incorrecto.'});
-        }   */ 
     } catch (error) {
         next(error);
       } 

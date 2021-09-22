@@ -27,6 +27,7 @@ import ProductCreate from './components/AdminPanel/Products/ProductCreate';
 import ProductUpdate from './components/AdminPanel/Products/ProductUpdate';
 
 import Users from './components/AdminPanel/Users/Users';
+import UserUpdate from './components/AdminPanel/Users/UserUpdate';
 
 import Politica from './components/Politica/Politica';
 import UserOrdenes from './components/Ordenes/UserOrdenes';
@@ -63,6 +64,7 @@ function App() {
 					<Route exact path="/admin/adminpanel/productUpdate/:id" component={ProductUpdate} />
 					
 					<Route exact path="/admin/adminpanel/users" component={Users} />
+					<Route exact path="/admin/adminpanel/userUpdate/:id" component={UserUpdate} />
 					{/* --- Fin: Panel del Administrador  */}
 					<Route path="*" component={Error404} />
 				</Switch>

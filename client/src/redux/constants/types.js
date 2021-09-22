@@ -36,6 +36,8 @@ const SEND_PASS_RESET_EMAIL = "SEND_PASS_RESET_EMAIL";
 // Users
 const GET_USERS = "GET_USERS";
 const DELETE_USERS = "DELETE_USERS";
+const GET_USER_BY_ID = "GET_USER_BY_ID";
+const UPDATE_USER_BY_ID = "UPDATE_USER_BY_ID";
 
 
 const TYPES = {
@@ -63,6 +65,8 @@ const TYPES = {
   STATUS_CHANGE,
   GET_USERS,
   DELETE_USERS,
+  GET_USER_BY_ID,
+  UPDATE_USER_BY_ID,
 };
 
 export default TYPES;
