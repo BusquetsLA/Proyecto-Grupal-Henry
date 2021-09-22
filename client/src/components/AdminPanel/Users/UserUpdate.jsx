@@ -57,16 +57,17 @@ export default function CategoryUpdate() {
 		}
 		//console.log(input);
 	}
-	
+
+	/* 	
 	function handleChange2(e) {
 		if(e.target.value==="suscrito"){
 			input.subscribed= true
 		}else{
 			input.subscribed= false
 		}
-		//.log(input);
 	}
-
+	*/
+	
 	async function handleSubmit(e) {
 		e.preventDefault();
 		console.log(input)
@@ -146,6 +147,7 @@ export default function CategoryUpdate() {
 						</select>
 					</div>
 
+{/* 
 					<div className={ctgStyle.inputs} >
 						<label for="subscribed" >Suscrito</label>
 						<select name="subscribed" className={ctgStyle.selectCss} onChange={(e) => handleChange2(e)}>
@@ -162,7 +164,7 @@ export default function CategoryUpdate() {
 							)}
 						</select>
 					</div>
-
+ */}
 
 					<div>
 						<Button 
