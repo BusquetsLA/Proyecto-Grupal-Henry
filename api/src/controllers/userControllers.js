@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+var jwt = require('jwt-simple');
 const { generateToken, isAuth, createResetRequest, getResetRequest, } = require("./utils");
+const { passResetEmail } = require('./mailControllers');
 
 // var findOrCreate = require('mongoose-findorcreate')
 
@@ -230,18 +232,41 @@ async function signInFirebase(req, res, next) {
         next(error);
     } 
 };
-
+// https://www.smashingmagazine.com/2017/11/safe-password-resets-with-json-web-tokens/
+// SEGUIR DE AHI
 async function passwordForgot(req, res, next) {
-  const { email } = req.body;
-  console.log(req.body);
+  //const { email } = req.body;
+  console.log(req.body.email);
   try {
-    const user = await User.findOne({email: email});
+    const user = await User.findOne({email: req.body.email});
     if (user) {
-      const id = uuidv1(); // se genera un id que se envia al usuario
-      const request = { email: user.email, name: user.name, id }; // como puedo guardar la request en la do la store? pq la neesito para comparar el id
-      createResetRequest(request);
-      // passResetEmail(user.email, user.name, id); // ver si es así que se manda
-      res.status(200).send('Solicitud de restablecimiento enviada.');
+      let payload = { id: user._id, email: user.email }
+      let secret = user.password + '-' + user._id; // se viene tremendo hasheo
+      let token = jwt.encode(payload, secret); // lo que hace es tomar el valor de payload como 
+      console.log('esto es token: '+token);
+      console.log('esto es user.email: '+user.email);
+      // res.redirect('http://localhost:3001/email/sendPassResetEmail', (user.email, user.name, token)); // esto va en el front!!!!!
+      return res.status(200).send('Solicitud de restablecimiento enviada.');
+    } else {
+      return res.status(400).send('Usuario no encontrado.');
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+async function passwordData(req, res, next) {
+  const { id, token } = req.params;
+  try {
+    let secret = user.password + '-' + user._id; // lo que necesitamos para deshashear
+    let payload = jwt.decode(token, secret); // payload tiene el id y el mail del usuario, hicimos todo lo opuesto al paso anterior
+    const user = await User.findById(id);
+    if (user) {
+      const password = bcrypt.hashSync(req.body.password, 8); // la pass nueva que viene por form
+      await User.updateOne({ email: email }, { password });
+      return res.status(200).send('Contraseña actualizada correctamente.');
+    } else {
+      return res.status(400).send('Usuario no encontrado.');
     }
   } catch (error) {
     next(error);
@@ -249,7 +274,7 @@ async function passwordForgot(req, res, next) {
 };
 
 async function passwordReset(req, res, next) {
-  const { email } = getResetRequest(req.body.id);
+  //
   try {
     if (request) {
       // const user = await User.findOne({email: email});
@@ -274,5 +299,6 @@ module.exports = {
   deleteUser,
   getUsers,
   passwordForgot,
+  passwordData,
   passwordReset,
 };
