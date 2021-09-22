@@ -119,7 +119,7 @@ const NavBar = ({ setOrder }) => {
                 </NavLink>
                 <ul className="dropdown-content">
                   {userInfo.name}<br/>
-                  <NavLink to="#signout" onClick={handleSignout}>
+                  <NavLink to="/" onClick={handleSignout}>
                     &#187; Sign Out &#171;
                   </NavLink>
                 </ul>

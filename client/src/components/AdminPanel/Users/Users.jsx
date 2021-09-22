@@ -13,6 +13,7 @@ import {Button,
 		TableRow, 
 		Paper } from '@material-ui/core';
 import {BsFillTrashFill, BsPencil } from 'react-icons/bs';
+import {BiBlock } from 'react-icons/bi';
 import {BiReset } from 'react-icons/bi';
 import swal     from 'sweetalert';
 import AdmNav   from '../AdmNav';
@@ -81,25 +82,28 @@ export default function AddCategories() {
 									style={{backgroundColor:'var(--color-fondo4)', color:'white', minWidth:'250px'}} align="left">
 									E-mail</TableCell>
 								<TableCell 
-									style={{backgroundColor:'var(--color-fondo1)', color:'white', minWidth:'100px'}} align="left">
-									Tipo Admin</TableCell>
+									style={{backgroundColor:'var(--color-fondo1)', color:'white', minWidth:'80px'}} align="left">
+									Admin</TableCell>
 								<TableCell 
-									style={{backgroundColor:'var(--color-fondo4)', color:'white', minWidth:'100px'}} align="left">
+									style={{backgroundColor:'var(--color-fondo4)', color:'white', minWidth:'80px'}} align="left">
 									Suscrito</TableCell>
 								<TableCell 
-									style={{backgroundColor:'var(--color-fondo1)', color:'white', minWidth:'100px'}} align="left">
+									style={{backgroundColor:'var(--color-fondo1)', color:'white', minWidth:'90px'}} align="left">
 									Bloqueado</TableCell>
 								<TableCell 
-									style={{backgroundColor:'var(--color-fondo4)', color:'white', minWidth:'100px'}} align="left">
+									style={{backgroundColor:'var(--color-fondo4)', color:'white', minWidth:'80px'}} align="left">
 									Loegado</TableCell>
+								<TableCell 
+									style={{backgroundColor:'var(--color-fondo1)', color:'white', minWidth:'80px'}} align="left">
+									Registro</TableCell>
 								<TableCell 
 									style={{backgroundColor:'var(--color-btnUpdate)', color:'white', minWidth:'100px'}} align="left">
 									Actualizar</TableCell>
 								<TableCell 
-									style={{backgroundColor:'var(--color-btnDelete)', color:'white', minWidth:'100px'}} align="left">
-									Borrar</TableCell>
+									style={{backgroundColor:'var(--color-btnDelete)', color:'white', minWidth:'85px'}} align="left">
+									Bloquear</TableCell>
 								<TableCell 
-									style={{backgroundColor:'var(--color-btnReset)', color:'white', minWidth:'100px'}} align="left">
+									style={{backgroundColor:'var(--color-btnReset)', color:'white', minWidth:'90px'}} align="left">
 									Reset</TableCell>
 							</TableRow>
 						</TableHead>
@@ -121,17 +125,20 @@ export default function AddCategories() {
 							<TableCell align="left" scope="row" style={{ width:'250px' }}>
 								{row.email} 
 							</TableCell>
-							<TableCell component="th" scope="row" style={{ width:'100px' }}>
+							<TableCell component="th" scope="row" style={{ width:'70px' }}>
 								{row.isAdmin ? 'Si' : 'No'} 
 							</TableCell>
-							<TableCell component="th" scope="row" style={{ width:'100px'}}>
+							<TableCell component="th" scope="row" style={{ width:'90px'}}>
 								{row.subsribed ? 'Si' : 'No'}
 							</TableCell>
 							<TableCell component="th" scope="row" style={{ width:'100px' }}>
-								{row.blocked ? 'Si' : 'No'}
+								{row.blocked ? (<span className={usrStyle.alert}> Si</span>) : 'No'}
 							</TableCell>
-							<TableCell component="th" scope="row" style={{ width:'90px' }}>
+							<TableCell component="th" scope="row" style={{ width:'76px' }}>
 								{row.logged ? 'Si' : 'No'}
+							</TableCell>
+							<TableCell align="left" scope="row" style={{ width:'80px' }}>
+								{row.typelogin} 
 							</TableCell>
 							<TableCell component="th" scope="row" style={{ width:'90px' }}>
 								<Button 
@@ -140,14 +147,14 @@ export default function AddCategories() {
 									onClick={(e) => handleClickUpdate(row._id)}
 									disableElevation> <BsPencil size="1.1em" /></Button>
 							</TableCell>
-							<TableCell component="th" scope="row" style={{ width:'100px' }}>
+							<TableCell component="th" scope="row" style={{ width:'80px' }}>
 								<Button 
 									variant="contained" 
 									className={usrStyle.btnDelete}
 									onClick={(e) => handleClickDelete(row._id)}
-									disableElevation> <BsFillTrashFill size="1.1em" /></Button>
+									disableElevation> <BiBlock size="1.1em" /></Button>
 							</TableCell>
-							<TableCell component="th" scope="row" style={{ width:'100px' }}>
+							<TableCell component="th" scope="row" style={{ width:'80px' }}>
 								<Button 
 									variant="contained" 
 									className={usrStyle.btnReset}
