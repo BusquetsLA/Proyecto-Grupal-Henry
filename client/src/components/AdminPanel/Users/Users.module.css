@@ -1,4 +1,4 @@
-.Catcontent{
+.Usrcontent{
     display: flex;
     justify-content: flex-start;
     width: 100vw;
@@ -7,7 +7,7 @@
     margin-bottom: 10px;
 }
 
-.Catcontent2{
+.Usrcontent2{
     background-color: white;
     display: grid;
     grid-template-columns: auto;
@@ -18,7 +18,7 @@
     position: fixed;
 }
 
-.Catcontent3{
+.Usrcontent3{
     margin-top: 5px;
 }
 
@@ -34,18 +34,18 @@
 
 /* Estilos para el componente Create */
 
-.CatFieldset{
+.UsrFieldset{
     width: 500px;
     background-color: rgb(255, 255, 255);
     margin-top: 10px;
     margin-left: 20px;
     padding-left: 10px;
     border-radius: 10px;
-    height: 660px;
+    height: 500px;
     border: 1px solid black;
 }
 
-.CatLegend{
+.UsrLegend{
     text-align: left;
     font-weight: bold;
     font-size: 1.0rem;
@@ -126,7 +126,7 @@ form{
 
 
 
-.CatSelect{
+.UsrSelect{
     width: 96%;
 }
 

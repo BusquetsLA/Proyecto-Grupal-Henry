@@ -69,8 +69,8 @@ export default function AddCategories() {
 	return (
 		<>
 		<AdmNav />
- 		<div className={usrStyle.Prodcontent}>
-			<div className={usrStyle.Prodcontent2}>
+ 		<div className={usrStyle.Usrcontent}>
+			<div className={usrStyle.Usrcontent2}>
 				<TableContainer style={{marginTop:"10px"}}  component={Paper}>
 					<Table style={{backgroundColor:'white', width: 'auto'}} aria-label="simple table">
 						<TableHead className={usrStyle.tableHead}>
@@ -129,7 +129,7 @@ export default function AddCategories() {
 								{row.isAdmin ? 'Si' : 'No'} 
 							</TableCell>
 							<TableCell component="th" scope="row" style={{ width:'90px'}}>
-								{row.subsribed ? 'Si' : 'No'}
+								{row.subscribed ? 'Si' : 'No'}
 							</TableCell>
 							<TableCell component="th" scope="row" style={{ width:'100px' }}>
 								{row.blocked ? (<span className={usrStyle.alert}> Si</span>) : 'No'}
