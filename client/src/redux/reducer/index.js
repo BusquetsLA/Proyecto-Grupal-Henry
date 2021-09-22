@@ -240,6 +240,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
       };
 
+    case types.SEND_PAYMENT_EMAIL:
+      return {
+        ...state,
+      };
+
     default:
       return state;
   }
