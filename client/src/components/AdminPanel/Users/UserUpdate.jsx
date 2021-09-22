@@ -52,37 +52,29 @@ export default function CategoryUpdate() {
 	function handleChange(e) {
 		if(e.target.value==="admin"){
 			input.isAdmin= true
-
 		}else{
 			input.isAdmin= false
 		}
-		console.log(input);
+		//console.log(input);
 	}
 	
 	function handleChange2(e) {
 		if(e.target.value==="suscrito"){
 			input.subscribed= true
-
 		}else{
 			input.subscribed= false
 		}
-		console.log(input);
+		//.log(input);
 	}
-	console.log(isSub)
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-/* 		if(input.subscribed === "suscrito") input.subscribed = true;
-		else input.isAdmin = false;
-
-		if(input.subscribed === "suscrito") input.subscribed = true;
-		else input.subscribed = false; */
 		console.log(input)
 		
-		//let message = await dispatch(updateUserById(input));
-		//console.log(message)
+		let message = await dispatch(updateUserById(input));
+		console.log(message)
 
-		/*  if(message.payload.type === "success"){
+		if(message.payload.type === "success"){
 			swal({
 				title:'Resultado',
 				text: message.payload.message,
@@ -103,15 +95,15 @@ export default function CategoryUpdate() {
 		setInput({
             id: 0,
 			name: '',
-		});  */
+		}); 
 	}
 
 	return (
 		<>
 		<AdmNav />
- 		<div className={ctgStyle.Catcontent}>
-			<fieldset className={ctgStyle.CatFieldset}>
-				<legend className={ctgStyle.CatLegend}> Actualizar Usuario </legend>
+ 		<div className={ctgStyle.Usrcontent}>
+			<fieldset className={ctgStyle.UsrFieldset}>
+				<legend className={ctgStyle.UsrLegend}> Actualizar Usuario </legend>
 				<form onSubmit={(e) => {handleSubmit(e); }} >
 					<div className={ctgStyle.inputs} >
 						<label for="name" >Nombre</label>
