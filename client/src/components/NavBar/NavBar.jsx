@@ -119,16 +119,17 @@ const NavBar = ({ setOrder }) => {
                 </NavLink>
                 <ul className="dropdown-content">
                   {userInfo.name}<br/>
+                  <NavLink className={styles.link_text} to="/user/reset">
+                  Cambiar Contraseña <i className="fa fa-caret-down"></i>
+                </NavLink><br/>
+                  <NavLink className={styles.link_text} to="/user/ordenes">
+                  Ordenes <i className="fa fa-caret-down"></i>
+                </NavLink><br/>
                   <NavLink to="/" onClick={handleSignout}>
                     &#187; Sign Out &#171;
                   </NavLink>
                 </ul>
-                  <NavLink className={styles.link_text} to="/user/ordenes">
-                  Ordenes <i className="fa fa-caret-down"></i>
-                </NavLink>
-                <NavLink className={styles.link_text} to="/user/reset">
-                  Cambiar Contraseña <i className="fa fa-caret-down"></i>
-                </NavLink>
+               
               </div>)
               : (<NavLink className={styles.link_text} to="/login">
                 <BiUserCircle size="1.9em" alt="Usuario"/>
