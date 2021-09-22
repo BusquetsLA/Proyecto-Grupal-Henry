@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const { generateToken, isAuth } = require("./utils");
+const Speakeasy = require("speakeasy");
 // var findOrCreate = require('mongoose-findorcreate')
 
 // async function signUp(req, res, next) {
@@ -185,7 +186,45 @@ async function signInFirebase(req, res, next) {
     } 
 };
 
+
+// app.post("/totp-secret", (request, response, next) => {
+  async function totpsecret(req, res, next) {
+  var secret = Speakeasy.generateSecret({ length: 20 });
+  res.send({ "secret": secret.base32 });
+};
+
+async function totpgenerate(req, res, next)  {
+  res.send({
+      "token": Speakeasy.totp({
+          secret: req.body.secret,
+          encoding: "base32"
+      }),
+      "remaining": (30 - Math.floor((new Date()).getTime() / 1000.0 % 30))
+  });
+};
+
+
+
+
+
+async function totpvalidate(req, res, next) {
+  res.send({
+      "valid": Speakeasy.totp.verify({
+          secret: req.body.secret,
+          encoding: "base32",
+          token: req.body.token,
+          window: 0
+      })
+  });
+};
+
+
+
+
 module.exports = {
+  totpvalidate,
+  totpgenerate,
+  totpsecret,
   signInFirebase,
   signUp,
   signIn,

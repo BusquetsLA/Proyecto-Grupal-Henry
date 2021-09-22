@@ -54,6 +54,7 @@ const Checkout = () => {
         Volver
       </Button>
       <Grid className={styles.checkout}>
+        
         <Payment
           data={data}
           productsList={cart.productsList}
