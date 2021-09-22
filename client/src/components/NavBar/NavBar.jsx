@@ -126,6 +126,9 @@ const NavBar = ({ setOrder }) => {
                   <NavLink className={styles.link_text} to="/user/ordenes">
                   Ordenes <i className="fa fa-caret-down"></i>
                 </NavLink>
+                <NavLink className={styles.link_text} to="/user/reset">
+                  Cambiar Contraseña <i className="fa fa-caret-down"></i>
+                </NavLink>
               </div>)
               : (<NavLink className={styles.link_text} to="/login">
                 <BiUserCircle size="1.9em" alt="Usuario"/>
