@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Grid, Typography } from "@material-ui/core";
 
+
 const Payment = ({ preference }) => {
 
   useEffect(() => {
@@ -39,4 +40,3 @@ const Payment = ({ preference }) => {
 };
 
 export  default Payment;
-
