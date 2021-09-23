@@ -55,9 +55,15 @@ async function getOrder(userId, orderId){
   return order
 }
 
+async function getOrder2(orderId){
+  const order = await Order.findOne({_id: orderId})
+  return order
+}
+
 module.exports = {
   generateToken,
   isAuth,
   isAdmin,
   getOrder,
+  getOrder2,
 };

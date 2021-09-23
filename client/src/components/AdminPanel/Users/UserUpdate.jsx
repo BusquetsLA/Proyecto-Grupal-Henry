@@ -24,8 +24,6 @@ export default function CategoryUpdate() {
     const userDetail = useSelector((state) => state.userDetail);
     
 	const userId = location.pathname.split("/").pop();
-	const [isAdm, setIsAdm] = useState(null)
-	const [isSub, setIsSub] = useState(null)
     
 	useEffect(() => {
 		dispatch(getUserById(userId));
