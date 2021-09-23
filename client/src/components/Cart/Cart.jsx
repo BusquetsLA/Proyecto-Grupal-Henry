@@ -53,8 +53,10 @@ const Cart = () => {
   const emptyCart = { productsList: [], totalPrice: 0 };
   const [cart, setCart] = useLocalStorage("cart", emptyCart);
   const [loading, setLoading] = useState(false);
-  const [userCart, setUserCart] = useState(async () => {
-    if (userInfo) {
+  const [userCart, setUserCart] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
       try {
         setLoading(true);
         const { data } = await axios.get(
@@ -64,15 +66,18 @@ const Cart = () => {
           ...elem,
           price: elem.price.$numberDecimal,
         }));
-        await updateUserCart(userInfo._id, cartModified).then(() => {
+        updateUserCart(userInfo._id, cartModified).then(() => {
           setLoading(false);
           setUserCart(cartModified);
         });
       } catch (error) {
         console.error(error);
       }
+    };
+    if (userInfo) {
+      fetchData()
     }
-  });
+  }, [userInfo]);
 
   const totalPrice = cart
     ? cart.productsList.reduce((acc, cur) => {
@@ -81,13 +86,19 @@ const Cart = () => {
       }, 0)
     : 0;
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!allProducts.length) {
       dispatch(getProducts());
     }
+  }, [dispatch, userCart]);
+
+  useEffect(() => {
     if (userInfo && cart.productsList.length === 1) {
-      await updateUserCart(userInfo._id, cart.productsList);
+      updateUserCart(userInfo._id, cart.productsList);
     }
+  }, []);
+
+  useEffect(() => {
     if (userInfo) {
       if (userInfo && userCart.length) {
         const allCarts = concatCarts(userCart, cart.productsList);
@@ -95,10 +106,10 @@ const Cart = () => {
           ...cart,
           productsList: allCarts,
         });
-        await updateUserCart(userInfo._id, allCarts);
+        updateUserCart(userInfo._id, allCarts);
       }
     }
-  }, [dispatch, userInfo]);
+  }, [dispatch, userInfo, userCart]);
 
   // Handlers
   const handleUpdateQuantity = async (option) => {
@@ -237,7 +248,7 @@ const Cart = () => {
   }
 
   if (loading) {
-    <BeatLoader />;
+    return <BeatLoader />;
   }
 
   return (

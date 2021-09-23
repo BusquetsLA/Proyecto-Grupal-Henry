@@ -1,16 +1,7 @@
 import React, { useEffect } from "react";
-import utils from "../../redux/utils/index";
-import {
-  Container,
-  List,
-  ListItem,
-  Typography,
-  ListItemText,
-  Paper,
-} from "@material-ui/core";
-import styles from "./Checkout.module.css";
+import { Grid, Typography } from "@material-ui/core";
 
-const Payment = ({ productsList, totalPrice, preference }) => {
+const Payment = ({ preference }) => {
   useEffect(() => {
     const script = document.createElement("script");
     script.type = "text/javascript";
@@ -22,33 +13,20 @@ const Payment = ({ productsList, totalPrice, preference }) => {
   }, [preference]);
 
   return (
-    <div className={styles.container}>
-      <Paper className={styles.paper} elevation={3}>
-        <Typography align="center" variant="h5" gutterBottom>
-          Checkout
-        </Typography>
-        <Container>
-          <List>
-            {productsList.map((elem, idx) => (
-              <ListItem key={idx}>
-                <ListItemText
-                  primary={elem.name}
-                  secondary={`Cantidad: ${elem.quantity}`}
-                />
-                <Typography variant="body2">
-                  $ {utils.roundNumber(elem.price * elem.quantity)}
-                </Typography>
-              </ListItem>
-            ))}
-            <ListItem>
-              <ListItemText primary="Precio Total" />
-              <Typography variant="body2">$ {totalPrice}</Typography>
-            </ListItem>
-          </List>
-        </Container>
-        <form id="payment-form" method="GET" />
-      </Paper>
-    </div>
+    <>
+      <Typography variant="h6" gutterBottom>
+        Haga click en "Pagar" para continuar con la compra
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Será redireccionado para proceder con el pago
+      </Typography>
+      <Grid container spacing={3}>
+        <Grid container justifyContent="center">
+          <form id="payment-form" method="GET" />
+        </Grid>
+      </Grid>
+    </>
+    
   );
 };
 
