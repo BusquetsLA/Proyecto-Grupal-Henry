@@ -157,45 +157,47 @@ const rootReducer = (state = initialState, action) => {
     case types.UPDATE_USER_CART:
       return {
         ...state,
+        // user: {
+        //   cart: action.payload
+        // }
       };
 
     case types.GET_CART_FROM_USER:
       return {
         ...state,
-        user: {
-          ...state.user,
-          cart: action.payload,
-        },
+        // user: {
+        //   cart: action.payload ? action.payload : state.user.cart,
+        // },
       };
 
-
-  // Reducer de Usuarios
-  case types.GET_USERS:
+    // Reducer de Usuarios
+    case types.GET_USERS:
       return {
         ...state,
         users: action.payload,
         loading: false,
       };
 
-  case types.DELETE_USERS:
+    case types.DELETE_USERS:
       return {
         ...state,
         loading: false,
       };
 
-  case types.GET_USER_BY_ID:
+    case types.GET_USER_BY_ID:
       return {
         ...state,
         userDetail: action.payload,
         loading: false,
       };
 
-  case types.UPDATE_USER_BY_ID:
+    case types.UPDATE_USER_BY_ID:
       return {
         ...state,
         loading: false,
       };
       
+
 // Reducer de Ordenes
   case types.GET_ORDERS:
       return {
@@ -226,6 +228,7 @@ const rootReducer = (state = initialState, action) => {
         },
         loading: false,
       };
+
 
 
     // eslint-disable-next-line no-fallthrough
@@ -291,6 +294,20 @@ const rootReducer = (state = initialState, action) => {
       };
 
 
+    case types.SEND_PASS_RESET_EMAIL:
+      return {
+        ...state,
+      };
+
+    case types.PASSWORD_FORGOT:
+      return {
+        ...state,
+      };
+
+    case types.PASSWORD_RESET:
+      return {
+        ...state,
+      };
 
     default:
       return state;

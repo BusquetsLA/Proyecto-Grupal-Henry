@@ -55,7 +55,7 @@ function App() {
 					<Route exact path="/our" component={Our} />
 					<Route exact path="/politica" component={Politica} />
 					<Route exact path="/user/ordenes" component={UserOrdenes} />
-					<Route exact path="/user/reset" component={ResetPassword} />
+					<Route exact path="/user/reset/:id/:token" component={ResetPassword} />
 					{/* --- Panel del Administrador  */}
 					<Route exact path="/admin/adminpanel" component={Admin} />
 					<Route exact path="/admin/adminpanel/categories" component={Categories} />
