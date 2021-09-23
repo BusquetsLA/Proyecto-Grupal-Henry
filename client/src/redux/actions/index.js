@@ -371,6 +371,20 @@ export const sendPaymentEmail = (email) => {
   };
 };
 
+export const sendOrderDispatchEmail = (email) => {
+  // correo de confirmación de despacho de la orden (esta en manos del cliente)
+  return async (dispatch) => {
+    try {
+      await axios.post(`${BASE_URL}/email/sendOrderDispatchEmail`, email);
+      return dispatch({
+        type: types.SEND_PAYMENT_EMAIL, // va de nosotros a ellos
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 // export const sendPassResetEmail = (email) => { // no es más necesario x ahora
 //   // correo de restablecimiento de password
 //   return async (dispatch) => {

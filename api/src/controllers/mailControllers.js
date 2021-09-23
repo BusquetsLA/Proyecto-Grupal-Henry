@@ -67,6 +67,29 @@ async function paymentEmail(req, res, next) {
   }
 }
 
+async function orderDispatchEmail(req, res, next) {
+  try {
+    const { name, email } = req.body;
+    //send mail with defined transport object
+    console.log("entre al if");
+    let info = await transporter.sendMail({
+      from: '"Estilo Propio 👻" <epropio35@gmail.com>', // sender address
+      to: `${email}`, // list of receivers
+      subject: "Tu pedido fue despachado Correctamente ✅", // Subject line
+      // text: "Hello world?", // plain text body
+      html: `<br><br> 
+    <b>Hola ${name}</b><br><br>
+    <b>Tu pedido fue despachado el día de hoy, que lo disfrutes!</b><br><br>
+    <b>Click aqui para continuar comprando: </b>
+    <a className={styles.list} href="https://afl0r3s.github.io/Proyecto-Grupal-Henry-client/#/" target="_blank" rel="noreferrer">
+    <button>Volver a la Tienda</button></a>`,
+    });
+    console.log("Message send", info);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function passResetEmail(req, res, next) { // si en userControllers queda el mail esto es innecesario
   try {
     console.log('esto es req.body'+req.body);
@@ -101,4 +124,5 @@ module.exports = {
   helpEmail,
   paymentEmail,
   passResetEmail,
+  orderDispatchEmail,
 };
