@@ -16,6 +16,11 @@ const initialState = {
     cart: [],
   },
   userDetail: [],
+  orders: {
+    orderAll:[],
+    orderFiltred:[],
+  },
+  orderDetail: [],
   loading: false,
   dataState: "all",
   userInfo: localStorage.getItem("userInfo")
@@ -192,6 +197,40 @@ const rootReducer = (state = initialState, action) => {
         loading: false,
       };
       
+
+// Reducer de Ordenes
+  case types.GET_ORDERS:
+      return {
+        ...state,
+        orders: {
+          ...state.orders,
+          orderAll: action.payload,
+          orderFiltred: action.payload,
+        },
+        loading: false,
+      };
+      
+  case types.GET_ORDER_BY_ID:
+      return {
+        ...state,
+        orderDetail: action.payload,
+        loading: false,
+      };
+
+  case types.FILTER_ORDERS:
+       console.log(action.payload);
+       const filtredOrders = state.orders.orderAll;
+     return {
+        ...state,
+        orders: {
+          ...state.orders,
+          orderFiltred: action.payload==='all' ? filtredOrders : filtredOrders.filter(e => e.status===action.payload)
+        },
+        loading: false,
+      };
+
+
+
     // eslint-disable-next-line no-fallthrough
     case userTypes.USER_SIGNIN_REQUEST:
       return {
@@ -253,6 +292,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+
 
     case types.SEND_PASS_RESET_EMAIL:
       return {

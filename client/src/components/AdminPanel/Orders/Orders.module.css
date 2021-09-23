@@ -20,6 +20,9 @@
 
 .Usrcontent3{
     margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .txtArea{
@@ -82,6 +85,11 @@ form{
     padding-left: 10px;
     margin-bottom: 10px;
     height: 40px;
+}
+
+.selectCss{
+    margin-top: 10px;
+    font-size: 1.2rem;
 }
 
 .selectCss:focus {
@@ -222,4 +230,19 @@ form{
 
 .admin{
     color:var(--color-btnSave);
+}
+
+.responsiveTable{
+    overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+
+.buttonNum{
+    background-color:var(--color-fondo4);
+    padding: 7px 7px;
+    margin: 0px 5px;
+    border-radius: 4px;
+    border: 1px solid var(--color-fondo1);
+    cursor: pointer;
 }

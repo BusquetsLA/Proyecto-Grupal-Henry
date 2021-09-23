@@ -4,45 +4,39 @@ import { useHistory,NavLink }         from 'react-router-dom';
 import { Button }                     from '@material-ui/core';
 import { useLocation }                from "react-router";
 import swal                           from 'sweetalert';
-import { getUserById, updateUserById } from '../../../redux/actions/index';
+import { getOrderById, getUsers, getUserById } from '../../../redux/actions/index';
 import { BiSave, BiArrowToLeft }          from "react-icons/bi";
 import AdmNav from '../AdmNav';
-import ctgStyle from './Users.module.css';
+import ctgStyle from './Orders.module.css';
 
-
-export function validate(input) {
-	let errors = {};
-	if (!input.name) errors.name = 'El nombre de la categoría es obligatorio.';
-	else if (!/([A-Z]|[a-z])\w+/.test(input.name)) errors.name = 'El nombre de la categoría es inválido.';
-	return errors;
-}
 
 export default function CategoryUpdate() {
 	const dispatch = useDispatch();
     const location = useLocation();
 	const history = useHistory();
-    const userDetail = useSelector((state) => state.userDetail);
+    const orderDetail = useSelector((state) => state.orderDetail);
+    const usersArr = useSelector((state) => state.users);
+	const orderId = location.pathname.split("/").pop();
+	console.log('1',orderDetail)
+	console.log('2',usersArr)
     
-	const userId = location.pathname.split("/").pop();
-    
+	const getUserMail = (e)=>{
+		console.log(e)
+		/* let busca = usersArr.find(b=> b._id===e)
+		return busca && busca.email; */
+	}
+
 	useEffect(() => {
-		dispatch(getUserById(userId));
-        setInput({
-            id: userId,
-            name: userDetail.name,
-            email: userDetail.email,
-			isAdmin: userDetail.isAdmin,
-			subscribed: userDetail.subscribed,
-        });
-	}, [dispatch,userDetail.name,userDetail.email]);
+		dispatch(getOrderById(0,orderId));
+		dispatch(getUsers());
+		setInput({
+			id:orderId,
+		})
+	}, [dispatch,orderId]);
 
 
 	const [input, setInput] = useState({
         id: 0,
-		name: '',
-		email: '',
-		isAdmin:'',
-		subscribed:'',
 	});
 
 
@@ -56,20 +50,11 @@ export default function CategoryUpdate() {
 		//console.log(input);
 	}
 
-	/* 	
-	function handleChange2(e) {
-		if(e.target.value==="suscrito"){
-			input.subscribed= true
-		}else{
-			input.subscribed= false
-		}
-	}
-	*/
 	
 	async function handleSubmit(e) {
 		e.preventDefault();
 		console.log(input)
-		
+	/* 	
 		let message = await dispatch(updateUserById(input));
 		console.log(message)
 
@@ -94,7 +79,7 @@ export default function CategoryUpdate() {
 		setInput({
             id: 0,
 			name: '',
-		}); 
+		});  */
 	}
 
 	return (
@@ -102,36 +87,29 @@ export default function CategoryUpdate() {
 		<AdmNav />
  		<div className={ctgStyle.Usrcontent}>
 			<fieldset className={ctgStyle.UsrFieldset}>
-				<legend className={ctgStyle.UsrLegend}> Actualizar Usuario </legend>
+				<legend className={ctgStyle.UsrLegend}> Detalle de Orden </legend>
 				<form onSubmit={(e) => {handleSubmit(e); }} >
 					<div className={ctgStyle.inputs} >
-						<label for="name" >Nombre</label>
+						<label for="id" >ID</label>
 						<input 
 							type="text"
-							name="name" 
-							value={input.name} 
-							onChange={(e) => handleChange(e)}
-							placeholder="Nombre"
-							required></input>
-					{/* {errors.name && <p className="danger">{errors.name}</p>} */}
+							name="id" 
+							value={input.id} disabled></input>
 					</div>
 
 					<div className={ctgStyle.inputs} >
-						<label for="name" >E-mail</label>
+						<label for="email" >E-mail</label>
 						<input 
 							type="text"
 							name="email" 
-							value={input.email} 
-							onChange={(e) => handleChange(e)}
-							placeholder="E-mail"
-							required></input>
+							value={input.email} disabled></input>
 					{/* {errors.name && <p className="danger">{errors.email}</p>} */}
 					</div>
 
 					<div className={ctgStyle.inputs} >
 						<label for="isAdmin" >Tipo de Usuario</label>
 						<select name="isAdmin" className={ctgStyle.selectCss} onChange={(e) => handleChange(e)}>
-							{userDetail.isAdmin ? (
+							{orderDetail.isAdmin ? (
 								<>
 								<option value="normal" >Normal</option>
 								<option value="admin" selected>Administrador</option>
@@ -145,25 +123,6 @@ export default function CategoryUpdate() {
 						</select>
 					</div>
 
-{/* 
-					<div className={ctgStyle.inputs} >
-						<label for="subscribed" >Suscrito</label>
-						<select name="subscribed" className={ctgStyle.selectCss} onChange={(e) => handleChange2(e)}>
-							{userDetail.subscribed ? (
-								<>
-								<option value="nosuscrito" >No Suscrito</option>
-								<option value="suscrito" selected>Suscrito</option>
-								</>
-							):(
-								<>
-								<option value="nosuscrito" selected>No Suscrito</option>
-								<option value="suscrito" >Suscrito</option>
-								</>
-							)}
-						</select>
-					</div>
- */}
-
 					<div>
 						<Button 
 							variant="contained" 
@@ -173,7 +132,7 @@ export default function CategoryUpdate() {
 								<BiSave size="1.3em" />&nbsp;Guardar
 						</Button>
 						&nbsp; &nbsp;
-						<NavLink to={`/admin/adminpanel/users`}>
+						<NavLink to={`/admin/adminpanel/orders`}>
 							<Button 
 								variant="contained" 
 								className={ctgStyle.btn1}
