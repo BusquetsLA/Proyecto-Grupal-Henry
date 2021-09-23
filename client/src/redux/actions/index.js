@@ -308,15 +308,17 @@ export const getCartFromUser = (user_id) => {
   };
 };
 
-export const updateUserCart = (user_id, cart) => {
-  return async (dispatch) => {
+export const updateUserCart = async (user_id, cart) => {
     try {
-      await axios.post(`${BASE_URL}/user/updateCart/${user_id}`, {
+      const { data } = await axios.post(`${BASE_URL}/user/updateCart/${user_id}`, {
         cart: cart,
       });
-      return dispatch({ type: types.UPDATE_USER_CART });
+      const userCart = data.map((elem) => ({
+        ...elem,
+        price: elem.price.$numberDecimal,
+      }));
+      return userCart
     } catch (error) {
       console.log(error);
     }
   };
-};

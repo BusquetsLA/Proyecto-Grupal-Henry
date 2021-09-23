@@ -135,7 +135,8 @@ async function updateCart(req, res, next){
   try{
     const user = await User.findByIdAndUpdate(id, {cart: cart})
     await user.save()
-    return res.status(200).send("Carrito actualizado")
+    const userCart = await User.findById(id).then((response) => response.cart)
+    return res.status(200).json(userCart)
   }catch (error) {
     next(error)
   }
