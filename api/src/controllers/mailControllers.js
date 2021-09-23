@@ -67,21 +67,23 @@ async function paymentEmail(req, res, next) {
   }
 }
 
-async function passResetEmail(req, res, next) {
+async function passResetEmail(req, res, next) { // si en userControllers queda el mail esto es innecesario
   try {
-    const { email, name, id } = req.body; // el id es para generar un url personalizado para el cambio de pass
+    console.log('esto es req.body'+req.body);
+    const { user, token } = req.body; // el token es para generar un url personalizado para el cambio de pass
+    console.log(req.body);
     //send mail with defined transport object
     console.log("entre al if");
     let info = await transporter.sendMail({
       from: '"Estilo Propio 👻" <epropio35@gmail.com>', // sender address
-      to: `${email}`, // list of receivers
+      to: `${user.email}`, // list of receivers
       subject: "Restablecer contraseña", // Subject line
       // text: "Hello world?", // plain text body
       html: `<br><br> 
-    <b>Hola ${name}</b><br><br>
+    <b>Hola ${user.name}</b><br><br>
     <b>Hemos recibido tu solicitud para restablecer tu contraseña.</b><br><br>
     <b>Click aqui para restablecer tu contraseña: </b>
-    <a className={styles.list} href="http://localhost:3000/user/reset/${id}" target="_blank" rel="noreferrer">
+    <a className={styles.list} href="http://localhost:3000/user/reset/${user.id}/${token}" target="_blank" rel="noreferrer">
     <button>Restablecer contraseña</button></a>
     <br><br><br>
     <b>Si no enviaste la solicitud por favor ignorá éste mensaje</b>`,
@@ -89,7 +91,8 @@ async function passResetEmail(req, res, next) {
     });
     console.log("Message send", info);
   } catch (error) {
-    next(error);
+    // next(error);
+    console.error(error);
   }
 }
 

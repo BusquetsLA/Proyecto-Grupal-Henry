@@ -43,7 +43,7 @@ function SignUp(props) {
       //console.log('input: ',input)
       let result = await dispatch(signup(input));
       console.log('result: ',result)
-      //dispatch(sendRegisterEmail(input));
+      dispatch(sendRegisterEmail(input));
       setInput({
         name: "",
         email: "",

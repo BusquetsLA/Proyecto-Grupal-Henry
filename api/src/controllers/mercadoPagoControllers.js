@@ -55,7 +55,7 @@ async function getPayments(req, res, next){
         order.status = "completed"
         await order.save()
         console.log("Compra completada")
-        return res.redirect("http://localhost:3000")
+        return res.redirect("https://afl0r3s.github.io/Proyecto-Grupal-Henry-client/#/")
     }catch(error){
         next(error)
     }

@@ -6,7 +6,8 @@ import { getProductsById, updateUserCart } from "../../redux/actions";
 import NavBar from "../NavBar/NavBar";
 import BeatLoader from "react-spinners/BeatLoader";
 import detStyle from "./Detail.module.css";
-import ReactImageZoom from "react-image-zoom";
+import ReactImageZoom from 'react-image-zoom';
+import ReactStars from "react-stars";
 
 export default function Detail() {
   const dispatch = useDispatch();
@@ -47,7 +48,13 @@ export default function Detail() {
       history.push("/cart");
     }
   };
-
+  
+  const valorReview = {
+    size: 25,
+    value: 4,
+    edit: false
+  };
+  
   const props = {
     width: 400,
     height: 400,
@@ -68,7 +75,7 @@ export default function Detail() {
             </div>
             <div className={detStyle.info2}>
               <div className={detStyle.data1}>{productDetail.name}</div>
-              <div className={detStyle.data2}>⭐️⭐️⭐️⭐️</div>
+              <ReactStars {...valorReview} />
               <div className={detStyle.data3}>$ {productDetail.price}</div>
               <div className={detStyle.data4}>
                 <b>Descripción del producto: </b>

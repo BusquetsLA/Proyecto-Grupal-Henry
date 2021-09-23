@@ -51,6 +51,15 @@ function SignIn(props) {
                 //console.log(userData)
                 let result = await dispatch(signinfirebase(userData));
                 console.log('result: ',result)
+                if(result.type === 'error'){
+                    swal({
+                        title:'Resultado',
+                        text: result.message,
+                        icon: 'warning',
+                        button: "Ok"
+                    })
+                    handleSignout()
+                }
                 if(result.type === 'success'){
                     swal({
                         title:'Resultado',

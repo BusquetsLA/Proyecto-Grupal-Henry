@@ -88,7 +88,9 @@
       font-size: 9px;
       width: 130px; 
       margin: 5px;
+     
     }
+
 
     .boton{
       width: 130px;
@@ -104,6 +106,7 @@
         flex-direction: column;
         margin-left: 5px;
         margin-right: 5px;
+        width: 100%;
     }
       
       .boton{
@@ -114,7 +117,7 @@
       }
       .input {
         font-size: 6px;
-        width: 80px; 
+        width: 100%; 
         margin: 5px;
       }  
       
