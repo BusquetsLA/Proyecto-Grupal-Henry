@@ -1,5 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+
+const Speakeasy = require("speakeasy");
+
 var jwt = require("jwt-simple");
 const axios = require("axios");
 const transporter = require("../config/mailer");
@@ -10,6 +13,7 @@ const {
   getResetRequest,
 } = require("./utils");
 const { passResetEmail } = require("./mailControllers");
+
 
 // var findOrCreate = require('mongoose-findorcreate')
 
@@ -221,7 +225,44 @@ async function getUsers(req, res, next) {
   }
 };
 
-async function signInFirebase(req, res, next) {
+
+
+
+
+async function totpsecret(req, res, next) {
+  var secret = Speakeasy.generateSecret({ length: 20 });
+  res.send({ "secret": secret.base32 });
+};
+
+async function totpgenerate(req, res, next)  {
+  res.send({
+      "token": Speakeasy.totp({
+          secret: req.body.secret,
+          encoding: "base32"
+      }),
+      "remaining": (30 - Math.floor((new Date()).getTime() / 1000.0 % 30))
+  });
+};
+
+
+
+
+
+async function totpvalidate(req, res, next) {
+  res.send({
+      "valid": Speakeasy.totp.verify({
+          secret: req.body.secret,
+          encoding: "base32",
+          token: req.body.token,
+          window: 0
+      })
+  });
+};
+
+
+
+
+  async function signInFirebase(req, res, next) {
   try {
     //console.log(req.body);
     const { name, email } = req.body;
@@ -358,7 +399,11 @@ async function passwordReset(req, res, next) {
   }
 };*/
 
+
 module.exports = {
+  totpvalidate,
+  totpgenerate,
+  totpsecret,
   signInFirebase,
   signUp,
   signIn,
