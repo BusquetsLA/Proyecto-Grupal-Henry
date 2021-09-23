@@ -242,6 +242,21 @@ export const updateUserById = (user) => {
 
 
 
+// Orders
+export const getOrders = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/orders`);
+      return dispatch({
+        type: types.GET_ORDERS,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 
 
 // Filter
@@ -252,7 +267,16 @@ export const filterByCategory = (id) => {
   };
 };
 
+export const filterOrders = (state) => {
+  return {
+    type: types.FILTER_ORDERS,
+    payload: state,
+  };
+};
 
+
+
+//Cambiar estado con nombre Status
 export const statusChange = () => {
   return {
     type: types.STATUS_CHANGE,
