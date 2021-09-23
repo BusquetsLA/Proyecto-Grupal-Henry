@@ -174,13 +174,14 @@ async function updateUserById(req, res, next) {
   }
 }
 
-async function updateCart(req, res, next) {
+async function updateCart(req, res, next){
   const { id } = req.params;
   const { cart } = req.body;
   try {
     const user = await User.findByIdAndUpdate(id, { cart: cart });
     await user.save();
-    return res.status(200).send("Carrito actualizado");
+    const userCart = await User.findById(id).then(({ cart }) => cart);
+    return res.status(200).json(userCart);
   } catch (error) {
     next(error);
   }
