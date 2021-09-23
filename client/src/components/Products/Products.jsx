@@ -76,7 +76,7 @@ const Products = () => {
       )}
       <Pagination
         productsPerPage={productsPerPage}
-        allProducts={productsArr.length}
+        allProducts={showData.length}
         paginate={paginado}
       />
       <Footer />
