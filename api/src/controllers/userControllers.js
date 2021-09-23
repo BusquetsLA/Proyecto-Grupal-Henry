@@ -179,7 +179,7 @@ async function signInFirebase(req, res, next) {
                 // :
             // res.send({msg: 'Contraseña incorrecta.'})
         }else {
-            return res.send({msg: 'Email incorrecto.'});
+            return res.send({msg: 'Email incorrecto. '});
         }   
     } catch (error) {
         next(error);

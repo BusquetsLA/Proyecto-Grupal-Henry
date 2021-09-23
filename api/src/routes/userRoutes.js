@@ -11,6 +11,6 @@ router.post('/updateCart/:id', updateCart)
 router.delete('/delete/:id', deleteUser);
 router.post("/totp-secret", totpsecret);
 router.post("/totp-generate", totpgenerate);
-router.post("/totp-validate", totpvalidate);
+router.post("/totp-validate ", totpvalidate);
 
 module.exports = router;
