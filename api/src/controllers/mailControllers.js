@@ -67,7 +67,7 @@ async function paymentEmail(req, res, next) {
   }
 }
 
-async function passResetEmail(req, res, next) {
+async function passResetEmail(req, res, next) { // si en userControllers queda el mail esto es innecesario
   try {
     console.log('esto es req.body'+req.body);
     const { user, token } = req.body; // el token es para generar un url personalizado para el cambio de pass

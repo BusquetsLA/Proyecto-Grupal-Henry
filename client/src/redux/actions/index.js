@@ -318,17 +318,47 @@ export const sendPaymentEmail = (email) => {
   };
 };
 
-export const sendPassResetEmail = (email) => {
-  // correo de restablecimiento de password
+// export const sendPassResetEmail = (email) => { // no es más necesario x ahora
+//   // correo de restablecimiento de password
+//   return async (dispatch) => {
+//     try {
+//       await axios.post(`${BASE_URL}/email/sendPassResetEmail`, email);
+//       return dispatch({
+//         type: types.SEND_PASS_RESET_EMAIL, // va de nosotros a ellos
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// };
+
+// Password reset
+export const passwordForgot = (payload) => { // http://localhost:3001/user/forgot
   return async (dispatch) => {
     try {
-      await axios.post(`${BASE_URL}/email/sendPassResetEmail`, email);
+      const { data } = await axios.put(`${BASE_URL}/user/forgot`, payload.email);
       return dispatch({
-        type: types.SEND_PASS_RESET_EMAIL, // va de nosotros a ellos
+        type: types.PASSWORD_FORGOT,
+        payload: data,
       });
     } catch (error) {
       console.log(error);
-    }
+    };
+  };
+};
+
+export const passwordReset = (payload) => { // http://localhost:3001/user/reset/:id/:token
+  return async (dispatch) => {
+    try {
+      console.log('esto es payload de la action passReset: '+payload);
+      const { data } = await axios.put(`${BASE_URL}/user/reset/${payload.id}/${payload.token}`, payload.password);
+      return dispatch({
+        type: types.PASSWORD_RESET,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    };
   };
 };
 
