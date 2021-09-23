@@ -9,12 +9,13 @@ import {Button,
 		TableHead, 
 		TableRow, 
 		Paper } from '@material-ui/core';
-import { getOrders, getUsers, filterOrders,  statusChange } from '../../../redux/actions/index';
+import { getOrders, getUsers, filterOrders } from '../../../redux/actions/index';
 import { BsFileText } from 'react-icons/bs';
 import AdmNav         from '../AdmNav';
-import Pagination     from './Pagination'
+//import Pagination     from './Pagination'
 import Filter         from './Filter'
 import ctgStyle       from './Orders.module.css'; 
+import {Pagination} from '@material-ui/lab'
 
 
 export default function Orders() {
@@ -42,7 +43,8 @@ export default function Orders() {
 	const displayArr = ordersArr.slice(idnexOfFirstCard, indexOfLastCard);
 
 	const paginateFunction = (num) => {
-		setCurrentPage(num);
+		if(!num) setCurrentPage(currentPage);
+		else setCurrentPage(num);
 	};
 	//--- Fin Paginacion >>
 
@@ -69,7 +71,8 @@ export default function Orders() {
 					<div className={ctgStyle.Usrcontent3}>
 						<Filter filterFunction={filterFunction} />
 						<div>
-							<Pagination totalPages={totalPages} paginateFunction={paginateFunction} />
+							{/* <Pagination totalPages={totalPages} paginateFunction={paginateFunction} /> */}
+							<Pagination count={totalPages} onChange={e => paginateFunction(e.target.textContent)} />
 						</div>
 					</div>
 
@@ -81,7 +84,10 @@ export default function Orders() {
 									<TableCell style={{ backgroundColor:'var(--color-fondo4)', color: 'white', minWidth: '350px' }} align="left">
 										Usuario
 									</TableCell>
-									<TableCell style={{ backgroundColor:'var(--color-fondo1)', color: 'white', minWidth: '150px' }} align="left">
+									<TableCell style={{ backgroundColor:'var(--color-fondo1)', color: 'white', minWidth: '100px' }} align="left">
+										Cantidad
+									</TableCell>
+									<TableCell style={{ backgroundColor:'var(--color-fondo4)', color: 'white', minWidth: '150px' }} align="left">
 										Estado
 									</TableCell>
 									<TableCell style={{ backgroundColor:'var(--color-btnUpdate)', color: 'white', minWidth: '100px' }} align="left">
@@ -104,6 +110,9 @@ export default function Orders() {
 								</TableCell>
 								<TableCell align="left" style={{ minWidth:'350px' }}>
 									{getUserMail(row.user_id)}
+								</TableCell>
+								<TableCell style={{ minWidth: '100px' }} align="left">
+									{row.items.length}
 								</TableCell>
 								<TableCell style={{ minWidth: '150px' }} align="left">
 									{row.status}
