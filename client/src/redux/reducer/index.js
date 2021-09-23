@@ -303,6 +303,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
       };
 
+    case types.SEND_ORDER_DISPATCH_EMAIL:
+      return {
+        ...state,
+      };
+
     case types.PASSWORD_FORGOT:
       return {
         ...state,
