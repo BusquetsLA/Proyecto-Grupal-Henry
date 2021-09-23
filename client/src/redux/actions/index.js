@@ -271,6 +271,21 @@ export const getOrderById = (userId,orderId) => {
   };
 };
 
+export const updateOrderStateById = (info) => {
+  console.log('update State data',info)
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`${BASE_URL}/orders/state/`,info);
+      return dispatch({
+        type: types.UPDATE_ORDER_BY_ID,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }; 
+};
+
 
 
 // Filter

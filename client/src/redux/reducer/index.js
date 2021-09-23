@@ -229,7 +229,11 @@ const rootReducer = (state = initialState, action) => {
         loading: false,
       };
 
-
+  case types.UPDATE_ORDER_BY_ID:
+      return {
+        ...state,
+        loading: false,
+      };
 
     // eslint-disable-next-line no-fallthrough
     case userTypes.USER_SIGNIN_REQUEST:
