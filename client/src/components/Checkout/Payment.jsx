@@ -20,7 +20,7 @@ import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/ap
 
 
 
-const Payment = ({ productsList, totalPrice, data }) => {
+const Payment = ({ productsList, totalPrice, preference}) => {
 
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [activeMarker, setActiveMarker] = useState({});
@@ -170,7 +170,7 @@ const Payment = ({ productsList, totalPrice, data }) => {
               </ListItem>
             ))}
             <ListItem>
-              <ListItemText primary="Precio Total " />
+              <ListItemText primary="Precio Total" />
               <Typography variant="body2">$ {totalPrice}</Typography>
             </ListItem>
           </List>
@@ -182,4 +182,3 @@ const Payment = ({ productsList, totalPrice, data }) => {
 };
 
 export  default Payment;
-
