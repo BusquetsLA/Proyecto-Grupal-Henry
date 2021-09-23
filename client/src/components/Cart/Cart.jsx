@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { Link } from "react-router-dom";
 import utils from "../../redux/utils/index";
 import { concatCarts } from "../../utils/index";
-import { getCartFromUser, updateUserCart } from "../../redux/actions/index";
+import { getProducts, updateUserCart } from "../../redux/actions/index";
 import { makeStyles } from "@material-ui/core/styles";
+import BeatLoader from "react-spinners/BeatLoader";
 import {
   Container,
   Grid,
@@ -16,6 +18,7 @@ import {
   CardContent,
   ButtonGroup,
   ButtonBase,
+  Paper,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,12 +47,32 @@ const Cart = () => {
   const classes = useStyles();
   const history = useHistory();
 
+  const allProducts = useSelector((state) => state.products.all);
   const userInfo = useSelector((state) => state.userInfo);
-  const userCart = useSelector((state) => state.user.cart);
 
   const emptyCart = { productsList: [], totalPrice: 0 };
-
   const [cart, setCart] = useLocalStorage("cart", emptyCart);
+  const [loading, setLoading] = useState(false);
+  const [userCart, setUserCart] = useState(async () => {
+    if (userInfo) {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(
+          `http://localhost:3001/user/${userInfo._id}`
+        );
+        const cartModified = data.cart.map((elem) => ({
+          ...elem,
+          price: elem.price.$numberDecimal,
+        }));
+        await updateUserCart(userInfo._id, cartModified).then(() => {
+          setLoading(false);
+          setUserCart(cartModified);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  });
 
   const totalPrice = cart
     ? cart.productsList.reduce((acc, cur) => {
@@ -58,31 +81,33 @@ const Cart = () => {
       }, 0)
     : 0;
 
-  useEffect(() => {
+  useEffect(async () => {
+    if (!allProducts.length) {
+      dispatch(getProducts());
+    }
+    if (userInfo && cart.productsList.length === 1) {
+      await updateUserCart(userInfo._id, cart.productsList);
+    }
     if (userInfo) {
-      dispatch(getCartFromUser(userInfo._id));
+      if (userInfo && userCart.length) {
+        const allCarts = concatCarts(userCart, cart.productsList);
+        setCart({
+          ...cart,
+          productsList: allCarts,
+        });
+        await updateUserCart(userInfo._id, allCarts);
+      }
     }
   }, [dispatch, userInfo]);
 
-  useEffect(() => {
-    if (userInfo && userCart?.length) {
-      const allCarts = concatCarts(userCart, cart.productsList);
-      setCart({
-        ...cart,
-        productsList: allCarts,
-      });
-      dispatch(updateUserCart(userInfo._id, allCarts));
-    }
-  }, [dispatch, userInfo, userCart]);
-
   // Handlers
-  const handleUpdateQuantity = (option) => {
+  const handleUpdateQuantity = async (option) => {
     if (userInfo) {
       setCart({
         ...cart,
         productsList: utils.updateQuantity(cart.productsList, option),
       });
-      dispatch(updateUserCart(userInfo._id, cart.productsList));
+      await updateUserCart(userInfo._id, cart.productsList);
     } else {
       setCart({
         ...cart,
@@ -91,14 +116,14 @@ const Cart = () => {
     }
   };
 
-  const handleRemoveProduct = (id) => {
+  const handleRemoveProduct = async (id) => {
     if (userInfo) {
       setCart({
         ...cart,
         productsList: cart.productsList.filter((elem) => elem._id !== id),
         totalPrice: totalPrice,
       });
-      dispatch(updateUserCart(userInfo._id, cart.productsList));
+      await updateUserCart(userInfo._id, cart.productsList);
     } else {
       setCart({
         ...cart,
@@ -108,98 +133,117 @@ const Cart = () => {
     }
   };
 
-  const handleRemoveAll = () => {
+  const handleRemoveAll = async () => {
     if (userInfo) {
       setCart(emptyCart);
-      dispatch(updateUserCart(userInfo._id, []));
+      await updateUserCart(userInfo._id, []);
     } else {
       setCart(emptyCart);
     }
   };
 
-  const handleCheckout = (e) => {
+  const handleCheckout = async (e) => {
     e.preventDefault();
     setCart({
       ...cart,
       totalPrice: totalPrice,
     });
-    history.push("/checkout");
+    await updateUserCart(userInfo._id, userCart);
+    return history.push("/checkout");
   };
 
-  const listProducts = cart.productsList.map((elem, idx) => (
-    <div key={idx} className={classes.root}>
-      <Card style={{ margin: 20, padding: 20 }} variant="outlined">
-        <CardContent>
-          <ButtonBase component={Link} to={`/detail/${elem._id}`}>
-            <img
-              className={classes.img}
-              src={elem.image_url}
-              alt={elem.name}
-              height="200"
-            />
-          </ButtonBase>
-          <Typography gutterBottom variant="h5">
-            {elem.name}
-          </Typography>
-          <Typography variant="body2">
-            Precio: $ {utils.roundNumber(elem.price * elem.quantity)}
-          </Typography>
-          <Typography variant="subtitle1">Cantidad: {elem.quantity}</Typography>
-          <ButtonGroup disableElevation variant="contained">
-            <Button
-              color="primary"
-              onClick={() =>
-                handleUpdateQuantity({ id: elem._id, value: "min" })
-              }
-            >
-              -
-            </Button>
-            <Button
-              color="primary"
-              onClick={() =>
-                handleUpdateQuantity({ id: elem._id, value: "max" })
-              }
-            >
-              +
-            </Button>
-          </ButtonGroup>
-        </CardContent>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => handleRemoveProduct(elem._id)}
-        >
-          Remover de la lista
-        </Button>
-      </Card>
-    </div>
-  ));
+  const listProducts = cart.productsList.map((elem, idx) => {
+    const productStock = allProducts?.find(
+      ({ _id }) => _id === elem._id
+    )?.stock;
+    return (
+      <div key={idx} className={classes.root}>
+        <Card style={{ margin: 20, padding: 20 }} variant="outlined">
+          <CardContent>
+            <ButtonBase component={Link} to={`/detail/${elem._id}`}>
+              <img
+                className={classes.img}
+                src={elem.image_url}
+                alt={elem.name}
+                height="200"
+              />
+            </ButtonBase>
+            <Typography gutterBottom variant="h5">
+              {elem.name}
+            </Typography>
+            <Typography variant="body2">
+              Precio: $ {utils.roundNumber(elem.price * elem.quantity)}
+            </Typography>
+            <Typography variant="body2">
+              Stock disponible: {!productStock ? 0 : productStock}
+            </Typography>
+            <Typography variant="subtitle1">
+              Cantidad: {elem.quantity}
+            </Typography>
+            <ButtonGroup disableElevation variant="contained">
+              <Button
+                color="primary"
+                onClick={() =>
+                  handleUpdateQuantity({ id: elem._id, value: "min" })
+                }
+                disabled={elem.quantity === 1}
+              >
+                -
+              </Button>
+              <Button
+                color="primary"
+                onClick={() =>
+                  handleUpdateQuantity({ id: elem._id, value: "max" })
+                }
+                disabled={elem.quantity === productStock}
+              >
+                +
+              </Button>
+            </ButtonGroup>
+          </CardContent>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => handleRemoveProduct(elem._id)}
+          >
+            Remover de la lista
+          </Button>
+        </Card>
+      </div>
+    );
+  });
 
   if (!listProducts || !listProducts.length) {
     return (
       <Container style={{ margin: 50 }}>
-        <Typography variant="h4">
-          <b>Tu carrito está vacío.</b>
-          <br />
-          Vuelve a la tienda y agrega los productos que desees comprar.
-        </Typography>
-        <Button
-          component={Link}
-          to="/"
-          style={{ margin: 50 }}
-          variant="contained"
-          color="secondary"
-        >
-          VOLVER A LA TIENDA
-        </Button>
+        <Paper>
+          <Typography variant="h4">
+            <b>Tu carrito está vacío.</b>
+            <br />
+            Vuelve a la tienda y agrega los productos que desees comprar.
+          </Typography>
+          <Button
+            component={Link}
+            to="/shop"
+            style={{ margin: 50 }}
+            variant="contained"
+            color="secondary"
+          >
+            VOLVER A LA TIENDA
+          </Button>
+        </Paper>
       </Container>
     );
+  }
+
+  if (loading) {
+    <BeatLoader />;
   }
 
   return (
     <Grid container justifyContent="center">
       <Grid>
-        <Button component={Link} to="/" variant="contained" color="primary">
+        <Button component={Link} to="/shop" variant="contained" color="primary">
           Agrega otro producto
         </Button>
       </Grid>

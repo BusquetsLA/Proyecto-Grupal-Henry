@@ -1,7 +1,20 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const { generateToken, isAuth } = require("./utils");
+
 const Speakeasy = require("speakeasy");
+
+var jwt = require("jwt-simple");
+const axios = require("axios");
+const transporter = require("../config/mailer");
+const {
+  generateToken,
+  isAuth,
+  createResetRequest,
+  getResetRequest,
+} = require("./utils");
+const { passResetEmail } = require("./mailControllers");
+
+
 // var findOrCreate = require('mongoose-findorcreate')
 
 // async function signUp(req, res, next) {
@@ -29,38 +42,62 @@ const Speakeasy = require("speakeasy");
 //     next(error);
 //   }
 // };
-async function signUp(req, res ,next) {
+async function signUp(req, res, next) {
   try {
-      console.log(req.body);
-      const {name, email, password, country, phone, address, isAdmin } = req.body;
-      const user = await User.findOne({email: email});
-      if(user){
-          if(bcrypt.compareSync(password, user.password)){
-              return res.send({msg: 'El usuario ya existe.'})
-          }
-          return res.send({msg: 'Ya existe un usuario registrado con este email. Por favor elige otro.'});
-      } else {
-          User.create({ name, email, password: bcrypt.hashSync(password, 8), country, phone, address, isAdmin }, function (err, userCreated) {
-              if(err) {
-                  next(err);
-                  return res.send({msg: 'Hubo algun error con los datos proporcionados'});
-              }else
-                  return res.send({
-                      msg: 'Usuario creado con exito!',
-                      data: {
-                          _id: userCreated._id,
-                          name: userCreated.name,
-                          email: userCreated.email,
-                          isAdmin: userCreated.isAdmin,
-                          // token: generateToken(userCreated)
-                      }});
-          });
+    console.log(req.body);
+    const { name, email, password, country, phone, address, isAdmin } =
+      req.body;
+    const user = await User.findOne({ email: email });
+    if (user) {
+      if (bcrypt.compareSync(password, user.password)) {
+        //return res.send({msg: 'El usuario ya existe.'})
+        return res
+          .status(202)
+          .send({ type: "error", message: `El usuario ya existe` });
       }
+      return res.status(202).send({
+        type: "error",
+        message: `Ya existe un usuario registrado con este email. Por favor elige otro`,
+      });
+      //return res.send({msg: 'Ya existe un usuario registrado con este email. Por favor elige otro.'});
+    } else {
+      User.create(
+        {
+          name,
+          email,
+          password: bcrypt.hashSync(password, 8),
+          country,
+          phone,
+          address,
+          isAdmin,
+        },
+        function (err, userCreated) {
+          if (err) {
+            next(err);
+            return res.status(200).send({
+              type: "error",
+              message: `Hubo algun error con los datos proporcionados`,
+            });
+            //return res.send({msg: 'Hubo algun error con los datos proporcionados'});
+          } else
+            return res.status(200).send({
+              type: "success",
+              message: "Usuario creado con exito!",
+              data: {
+                _id: userCreated._id,
+                name: userCreated.name,
+                email: userCreated.email,
+                isAdmin: userCreated.isAdmin,
+                // token: generateToken(userCreated)
+              },
+            });
+        }
+      );
+    }
   } catch (error) {
-      next(error);
-  } 
+    next(error);
+  }
 }
-
 
 // async function signIn(req, res, next) {
 //   const { email, password } = req.body;
@@ -77,27 +114,37 @@ async function signUp(req, res ,next) {
 // };
 async function signIn(req, res, next) {
   try {
-      console.log(req.body);
-      const {email,password} = req.body;
-      const user = await User.findOne({email: email});
-      console.log('user del logueo',user)
-      if(user) {
-          bcrypt.compareSync(password, user.password) ? 
-              res.send({
-                  
-                  _id: user._id,
-                  name: user.name,
-                  email: user.email,
-                  isAdmin: user.isAdmin,
-                  // token: generateToken(user)
-              }) : res.send({msg: 'Contraseña incorrecta.'})
-      }else {
-          return res.send({msg: 'Email incorrecto.'});
-      }   
+    console.log(req.body);
+    const { email, password } = req.body;
+    const user = await User.findOne({ email: email });
+    console.log("user del logueo", user);
+    if (user) {
+      if (user.blocked) {
+        return res
+          .status(202)
+          .send({ type: "error", message: `Usuario Bloqueado !!` });
+      } else {
+        bcrypt.compareSync(password, user.password)
+          ? res.status(200).send({
+              _id: user._id,
+              name: user.name,
+              email: user.email,
+              isAdmin: user.isAdmin,
+              // token: generateToken(user)
+            })
+          : res
+              .status(202)
+              .send({ type: "error", message: `Contraseña incorrecta.` });
+      }
+    } else {
+      return res
+        .status(202)
+        .send({ type: "error", message: `E-mail incorrecto.` });
+    }
   } catch (error) {
-      next(error);
-  } 
-};
+    next(error);
+  }
+}
 
 async function getUserById(req, res, next) {
   const { id } = req.params;
@@ -107,45 +154,62 @@ async function getUserById(req, res, next) {
   } catch (error) {
     next(error);
   }
-};
+}
 
 async function updateUserById(req, res, next) {
-  const { id } = req.params;
-  const { name, email, password, isAdmin, susbscribed } = req.body;
+  //const { id } = req.params;
+  const { id, name, email, isAdmin, subscribed } = req.body;
+  console.log(req.body);
   try {
     const user = await User.findById(id);
     if (user) {
-      await User.updateOne({_id: id}, { name, email, password, isAdmin, susbscribed });
-      return res.status(200).send('Usuario actualizado correctamente.');
+      await User.updateOne({ _id: id }, { name, email, isAdmin, subscribed }); // no debería updatear la pass acá
+      return res.status(200).send({
+        type: "success",
+        message: `Usuario ${email} actualizado correctamente.`,
+      });
     } else {
-      return res.status(400).send('Usuario no encontrado.');
+      return res
+        .status(202)
+        .send({ type: "error", message: `'Usuario no encontrado.` });
     }
   } catch (error) {
     next(error);
   }
-};
+}
 
 async function updateCart(req, res, next){
-  const { id } = req.params
-  const {cart} = req.body
-  try{
-    const user = await User.findByIdAndUpdate(id, {cart: cart})
-    await user.save()
-    return res.status(200).send("Carrito actualizado")
-  }catch (error) {
-    next(error)
+  const { id } = req.params;
+  const { cart } = req.body;
+  try {
+    const user = await User.findByIdAndUpdate(id, { cart: cart });
+    await user.save();
+    const userCart = await User.findById(id).then(({ cart }) => cart);
+    return res.status(200).json(userCart);
+  } catch (error) {
+    next(error);
   }
 }
 
+//Cambiamos la logica del Delete User, para solo cambiar su estado Bloqued->true
 async function deleteUser(req, res, next) {
   const { id } = req.params;
+  //console.log('id user:', id)
   try {
     const user = await User.findById(id);
+    //console.log('usario', user)
     if (user) {
-      await User.deleteOne({ _id: id });
-      return res.status(200).send('Usuario eliminado.');
+      let blocked = !user.blocked;
+      await User.updateOne({ _id: id }, { blocked });
+      return res
+        .status(202)
+        .send({ type: "success", message: `Usuario bloqueado` });
+      //await User.deleteOne({ _id: id });
+      //return res.status(200).send('Usuario eliminado.');
     } else {
-      return res.status(400).send('Usuario no encontrado');
+      return res
+        .status(202)
+        .send({ type: "error", message: `Usuario no enontrado` });
     }
   } catch (error) {
     next(error);
@@ -161,34 +225,11 @@ async function getUsers(req, res, next) {
   }
 };
 
-async function signInFirebase(req, res, next) {
-    try {
-        console.log(req.body);
-        const {email} = req.body;
-        const user = await User.findOne({email: email});
-        console.log('aqui esta el user',user)
-        if(user) {
-            // bcrypt.compareSync(password, user.password) ? 
-                res.send({
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    isAdmin: user.isAdmin,
-                    // token: generateToken(user)
-                }) 
-                // :
-            // res.send({msg: 'Contraseña incorrecta.'})
-        }else {
-            return res.send({msg: 'Email incorrecto. '});
-        }   
-    } catch (error) {
-        next(error);
-    } 
-};
 
 
-// app.post("/totp-secret", (request, response, next) => {
-  async function totpsecret(req, res, next) {
+
+
+async function totpsecret(req, res, next) {
   var secret = Speakeasy.generateSecret({ length: 20 });
   res.send({ "secret": secret.base32 });
 };
@@ -221,6 +262,144 @@ async function totpvalidate(req, res, next) {
 
 
 
+  async function signInFirebase(req, res, next) {
+  try {
+    //console.log(req.body);
+    const { name, email } = req.body;
+    const password = "";
+    const country = "";
+    const phone = "";
+    const address = "";
+    const isAdmin = false;
+    const typelogin = "Google";
+
+    const user = await User.findOne({ email: email });
+    //console.log('aqui esta el user',user)
+    if (!user) {
+      User.create(
+        {
+          name,
+          email,
+          password: bcrypt.hashSync(password, 8),
+          country,
+          phone,
+          address,
+          isAdmin,
+          typelogin,
+        },
+        function (err, userCreated) {
+          if (err) {
+            next(err);
+            return res.status(200).send({
+              type: "error",
+              message: `Hubo algun error con los datos proporcionados`,
+            });
+            //return res.send({msg: 'Hubo algun error con los datos proporcionados'});
+          } else
+            return res.status(200).send({
+              type: "success",
+              message: "Usuario creado con exito!",
+              data: {
+                _id: userCreated._id,
+                name: userCreated.name,
+                email: userCreated.email,
+                isAdmin: userCreated.isAdmin,
+                // token: generateToken(userCreated)
+              },
+            });
+        }
+      );
+    } else {
+      if (user.blocked) {
+        return res
+          .status(202)
+          .send({ type: "error", message: `Usuario Bloqueado !!` });
+      } else {
+        res.status(200).send({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+        });
+      }
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+async function passwordForgot(req, res, next) {
+  // https://www.smashingmagazine.com/2017/11/safe-password-resets-with-json-web-tokens/
+  //const { email } = req.body;
+  console.log(req.body.email);
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) {
+      let payload = { id: user._id, email: user.email };
+      let secret = user.password + "-" + user._id;
+      let token = jwt.encode(payload, secret); // lo que hace es tomar el valor de payload y hashearlo
+      console.log("esto es token: " + token);
+      console.log("esto es user.email: " + user.email);
+      //await axios.post(`http://localhost:3001/email/sendPassResetEmail`, user, token);
+      let info = await transporter.sendMail({
+        from: '"Estilo Propio 👻" <epropio35@gmail.com>', // sender address
+        to: `${user.email}`, // list of receivers
+        subject: "Restablecer contraseña", // Subject line
+        // text: "Hello world?", // plain text body
+        html: `<br><br> 
+              <b>Hola ${user.name}</b><br><br>
+              <b>Hemos recibido tu solicitud para restablecer tu contraseña.</b><br><br>
+              <b>Click aqui para restablecer tu contraseña: </b>
+              <a className={styles.list} href="http://localhost:3000/Proyecto-Grupal-Henry-client#/user/reset/${user.id}/${token}" target="_blank" rel="noreferrer">
+              <button>Restablecer contraseña</button></a>
+              <br><br><br>
+              <b>Si no enviaste la solicitud por favor ignorá éste mensaje</b>`,
+      }); // el mail se está enviando!!! fue la unica forma :/ :(
+      return res.status(200).send("Solicitud de restablecimiento enviada.");
+    } else {
+      return res.status(400).send("Usuario no encontrado.");
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+async function passwordReset(req, res, next) { // esta parte todavía no anda
+  const { id, token } = req.params;
+  try {
+    console.log('Esto es el id de usuario que viene en payload: '+payload.id);
+    const user = await User.findById(id);
+    let secret = user.password + "-" + user._id; // lo que necesitamos para deshashear
+    let payload = jwt.decode(token, secret); // payload tiene el id y el mail del usuario, hicimos todo lo opuesto al paso anterior
+    if (user) {
+      const password = bcrypt.hashSync(req.body.password, 8); // la pass nueva que viene por form
+      await User.updateOne({ _id: payload.id }, { password });
+      return res.status(200).send("Contraseña actualizada correctamente.");
+    } else {
+      return res.status(400).send("Usuario no encontrado.");
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+/*
+async function passwordReset(req, res, next) {
+  //
+  try {
+    if (request) {
+      // const user = await User.findOne({email: email});
+      const password = bcrypt.hashSync(req.body.password, 8); // la pass nueva que viene por form
+      await User.updateOne({ email: email }, { password });
+      return res.status(200).send('Contraseña actualizada correctamente.');
+    } else {
+      return res.status(400).send('Usuario no encontrado.');
+    }
+  } catch (error) {
+    next(error);
+  }
+};*/
+
+
 module.exports = {
   totpvalidate,
   totpgenerate,
@@ -233,4 +412,6 @@ module.exports = {
   updateCart,
   deleteUser,
   getUsers,
+  passwordForgot,
+  passwordReset,
 };

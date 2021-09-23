@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { addProduct, getCategories } from '../../../redux/actions/index';
-import axios from 'axios';
+import { useSelector, useDispatch}    from 'react-redux';
+import { useHistory, NavLink }        from 'react-router-dom';
+import {Button} from '@material-ui/core';
+import swal     from 'sweetalert';
+import Select   from 'react-select';
+import axios    from 'axios';
+import AdmNav   from '../AdmNav';
 import prdStyle from './Products.module.css';
-import Select from 'react-select';
-import AdmNav from '../AdmNav';
+import { addProduct, getCategories } from '../../../redux/actions/index';
+import { BiImageAdd, BiUpload, BiSave, BiArrowToLeft } from 'react-icons/bi';
 
 export function validate(input) {
 	let errors = {};
@@ -44,14 +46,12 @@ export default function AddProducts() {
 			label: e.name,
 		}
 	})
-  
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
-  
-  const [value, setValue] = useState([])
-  //console.log('value is:',value);
 
+	useEffect(() => {
+		dispatch(getCategories());
+	}, [dispatch]);
+
+	const [value, setValue] = useState([])
 	const [input, setInput] = useState({
 		name: '',
 		description: '',
@@ -82,37 +82,30 @@ export default function AddProducts() {
 	function uploadImage () {
 		const formData = new FormData();
 		formData.append("file", imageSelect)
-		formData.append("upload_preset", "kp93ybsg")
+		formData.append("upload_preset", "e4hxifnb")
 	
-		axios.post("https://api.cloudinary.com/v1_1/afl0r3s/image/upload", formData)
-		  .then(response => {
-			  setImageUpData(response)
-
-			  if(response.statusText === "OK"){
-					console.log('Result: ', response.data.secure_url)
+		axios.post("https://api.cloudinary.com/v1_1/dulpsdgfw/image/upload", formData)
+			.then(response => {
+				setImageUpData(response)
+				if(response.statusText === "OK"){
+					//console.log('Result: ', response.data.secure_url)
 					setInput({
 						...input,
 						image_url: response.data.secure_url
 					})
 				}
 				else{
-				  console.log('Sin respuesta')
-			  	}
-			})
+					console.log('Sin respuesta')
+				}
+			}) 
 	}
 
+	function onSelectChange(e){
+		setValue(e);
+	}
 
-
-
-
-  function onSelectChange(e){
-    setValue(e);
-    //console.log(e[0].value)
-  }
-
-	function handleSubmit(e) {
+	async function handleSubmit(e) {
 		e.preventDefault();
-    	//setInput({ ...input, input.categories= [789] })
 		const dataSend ={
 			name: input.name,
 			description: input.description,
@@ -122,8 +115,26 @@ export default function AddProducts() {
 			categories: value.map(e => e.value),
 		}
 		console.log('enviar: ', dataSend);
- 		dispatch(addProduct(dataSend));
-		//alert("Categoría creada exitosamente.");
+		let message = await dispatch(addProduct(dataSend));
+		console.log(message.result);
+		if(message.result.statusText === "OK"){
+			swal({
+				title:'Resultado',
+				text: message.result.data.message,
+				icon: 'success',
+				button: "Ok"
+			})
+			.then(respuesta => {
+				if(respuesta) history.push('/admin/adminpanel/products');
+			})
+		}else{
+			swal({
+				title:'Resultado',
+				text: message.result.data.message,
+				icon: 'warning',
+				button: "Ok"
+			})
+		}
 		setInput({
 			name: '',
 			description: '',
@@ -132,13 +143,11 @@ export default function AddProducts() {
 			stock: '',
 			categories: [],
 		});
-		history.push('/admin/adminpanel/products'); 
 	}
 
 	return (
 		<>
 		<AdmNav />
-
 		<div className={prdStyle.ProdContent}>
 			<fieldset className={prdStyle.ProdFieldset}>
 				<legend className={prdStyle.ProdLegend}> Crear Producto </legend>
@@ -170,19 +179,37 @@ export default function AddProducts() {
 					</div>
 
 					<div className={prdStyle.inputs}>
-						<label for="image_url">Imagen URL</label>
-						<input type="file" 
-				          onChange={e=> setImageSelect(e.target.files[0]) }
-						  accept="image/*"
-        				/>
-						<button className={prdStyle.btnUp} onClick={uploadImage}>Upload Image</button>
-
+						<div className={prdStyle.gridContent}>
+							<div className={prdStyle.item1}>
+								<label for="file-upload" className={prdStyle.btn2}>
+									<BiImageAdd size="2.0rem" /> 
+									<span> 
+										&nbsp;Seleccionar Imagen 
+									</span>
+								</label>
+								<input type="file"
+									id="file-upload"
+									onChange={e=> setImageSelect(e.target.files[0]) }
+									//onChange={e=> handleSelectImg(e.target.files[0])}
+									accept="image/*" />
+							</div>
+							<div className={prdStyle.item2}>
+								<span onClick={uploadImage} className={prdStyle.btn2}>
+									<BiUpload size="2.0rem" />
+									&nbsp;Cargar Imagen
+								</span>
+							</div>
+							<div className={prdStyle.item3}>
+								<img src={input.image_url} alt="imagen" width="120px" height="100px"/>
+							</div>
+						</div>
+							{imageSelect.name ? (
+								<span>Seleccionado: {imageSelect.name}, continuar con la carga..</span>
+								) : null}
 						<input
-							type="text"
+							type="hidden"
 							name="image_url"
 							value={input.image_url}
-							onChange={(e) => handleChange(e)}
-							placeholder="URL de la imagen.."
 							readonly="readonly"
 						></input>
 						{errors.image_url && <p className="danger">{errors.image_url}</p>}
@@ -224,10 +251,24 @@ export default function AddProducts() {
 							/>
 					</div>
 
-					<div>
-						<button className={prdStyle.myButton} type="submit">
-							Guardar
-						</button>
+					<div style={{marginTop:"10px"}}>
+						<Button 
+							variant="contained" 
+							className={prdStyle.btnSave}
+							type="submit"
+							disableElevation>
+								<BiSave size="1.3em" />&nbsp;Guardar
+						</Button>
+						&nbsp; &nbsp;
+						<NavLink to={`/admin/adminpanel/products`}>
+							<Button 
+								variant="contained" 
+								className={prdStyle.btn1}
+								type="submit"
+								disableElevation>
+									<BiArrowToLeft size="1.3em" />&nbsp;Volver
+							</Button>
+						</NavLink>
 					</div>
 				</form>
 			</fieldset>

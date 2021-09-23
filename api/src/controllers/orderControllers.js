@@ -1,6 +1,6 @@
 const Order = require('../models/Order.js')
 const Product = require('../models/Product.js')
-const {getOrder} = require('./utils.js')
+const {getOrder,getOrder2} = require('./utils.js')
 
 async function getOrders(req, res, next){
     try{
@@ -22,17 +22,28 @@ async function getUserOrders(req, res, next){
 }
 
 async function getOrderById(req, res, next){
-    const {user_id, order_id} = req.params
+    const {user_id, order_id} = req.params;
+    console.log('1',req.params);
+    /* if(parseInt(user_id)===0) console.log('admin')
+    else console.log('no admin')
+    const order = await Order.findOne({_id: order_id})
+    console.log('2',order) */
     try{
-        const order = await getOrder(user_id, order_id)
-        if(order){
+        if(parseInt(user_id)===0){
+            const order = await Order.findOne({_id: order_id})
             return res.status(200).send(order)
         }else{
-            return res.status(404).send("Orden no encontrada")
+            console.log('3 algo paso')
+            const order = await getOrder(user_id, order_id)
+            if(order){
+                return res.status(200).send(order)
+            }else{
+                return res.status(404).send("Orden no encontrada")
+            }
         }
     }catch(error){
         next(error)
-    }
+    }  
 }
 
 async function createOrder(req, res, next){

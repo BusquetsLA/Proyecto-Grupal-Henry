@@ -58,9 +58,10 @@ export const getProductsById = (id) => {
 export const addProduct = (product) => {
   return async (dispatch) => {
     try {
-      await axios.post(`${BASE_URL}/products/addProducts`, product);
+      const result = await axios.post(`${BASE_URL}/products/addProducts`, product);
       return dispatch({
         type: types.POST_PRODUCT,
+        result
       });
     } catch (err) {
       console.log(err);
@@ -71,9 +72,10 @@ export const addProduct = (product) => {
 export const updateProduct = (product) => {
   return async (dispatch) => {
     try {
-      await axios.put(`${BASE_URL}/products/update/`, product);
+      const result = await axios.put(`${BASE_URL}/products/update/`, product);
       return dispatch({
         type: types.UPDATE_PRODUCT,
+        result
       });
     } catch (error) {
       console.log(error);
@@ -84,9 +86,10 @@ export const updateProduct = (product) => {
 export const deleteProduct = (productID) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`${BASE_URL}/products/delete/${productID}`);
+      const result = await axios.delete(`${BASE_URL}/products/delete/${productID}`);
       return dispatch({
         type: types.DELETE_PRODUCT,
+        result
       });
     } catch (error) {
       console.log(error);
@@ -154,9 +157,10 @@ export const addCategory = (category) => {
 export const deleteCategory = (categoryID) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`${BASE_URL}/categories/delete/${categoryID}`);
+      const result = await axios.delete(`${BASE_URL}/categories/delete/${categoryID}`);
       return dispatch({
         type: types.DELETE_CATEGORY,
+        result
       });
     } catch (error) {
       console.log(error);
@@ -167,15 +171,107 @@ export const deleteCategory = (categoryID) => {
 export const updateCategory = (category) => {
   return async (dispatch) => {
     try {
-      await axios.put(`${BASE_URL}/categories/update/`, category);
+      const result = await axios.put(`${BASE_URL}/categories/update/`, category);
       return dispatch({
         type: types.UPDATE_CATEGORY,
+        result
       });
     } catch (error) {
       console.log(error);
     }
   };
 };
+
+
+// Users
+export const getUsers = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/user`);
+      return dispatch({
+        type: types.GET_USERS,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const deleteUser = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`${BASE_URL}/user/delete/${id}`);
+      return dispatch({
+        type: types.DELETE_USERS,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const getUserById = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/user/${id}`);
+      return dispatch({
+        type: types.GET_USER_BY_ID,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const updateUserById = (user) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`${BASE_URL}/user/update/`,user);
+      return dispatch({
+        type: types.UPDATE_USER_BY_ID,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+
+
+// Orders
+export const getOrders = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/orders`);
+      return dispatch({
+        type: types.GET_ORDERS,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const getOrderById = (userId,orderId) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/orders/${userId}/${orderId}`);
+      return dispatch({
+        type: types.GET_ORDER_BY_ID,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+
 
 // Filter
 export const filterByCategory = (id) => {
@@ -185,7 +281,16 @@ export const filterByCategory = (id) => {
   };
 };
 
+export const filterOrders = (state) => {
+  return {
+    type: types.FILTER_ORDERS,
+    payload: state,
+  };
+};
 
+
+
+//Cambiar estado con nombre Status
 export const statusChange = () => {
   return {
     type: types.STATUS_CHANGE,
@@ -251,6 +356,50 @@ export const sendPaymentEmail = (email) => {
   };
 };
 
+// export const sendPassResetEmail = (email) => { // no es más necesario x ahora
+//   // correo de restablecimiento de password
+//   return async (dispatch) => {
+//     try {
+//       await axios.post(`${BASE_URL}/email/sendPassResetEmail`, email);
+//       return dispatch({
+//         type: types.SEND_PASS_RESET_EMAIL, // va de nosotros a ellos
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// };
+
+// Password reset
+export const passwordForgot = (payload) => { // http://localhost:3001/user/forgot
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`${BASE_URL}/user/forgot`, payload.email);
+      return dispatch({
+        type: types.PASSWORD_FORGOT,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    };
+  };
+};
+
+export const passwordReset = (payload) => { // http://localhost:3001/user/reset/:id/:token
+  return async (dispatch) => {
+    try {
+      console.log('esto es payload de la action passReset: '+payload);
+      const { data } = await axios.put(`${BASE_URL}/user/reset/${payload.id}/${payload.token}`, payload.password);
+      return dispatch({
+        type: types.PASSWORD_RESET,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    };
+  };
+};
+
 // User Orders
 export const getCartFromUser = (user_id) => {
   return async (dispatch) => {
@@ -270,15 +419,17 @@ export const getCartFromUser = (user_id) => {
   };
 };
 
-export const updateUserCart = (user_id, cart) => {
-  return async (dispatch) => {
+export const updateUserCart = async (user_id, cart) => {
     try {
-      await axios.post(`${BASE_URL}/user/updateCart/${user_id}`, {
+      const { data } = await axios.post(`${BASE_URL}/user/updateCart/${user_id}`, {
         cart: cart,
       });
-      return dispatch({ type: types.UPDATE_USER_CART });
+      const userCart = data.map((elem) => ({
+        ...elem,
+        price: elem.price.$numberDecimal,
+      }));
+      return userCart
     } catch (error) {
       console.log(error);
     }
   };
-};

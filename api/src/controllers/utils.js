@@ -6,7 +6,7 @@ const generateToken = (id) => {
   return jwt.sign(
     { id },
     JWT_SECRET,
-    { expiresIn: "30d", },
+    { expiresIn: "1d", },
   );
 };
 /*
@@ -55,9 +55,15 @@ async function getOrder(userId, orderId){
   return order
 }
 
+async function getOrder2(orderId){
+  const order = await Order.findOne({_id: orderId})
+  return order
+}
+
 module.exports = {
   generateToken,
   isAuth,
   isAdmin,
-  getOrder
+  getOrder,
+  getOrder2,
 };

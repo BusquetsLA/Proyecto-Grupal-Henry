@@ -26,9 +26,15 @@ import Products from './components/AdminPanel/Products/Products';
 import ProductCreate from './components/AdminPanel/Products/ProductCreate';
 import ProductUpdate from './components/AdminPanel/Products/ProductUpdate';
 
-import TestCode from './components/AdminPanel/Categories/testCode';
+import Users from './components/AdminPanel/Users/Users';
+import UserUpdate from './components/AdminPanel/Users/UserUpdate';
+
+import Orders from './components/AdminPanel/Orders/Orders';
+import OrderDetail from './components/AdminPanel/Orders/OrderDetail';
 
 import Politica from './components/Politica/Politica';
+import UserOrdenes from './components/Ordenes/UserOrdenes';
+import ResetPassword from './components/ResetPassword/ResetPassword';
 
 function App() {
 	return (
@@ -48,6 +54,8 @@ function App() {
 					<Route exact path="/team" component={Team} />
 					<Route exact path="/our" component={Our} />
 					<Route exact path="/politica" component={Politica} />
+					<Route exact path="/user/ordenes" component={UserOrdenes} />
+					<Route exact path="/user/reset/:id/:token" component={ResetPassword} />
 					{/* --- Panel del Administrador  */}
 					<Route exact path="/admin/adminpanel" component={Admin} />
 					<Route exact path="/admin/adminpanel/categories" component={Categories} />
@@ -58,7 +66,11 @@ function App() {
 					<Route exact path="/admin/adminpanel/productCreate" component={ProductCreate} />
 					<Route exact path="/admin/adminpanel/productUpdate/:id" component={ProductUpdate} />
 					
-					<Route exact path="/admin/adminpanel/test" component={TestCode} />
+					<Route exact path="/admin/adminpanel/users" component={Users} />
+					<Route exact path="/admin/adminpanel/userUpdate/:id" component={UserUpdate} />
+					
+					<Route exact path="/admin/adminpanel/orders" component={Orders} />
+					<Route exact path="/admin/adminpanel/orderUpdate/:id" component={OrderDetail} />
 					{/* --- Fin: Panel del Administrador  */}
 					<Route path="*" component={Error404} />
 				</Switch>

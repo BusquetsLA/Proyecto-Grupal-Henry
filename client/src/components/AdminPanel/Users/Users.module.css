@@ -1,0 +1,225 @@
+.Usrcontent{
+    display: flex;
+    justify-content: flex-start;
+    width: 100vw;
+    /* background-color: violet; */
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.Usrcontent2{
+    background-color: white;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+    justify-content: start;
+    text-align: left;
+    align-items: center;
+    position: fixed;
+}
+
+.Usrcontent3{
+    margin-top: 5px;
+}
+
+.txtArea{
+    background-color: var(--color-fondo5);
+    border: 1px solid var(--color-fondo5);
+    width: 230px;
+    height: 80px;
+    text-align: justify;
+    resize: none;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+/* Estilos para el componente Create */
+
+.UsrFieldset{
+    width: 500px;
+    background-color: rgb(255, 255, 255);
+    margin-top: 10px;
+    margin-left: 20px;
+    padding-left: 10px;
+    border-radius: 10px;
+    height: 500px;
+    border: 1px solid black;
+}
+
+.UsrLegend{
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.0rem;
+    padding: 5px 20px 10px 20px;
+    background-color: rgb(231, 206, 62);
+    border-radius: 10px;
+}
+
+form{
+    text-align: left;
+    margin-top: 10px;
+}
+
+.inputs{ 
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.inputs label{
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.inputs input{
+    height: 40px;
+    width: 96%;
+    padding-left: 10px;
+    margin-bottom: 5px;
+}
+
+.inputs select{
+    width: 96%;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    height: 40px;
+}
+
+.selectCss:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222; 
+    outline: none;
+  }
+  .selectCss option {
+    font-weight:normal;
+    font-size: 1rem;
+    margin: 20px;
+  }
+
+.inputs input[type="file"] {
+    display:none;
+}
+
+.gridContent{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 55px 50px;
+}
+
+.gridContent div{
+    text-align: center;
+    border: 0px solid white;
+}
+
+.item1{
+    width: auto;
+}
+.item2{
+    width: auto;
+}
+
+.item3{
+    width: 240px;
+    grid-area: 1 / 2 / 3 / 3;
+}
+
+
+
+.UsrSelect{
+    width: 96%;
+}
+
+
+.btn1{
+    padding-top: 50px;
+    width: auto;
+    height: 45px;
+    font-size: var(--btn-size1)  !important;
+    background-color: var(--color-fondo3) !important;
+    color: var(--color-text) !important;
+}
+
+.btn1:hover{
+    background-color: var(--color-fondo2) !important;
+}
+
+.btn2{
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    padding-left: 10px !important;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: var(--btn-size1)  ;
+    background-color: var(--color-fondo3) ;
+    color: var(--color-text) ;
+}
+
+.btn2:hover{
+    background-color: var(--color-fondo2) !important;
+}
+
+.btnSave{
+    width: auto;
+    height: 45px;
+    font-size: var(--btn-size1) !important;
+    background-color: var(--color-btnSave) !important;
+    color: var(--color-text) !important;
+    position:static !important;
+}
+
+.btnSave:hover{
+    background-color: var(--color-btnSaveHover) !important;
+}
+
+.btnUpdate{
+    width: auto;
+    height: 45px;
+    font-size: var(--btn-size1) !important;
+    background-color: var(--color-btnUpdate) !important;
+    color: var(--color-text) !important;
+    position:static !important;
+}
+
+.btnUpdate:hover{
+    background-color: var(--color-btnUpdateHover) !important;
+}
+
+.btnDelete{
+    width: auto;
+    height: 45px;
+    font-size: var(--btn-size1) !important;
+    background-color: var(--color-btnDelete) !important;
+    color: var(--color-text) !important;
+    position:static !important;
+}
+
+.btnDelete:hover{
+    background-color: var(--color-btnDeleteHover) !important;
+}
+
+.btnReset{
+    width: auto;
+    height: 45px;
+    font-size: var(--btn-size1) !important;
+    background-color: var(--color-btnReset) !important;
+    color: var(--color-text) !important;
+    position:static !important;
+}
+
+.btnReset:hover{
+    background-color: var(--color-btnResetHover) !important;
+}
+
+.alert{
+    background-color:var(--color-btnDelete);
+    color: white;
+    padding: 5px 6px;
+    border-radius: 4px;
+}
+
+.admin{
+    color:var(--color-btnSave);
+}

@@ -2,24 +2,19 @@ import React, { useEffect } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
-import { getProductsById } from "../../redux/actions";
+import { getProductsById, updateUserCart } from "../../redux/actions";
 import NavBar from "../NavBar/NavBar";
 import BeatLoader from "react-spinners/BeatLoader";
 import detStyle from "./Detail.module.css";
 import ReactImageZoom from 'react-image-zoom';
-
-
-
- 
-
+import ReactStars from "react-stars";
 
 export default function Detail() {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
 
-  // const userInfo = useSelector((state) => state.userInfo);
-  // const order = useSelector((state) => state.order.detail);
+  const userInfo = useSelector((state) => state.userInfo);
   const productDetail = useSelector((state) => state.productDetails);
   const productId = location.pathname.split("/").pop();
 
@@ -32,16 +27,16 @@ export default function Detail() {
     dispatch(getProductsById(productId));
   }, [dispatch, productId]);
 
-  
-  // If user is logged
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     dispatch(getOrderByUserId(userInfo._id));
-  //   }
-  // }, [dispatch, userInfo]);
-
-  const handleAddProduct = () => {
-    if (
+  const handleAddProduct = async () => {
+    if (userInfo && !cart.productsList.length) {
+      productDetail.quantity = 1;
+      setCart({
+        ...cart,
+        productsList: [...cart.productsList, productDetail],
+      });
+      await updateUserCart(userInfo._id, cart.productsList);
+      return history.push("/cart");
+    } else if (
       productDetail &&
       !cart.productsList.find((elem) => elem._id === productDetail._id)
     ) {
@@ -50,13 +45,22 @@ export default function Detail() {
         ...cart,
         productsList: [...cart.productsList, productDetail],
       });
+      history.push("/cart");
     }
-    history.push("/cart");
   };
-
-  const props = {width: 400, height: 400, zoomWidth: 500, img: productDetail.image_url};
-
-
+  
+  const valorReview = {
+    size: 25,
+    value: 4,
+    edit: false
+  };
+  
+  const props = {
+    width: 400,
+    height: 400,
+    zoomWidth: 500,
+    img: productDetail.image_url,
+  };
 
   return (
     <div>
@@ -71,7 +75,7 @@ export default function Detail() {
             </div>
             <div className={detStyle.info2}>
               <div className={detStyle.data1}>{productDetail.name}</div>
-              <div className={detStyle.data2}>⭐️⭐️⭐️⭐️</div>
+              <ReactStars {...valorReview} />
               <div className={detStyle.data3}>$ {productDetail.price}</div>
               <div className={detStyle.data4}>
                 <b>Descripción del producto: </b>
@@ -79,13 +83,17 @@ export default function Detail() {
                 {productDetail.description}
               </div>
               <div className={detStyle.data5}>
-                <button
-                  className={detStyle.button1}
-                  onClick={() => handleAddProduct()}
-                >
-                  {" "}
-                  Agregar al carrito 🛒{" "}
-                </button>
+                {!productDetail.stock || productDetail.stock === 0 ? (
+                  <p>No hay unidades disponibles de este producto</p>
+                ) : (
+                  <button
+                    className={detStyle.button1}
+                    onClick={() => handleAddProduct()}
+                  >
+                    {" "}
+                    Agregar al carrito 🛒{" "}
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -96,5 +104,3 @@ export default function Detail() {
     </div>
   );
 }
-
-

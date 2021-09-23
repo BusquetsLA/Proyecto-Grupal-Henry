@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { useLocation } from "react-router";
+import { useSelector, useDispatch}    from 'react-redux';
+import { useHistory, NavLink }        from 'react-router-dom';
+import { useLocation }                from "react-router";
+import {Button}                       from '@material-ui/core';
+import swal                           from 'sweetalert';
+import Select                         from 'react-select';
+import axios                          from 'axios';
+import AdmNav                         from '../AdmNav';
+import prdStyle                       from './Products.module.css';
 import { updateProduct,getProductsById, getCategories } from '../../../redux/actions/index';
-import prdStyle from './Products.module.css';
-import Select from 'react-select';
-import AdmNav from '../AdmNav';
+import { BiImageAdd, BiUpload, BiSave, BiArrowToLeft } from 'react-icons/bi';
+
+
 
 export function validate(input) {
 	let errors = {};
@@ -35,10 +40,24 @@ export function validate(input) {
 
 export default function AddProducts() {
 	const dispatch = useDispatch();
-	var productDetail = useSelector((state) => state.productDetails);
+	const history = useHistory();
 	const location = useLocation();
-    var productId = location.pathname.split("/").pop();
-	console.log(productDetail)
+
+	const productDetail = useSelector((state) => state.productDetails);
+    const productId = location.pathname.split("/").pop();
+	//console.log(productDetail)
+
+	useEffect(() => {
+		dispatch(getCategories());
+	}, [dispatch]);
+
+	var categories = useSelector((state) => state.categories);
+	categories = categories.map(e=> {
+		return {
+			value: e._id,
+			label: e.name,
+		}
+	})
 
 	useEffect(() => {
 		dispatch(getProductsById(productId));
@@ -50,28 +69,17 @@ export default function AddProducts() {
 			price: productDetail.price,
 			stock: productDetail.stock,
         }); 
-	  }, [dispatch,productId,productDetail.name,
+		let detCateProd =productDetail.categories && productDetail.categories.map(e=> {
+			return categories.find(cf=> cf.value === e)
+		})
+		setValue(detCateProd)
+	}, [dispatch,productId,productDetail.name,
 		productDetail.description,productDetail.image_url,
 		productDetail.price,productDetail.stock]);
+	
 
-
-	const history = useHistory();
-
-	var categories = useSelector((state) => state.categories);
-	categories = categories.map(e=> {
-		return {
-			value: e._id,
-			label: e.name,
-		}
-	})
-  
-	useEffect(() => {
-		dispatch(getCategories());
-	}, [dispatch]);
-  
-  const [value, setValue] = useState([])
-  //console.log('value is:',value);
-
+	
+	const [value, setValue] = useState([])
 	const [input, setInput] = useState({
 		name: '',
 		description: '',
@@ -96,14 +104,37 @@ export default function AddProducts() {
 		});
 	}
 
-  function onSelectChange(e){
-    setValue(e);
-    //console.log(e[0].value)
-  }
+	const [imageSelect, setImageSelect] = useState("")
+  	const [imageUpData, setImageUpData] = useState(null)
 
-	function handleSubmit(e) {
+	function uploadImage () {
+		const formData = new FormData();
+		formData.append("file", imageSelect)
+		formData.append("upload_preset", "e4hxifnb")
+	
+		axios.post("https://api.cloudinary.com/v1_1/dulpsdgfw/image/upload", formData)
+			.then(response => {
+				setImageUpData(response)
+				if(response.statusText === "OK"){
+					//console.log('Result: ', response.data.secure_url)
+					setInput({
+						...input,
+						image_url: response.data.secure_url
+					})
+				}
+				else{
+					console.log('Sin respuesta')
+				}
+			}) 
+	}
+
+	function onSelectChange(e){
+		setValue(e);
+		console.log(value)
+	}
+
+	async function handleSubmit(e) {
 		e.preventDefault();
-    	//setInput({ ...input, input.categories= [789] })
 		const dataSend ={
 			id: productId,
 			name: input.name,
@@ -114,8 +145,26 @@ export default function AddProducts() {
 			categories: value.map(e => e.value),
 		}
 		console.log('enviar: ', dataSend);
- 		dispatch(updateProduct(dataSend));
-		//alert("Categoría creada exitosamente.");
+		let message = await dispatch(updateProduct(dataSend));
+		console.log(message.result);
+		if(message.result.statusText === "OK"){
+			swal({
+				title:'Resultado',
+				text: message.result.data.message,
+				icon: 'success',
+				button: "Ok"
+			})
+			.then(respuesta => {
+				if(respuesta) history.push('/admin/adminpanel/products');
+			})
+		}else{
+			swal({
+				title:'Resultado',
+				text: message.result.data.message,
+				icon: 'warning',
+				button: "Ok"
+			})
+		}
 		setInput({
 			name: '',
 			description: '',
@@ -124,16 +173,14 @@ export default function AddProducts() {
 			stock: '',
 			categories: [],
 		});
-		history.push('/admin/adminpanel/products'); 
 	}
 
 	return (
 		<>
 		<AdmNav />
-
 		<div className={prdStyle.ProdContent}>
 			<fieldset className={prdStyle.ProdFieldset}>
-				<legend className={prdStyle.ProdLegend}> Crear Producto </legend>
+				<legend className={prdStyle.ProdLegend}> Modificar Producto </legend>
 				<form onSubmit={(e) => { handleSubmit(e); }} >
 					<div className={prdStyle.inputs}>
 						<label for="name" >Nombre</label>
@@ -162,14 +209,37 @@ export default function AddProducts() {
 					</div>
 
 					<div className={prdStyle.inputs}>
-						<label for="image_url">Imagen URL</label>
+						<div className={prdStyle.gridContent}>
+							<div className={prdStyle.item1}>
+								<label for="file-upload" className={prdStyle.btn2}>
+									<BiImageAdd size="2.0rem" /> 
+									<span> 
+										&nbsp;Seleccionar Imagen 
+									</span>
+								</label>
+								<input type="file"
+									id="file-upload"
+									onChange={e=> setImageSelect(e.target.files[0]) }
+									accept="image/*" />
+							</div>
+							<div className={prdStyle.item2}>
+								<span onClick={uploadImage} className={prdStyle.btn2}>
+									<BiUpload size="2.0rem" />
+									&nbsp;Cargar Imagen
+								</span>
+							</div>
+							<div className={prdStyle.item3}>
+								<img src={input.image_url} alt="imagen" width="120px" height="100px"/>
+							</div>
+						</div>
+							{imageSelect.name ? (
+								<span>Seleccionado: {imageSelect.name}, continuar con la carga..</span>
+								) : null}
 						<input
-							type="text"
+							type="hidden"
 							name="image_url"
 							value={input.image_url}
-							onChange={(e) => handleChange(e)}
-							placeholder="URL de la imagen.."
-							required
+							readonly="readonly"
 						></input>
 						{errors.image_url && <p className="danger">{errors.image_url}</p>}
 					</div>
@@ -210,10 +280,24 @@ export default function AddProducts() {
 							/>
 					</div>
 
-					<div>
-						<button className={prdStyle.myButton} type="submit">
-							Guardar
-						</button>
+					<div style={{marginTop:"10px"}}>
+						<Button 
+							variant="contained" 
+							className={prdStyle.btnSave}
+							type="submit"
+							disableElevation>
+								<BiSave size="1.3em" />&nbsp;Guardar
+						</Button>
+						&nbsp; &nbsp;
+						<NavLink to={`/admin/adminpanel/products`}>
+							<Button 
+								variant="contained" 
+								className={prdStyle.btn1}
+								type="submit"
+								disableElevation>
+									<BiArrowToLeft size="1.3em" />&nbsp;Volver
+							</Button>
+						</NavLink>
 					</div>
 				</form>
 			</fieldset>

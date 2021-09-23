@@ -11,9 +11,16 @@ const initialState = {
   productDetails: [],
   categories: [],
   categoryDetails: [],
+  users: [],
   user: {
     cart: [],
   },
+  userDetail: [],
+  orders: {
+    orderAll:[],
+    orderFiltred:[],
+  },
+  orderDetail: [],
   loading: false,
   dataState: "all",
   userInfo: localStorage.getItem("userInfo")
@@ -53,7 +60,7 @@ const rootReducer = (state = initialState, action) => {
           ...state.products,
           searchResults: action.payload,
         },
-      };    
+      };
 
     case types.GET_PRODUCTS_BY_ID:
       return {
@@ -62,17 +69,10 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case types.STATUS_CHANGE:
-        return {
-          ...state,
-          loading: true,
-        };
-
-
-    case userTypes.USER_SIGNIN_REQUEST:
-        return {
-          ...state,
-          loading: true,
-        };
+      return {
+        ...state,
+        loading: true,
+      };
 
     case types.POST_PRODUCT:
       return {
@@ -157,16 +157,79 @@ const rootReducer = (state = initialState, action) => {
     case types.UPDATE_USER_CART:
       return {
         ...state,
+        // user: {
+        //   cart: action.payload
+        // }
       };
 
     case types.GET_CART_FROM_USER:
       return {
         ...state,
-        user: {
-          ...state.user,
-          cart: action.payload,
-        },
+        // user: {
+        //   cart: action.payload ? action.payload : state.user.cart,
+        // },
       };
+
+    // Reducer de Usuarios
+    case types.GET_USERS:
+      return {
+        ...state,
+        users: action.payload,
+        loading: false,
+      };
+
+    case types.DELETE_USERS:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    case types.GET_USER_BY_ID:
+      return {
+        ...state,
+        userDetail: action.payload,
+        loading: false,
+      };
+
+    case types.UPDATE_USER_BY_ID:
+      return {
+        ...state,
+        loading: false,
+      };
+      
+
+// Reducer de Ordenes
+  case types.GET_ORDERS:
+      return {
+        ...state,
+        orders: {
+          ...state.orders,
+          orderAll: action.payload,
+          orderFiltred: action.payload,
+        },
+        loading: false,
+      };
+      
+  case types.GET_ORDER_BY_ID:
+      return {
+        ...state,
+        orderDetail: action.payload,
+        loading: false,
+      };
+
+  case types.FILTER_ORDERS:
+       console.log(action.payload);
+       const filtredOrders = state.orders.orderAll;
+     return {
+        ...state,
+        orders: {
+          ...state.orders,
+          orderFiltred: action.payload==='all' ? filtredOrders : filtredOrders.filter(e => e.status===action.payload)
+        },
+        loading: false,
+      };
+
+
 
     // eslint-disable-next-line no-fallthrough
     case userTypes.USER_SIGNIN_REQUEST:
@@ -226,6 +289,22 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case types.SEND_PAYMENT_EMAIL:
+      return {
+        ...state,
+      };
+
+
+    case types.SEND_PASS_RESET_EMAIL:
+      return {
+        ...state,
+      };
+
+    case types.PASSWORD_FORGOT:
+      return {
+        ...state,
+      };
+
+    case types.PASSWORD_RESET:
       return {
         ...state,
       };
