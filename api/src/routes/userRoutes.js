@@ -6,10 +6,10 @@ router.get('/:id', getUserById);
 router.post('/signup', signUp);
 router.post('/signin', signIn);
 router.post('/signinfirebase', signInFirebase);
-router.post('/forgot', passwordForgot);
 router.put('/update/', updateUserById);
-router.put('/reset/:id', passwordReset);
-router.post('/updateCart/:id', updateCart)
+router.put('/reset/:id/:token', passwordReset);
+router.post('/forgot', passwordForgot);
+router.post('/updateCart/:id', updateCart);
 router.delete('/delete/:id', deleteUser);
 
 

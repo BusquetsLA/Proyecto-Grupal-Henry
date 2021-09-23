@@ -254,7 +254,17 @@ const rootReducer = (state = initialState, action) => {
         ...state,
       };
 
-    case types.SEND_PAYMENT_EMAIL:
+    case types.SEND_PASS_RESET_EMAIL:
+      return {
+        ...state,
+      };
+
+    case types.PASSWORD_FORGOT:
+      return {
+        ...state,
+      };
+
+    case types.PASSWORD_RESET:
       return {
         ...state,
       };
