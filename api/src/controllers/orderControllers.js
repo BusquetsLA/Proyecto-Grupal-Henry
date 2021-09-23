@@ -24,16 +24,11 @@ async function getUserOrders(req, res, next){
 async function getOrderById(req, res, next){
     const {user_id, order_id} = req.params;
     console.log('1',req.params);
-    /* if(parseInt(user_id)===0) console.log('admin')
-    else console.log('no admin')
-    const order = await Order.findOne({_id: order_id})
-    console.log('2',order) */
     try{
         if(parseInt(user_id)===0){
             const order = await Order.findOne({_id: order_id})
             return res.status(200).send(order)
         }else{
-            console.log('3 algo paso')
             const order = await getOrder(user_id, order_id)
             if(order){
                 return res.status(200).send(order)
@@ -111,11 +106,36 @@ async function deleteOrderItem(req, res, next){
     }
 }
 
+async function updateOrderState(req, res, next){
+    const {order_id, status} = req.body;
+    //console.log(req.body)
+    //res.send('udpdate state..')
+    try{
+        const order = await Order.findOne({_id: order_id})
+        if(order){
+            await Order.updateOne({ _id: order_id }, { status });
+            return res.status(200).send({
+                type: "success",
+                message: `Estado de Orden actualizada correctamente.`,
+              });
+        }else{
+            return res.status(202).send({
+                type: "error",
+                message: `No se encontro la orden para actualizar`,
+              });
+        }
+    }catch(error){
+        next(error)
+    }  
+    
+} 
+
 module.exports = {
     getOrders,
     getUserOrders,
     getOrderById,
     createOrder,
     addOrderItem,
-    deleteOrderItem
+    deleteOrderItem,
+    updateOrderState
 }
