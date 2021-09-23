@@ -170,7 +170,7 @@ const Payment = ({ productsList, totalPrice, data }) => {
               </ListItem>
             ))}
             <ListItem>
-              <ListItemText primary="Precio Total" />
+              <ListItemText primary="Precio Total " />
               <Typography variant="body2">$ {totalPrice}</Typography>
             </ListItem>
           </List>
