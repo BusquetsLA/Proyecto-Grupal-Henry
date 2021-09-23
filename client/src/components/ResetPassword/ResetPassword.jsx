@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { NavLink, useHistory } from "react-router-dom";
 import { passwordReset } from "../../redux/actions";
 import { signup } from "../../redux/actions/userActions";
@@ -26,6 +27,7 @@ const ResetPassword = (props) => {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
+
     });
   };
 
