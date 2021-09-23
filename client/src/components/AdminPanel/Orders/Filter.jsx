@@ -6,19 +6,19 @@ export default function Pagination({ filterFunction }) {
 		<>
 			<select onChange={filterFunction} className={ctgStyle.selectCss}>
 				<option value="all" key="0" >
-					Ordenar por Estado
+					Todos los Estados
 				</option>
 				<option value="created" key="1">
-                    Created
+                    Creada
 				</option>
 				<option value="processing" key="2">
-                    Processing
+                    Procesando
 				</option>
                 <option value="cancelled" key="3">
-                    Cancelled
+                    Cancelada
 				</option>
                 <option value="completed" key="4">
-                    Completed
+                    Completada
 				</option>
 			</select>
 		</>

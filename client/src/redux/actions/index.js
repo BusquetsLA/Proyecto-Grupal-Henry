@@ -271,6 +271,21 @@ export const getOrderById = (userId,orderId) => {
   };
 };
 
+export const updateOrderStateById = (info) => {
+  console.log('update State data',info)
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`${BASE_URL}/orders/state/`,info);
+      return dispatch({
+        type: types.UPDATE_ORDER_BY_ID,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }; 
+};
+
 
 
 // Filter
@@ -347,6 +362,20 @@ export const sendPaymentEmail = (email) => {
   return async (dispatch) => {
     try {
       await axios.post(`${BASE_URL}/email/sendPaymentEmail`, email);
+      return dispatch({
+        type: types.SEND_PAYMENT_EMAIL, // va de nosotros a ellos
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const sendOrderDispatchEmail = (email) => {
+  // correo de confirmación de despacho de la orden (esta en manos del cliente)
+  return async (dispatch) => {
+    try {
+      await axios.post(`${BASE_URL}/email/sendOrderDispatchEmail`, email);
       return dispatch({
         type: types.SEND_PAYMENT_EMAIL, // va de nosotros a ellos
       });

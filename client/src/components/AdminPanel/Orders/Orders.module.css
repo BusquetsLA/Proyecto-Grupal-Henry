@@ -38,14 +38,17 @@
 /* Estilos para el componente Create */
 
 .UsrFieldset{
-    width: 500px;
+    width: 600px;
     background-color: rgb(255, 255, 255);
     margin-top: 10px;
     margin-left: 20px;
     padding-left: 10px;
-    border-radius: 10px;
+    border-radius: 0px;
     height: 500px;
-    border: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 0px solid black;
+    border-left: 0px solid black;
+    border-right: 0px solid black;
 }
 
 .UsrLegend{
@@ -245,4 +248,23 @@ form{
     border-radius: 4px;
     border: 1px solid var(--color-fondo1);
     cursor: pointer;
+}
+
+.info1{
+    background-color: var(--color-fondo5);
+    width: 96%;
+    padding: 6px 10px;
+}
+
+.info2{
+    display: flex;
+    justify-content: space-between;
+}
+
+.info3{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: var(--color-fondo4);
 }
