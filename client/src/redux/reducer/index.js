@@ -208,10 +208,17 @@ const rootReducer = (state = initialState, action) => {
         loading: false,
       };
       
-      case types.FILTER_ORDERS:
-        console.log(action.payload);
-        const filtredOrders = state.orders.orderAll;
+  case types.GET_ORDER_BY_ID:
       return {
+        ...state,
+        orderDetail: action.payload,
+        loading: false,
+      };
+
+  case types.FILTER_ORDERS:
+       console.log(action.payload);
+       const filtredOrders = state.orders.orderAll;
+     return {
         ...state,
         orders: {
           ...state.orders,

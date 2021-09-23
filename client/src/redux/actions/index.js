@@ -257,6 +257,20 @@ export const getOrders = () => {
   };
 };
 
+export const getOrderById = (userId,orderId) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/orders/${userId}/${orderId}`);
+      return dispatch({
+        type: types.GET_ORDER_BY_ID,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 
 
 // Filter

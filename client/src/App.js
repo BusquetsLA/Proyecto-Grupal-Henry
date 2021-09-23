@@ -30,6 +30,7 @@ import Users from './components/AdminPanel/Users/Users';
 import UserUpdate from './components/AdminPanel/Users/UserUpdate';
 
 import Orders from './components/AdminPanel/Orders/Orders';
+import OrderDetail from './components/AdminPanel/Orders/OrderDetail';
 
 import Politica from './components/Politica/Politica';
 import UserOrdenes from './components/Ordenes/UserOrdenes';
@@ -69,6 +70,7 @@ function App() {
 					<Route exact path="/admin/adminpanel/userUpdate/:id" component={UserUpdate} />
 					
 					<Route exact path="/admin/adminpanel/orders" component={Orders} />
+					<Route exact path="/admin/adminpanel/orderUpdate/:id" component={OrderDetail} />
 					{/* --- Fin: Panel del Administrador  */}
 					<Route path="*" component={Error404} />
 				</Switch>

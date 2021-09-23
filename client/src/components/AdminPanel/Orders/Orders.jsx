@@ -54,7 +54,7 @@ export default function Orders() {
 	
 
 	function handleDetail(e) {
-        history.push('/admin/adminpanel/ordersUpdate/'+e);
+        history.push('/admin/adminpanel/orderUpdate/'+e);
     }
 
 	function filterFunction(e){
