@@ -20,7 +20,7 @@ import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/ap
 
 
 
-const Payment = ({ productsList, totalPrice, data }) => {
+const Payment = ({ productsList, totalPrice, preference}) => {
 
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [activeMarker, setActiveMarker] = useState({});
