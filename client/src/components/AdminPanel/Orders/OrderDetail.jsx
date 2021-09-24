@@ -21,7 +21,7 @@ export default function CategoryUpdate() {
 	const orderId = location.pathname.split("/").pop();
 	const userID  = orderDetail.user_id && orderDetail.user_id;
 	
-	console.log(orderDetail)
+	//console.log(orderDetail)
 
 
 	useEffect(() => {
@@ -68,11 +68,11 @@ export default function CategoryUpdate() {
 					name:userDetail.name,
 					email:userDetail.email
 				}
-				console.log(mailProductDispatch)
+				//console.log(mailProductDispatch)
 				let mensaje2 = await dispatch(sendOrderDispatchEmail(mailProductDispatch))
-				console.log(mensaje2)
+				//console.log(mensaje2)
 			}
-			console.log(message)
+			//console.log(message)
 			if(message.payload.type === "success"){
 				swal({
 					title:'Resultado',
