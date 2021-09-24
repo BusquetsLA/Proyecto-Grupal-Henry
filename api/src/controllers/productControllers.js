@@ -4,11 +4,12 @@ const Category = require('../models/Category');
 async function getProducts(req, res, next) {
     const {name} = req.query;
     try {
-        const products = await Product.find();
+        const allProducts = await Product.find();
         if(!name){
+            const products = allProducts.filter( product => product.stock>0)
             return res.status(200).send(products);
         }else{
-            const productsByName = products.filter( product => product.name.toLowerCase().includes(name.toLowerCase()));
+            const productsByName = allProducts.filter( product => product.name.toLowerCase().includes(name.toLowerCase()));
             return res.status(200).send(productsByName);
         }
     } catch (error) {
