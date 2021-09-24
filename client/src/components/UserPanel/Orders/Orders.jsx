@@ -11,7 +11,7 @@ import {Button,
 		Paper } from '@material-ui/core';
 import { getOrders, getUsers, filterOrders } from '../../../redux/actions/index';
 import { BsFileText } from 'react-icons/bs';
-import AdmNav         from '../AdmNav';
+import AdmNav         from './AdmNav';
 //import Pagination     from './Pagination'
 import Filter         from './Filter'
 import ctgStyle       from './Orders.module.css'; 
@@ -19,9 +19,13 @@ import {Pagination} from '@material-ui/lab'
 
 
 export default function Orders() {
-	const ordersArr = useSelector((state) => state.orders.orderFiltred);
+	var ordersArr = useSelector((state) => state.orders.orderFiltred);
 	const usersArr = useSelector((state) => state.users);
+	const userInfo = useSelector(state => state.userInfo);
 	const loading = useSelector((state) => state.loading);
+
+	ordersArr = ordersArr.filter(ef => ef.user_id === userInfo._id)
+
 	const history = useHistory();
 	const dispatch = useDispatch();
 
@@ -56,7 +60,7 @@ export default function Orders() {
 	
 
 	function handleDetail(e) {
-        history.push('/admin/adminpanel/orderUpdate/'+e);
+        history.push('/admin/userpanel/orderDetail/'+e);
     }
 
 	function filterFunction(e){

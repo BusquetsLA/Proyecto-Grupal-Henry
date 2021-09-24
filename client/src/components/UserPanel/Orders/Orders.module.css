@@ -268,3 +268,15 @@ form{
     font-weight: bold;
     background-color: var(--color-fondo4);
 }
+
+.btnNav{
+    width: 120px;
+    height: 40px;
+    font-size: 1.0rem !important;
+    background-color: var(--color-fondo4) !important;
+    color: var(--color-text) !important;
+}
+
+.btnNav:hover{
+    background-color: var(--color-fondo3) !important;
+}

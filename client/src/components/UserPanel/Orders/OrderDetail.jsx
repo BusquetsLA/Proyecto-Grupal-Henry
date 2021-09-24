@@ -8,7 +8,7 @@ import { getOrderById, getUserById,
 	updateOrderStateById,
 	sendOrderDispatchEmail } from '../../../redux/actions/index';
 import { BiSave, BiArrowToLeft }          from "react-icons/bi";
-import AdmNav from '../AdmNav';
+import AdmNav from './AdmNav';
 import ctgStyle from './Orders.module.css';
 
 
@@ -144,40 +144,8 @@ export default function CategoryUpdate() {
 						</span>
 					</div>
 
-					<div className={ctgStyle.inputs} >
-						<label for="isAdmin" >Estado de Orden</label>
-						<span className={ctgStyle.info1}> {orderDetail.status} </span>
-						<select name="isAdmin" className={ctgStyle.selectCss} onChange={(e) => handleChange(e)}>
-							{orderDetail.status === 'created'? (
-								<>
-								<option value="created" selected disabled>Creado</option>
-								<option value="processing">Procesando</option>
-								<option value="cancelled" >Cancelada</option>
-								</>
-							): orderDetail.status === 'processing'? (
-								<>
-								<option value="processing" selected disabled>Procesada</option>
-								<option value="cancelled" >Cancelada</option>
-								<option value="completed">Completada</option>
-								</>
-							): 
-								<>
-								<option value="none" disabled>No se puede cambiar el Estado</option>
-								</>
-							}
-						</select>
-					</div>
-
 					<div>
-						<Button 
-							variant="contained" 
-							className={ctgStyle.btnSave}
-							type="submit"
-							disableElevation>
-								<BiSave size="1.3em" />&nbsp;Guardar
-						</Button>
-						&nbsp; &nbsp;
-						<NavLink to={`/admin/adminpanel/orders`}>
+						<NavLink to={`/admin/userpanel/orders`}>
 							<Button 
 								variant="contained" 
 								className={ctgStyle.btn1}
