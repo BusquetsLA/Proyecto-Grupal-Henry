@@ -31,6 +31,7 @@ import UserUpdate from './components/AdminPanel/Users/UserUpdate';
 
 import Orders from './components/AdminPanel/Orders/Orders';
 import OrderDetail from './components/AdminPanel/Orders/OrderDetail';
+import PaymentStatus from './components/PaymentStatus/PaymentStatus';
 
 import Politica from './components/Politica/Politica';
 import UserOrdenes from './components/Ordenes/UserOrdenes';
@@ -56,6 +57,7 @@ function App() {
 					<Route exact path="/politica" component={Politica} />
 					<Route exact path="/user/ordenes" component={UserOrdenes} />
 					<Route exact path="/user/reset/:id/:token" component={ResetPassword} />
+					<Route exact path="/paymentstatus/:status" component={PaymentStatus} />
 					{/* --- Panel del Administrador  */}
 					<Route exact path="/admin/adminpanel" component={Admin} />
 					<Route exact path="/admin/adminpanel/categories" component={Categories} />
