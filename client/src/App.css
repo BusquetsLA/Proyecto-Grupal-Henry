@@ -55,8 +55,8 @@ body{
 
 /* Variables globales (Paleta de colores) */
 :root {
-  --color-text: #ffffff;
-  --color-text1: black;
+  --color-text1: #ffffff;
+  --color-text: black;
   
   --color-fondo1: #3c2e27;
   --color-fondo2: #6d1f09;
