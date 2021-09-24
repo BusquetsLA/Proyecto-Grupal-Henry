@@ -45,7 +45,7 @@ async function helpEmail(req, res, next) {
 }
 
 async function paymentEmail(req, res, next) {
-  const { name, email } = req.body;
+  const { email } = req.body;
   try {
     //send mail with defined transport object
     console.log("entre al if");
@@ -56,7 +56,7 @@ async function paymentEmail(req, res, next) {
       subject: "Tu pedido y pago se han ejecutado Correctamente ✅", // Subject line
       // text: "Hello world?", // plain text body
       html: `<br><br> 
-    <b>Hola ${name}</b><br><br>
+    <b>¡Hola!</b><br><br>
     <b>Tu pago se ha ejecutado sin novedad a traves de Mercado pago</b><br><br>
     <b>Click aqui para continuar comprando: </b>
     <a className={styles.list} href="http://localhost:3000/Proyecto-Grupal-Henry-client#/" target="_blank" rel="noreferrer">
