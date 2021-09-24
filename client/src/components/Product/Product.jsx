@@ -23,13 +23,6 @@ const Product = ({ id, image, name, price, review = [1, 2, 3] }) => {
             </span>
             <span>
             <ReactStars {...valorReview} />
-              {review?.map((n) =>
-                n < 1 ? (
-                  <FaIcons.FaStarHalf key={n} />
-                ) : (
-                  <FaIcons.FaStar key={n} />
-                )
-              )}
             </span>
            
           </div>
