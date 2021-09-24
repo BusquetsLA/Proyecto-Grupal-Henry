@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import ReactStars from "react-stars";
 import prodStyle from "./Product.module.css";
 
-const Product = ({ id, image, name, price, review = [1, 2, 3] }) => {
+const Product = ({ id, image, name, price, reviews }) => {
+ console.log("ver review",reviews)
+ console.log("ver name",name)
+ 
   const valorReview = {
     size: 25,
     value: 4,

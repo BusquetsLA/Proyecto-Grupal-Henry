@@ -257,7 +257,7 @@ const Cart = () => {
         <Button component={Link} to="/shop" variant="contained" color="primary">
           Agrega otro producto
         </Button>
-      </Grid>
+     
       <Grid item style={{ margin: 20 }}>
         <Typography>Precio total: $ {totalPrice}</Typography>
         <Button
@@ -299,6 +299,7 @@ const Cart = () => {
               </Container>
             )
           )}
+        </Grid>
         </Grid>
       </Grid>
     </Grid>
