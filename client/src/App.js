@@ -36,6 +36,8 @@ import PaymentStatus from './components/PaymentStatus/PaymentStatus';
 import UserOrders from './components/UserPanel/Orders/Orders';
 import UserOrdersDetail from './components/UserPanel/Orders/OrderDetail';
 
+import DetailReview from './components/DetailReview/DetailReview';
+
 import Politica from './components/Politica/Politica';
 import UserOrdenes from './components/Ordenes/UserOrdenes';
 import ResetPassword from './components/ResetPassword/ResetPassword';
@@ -79,6 +81,7 @@ function App() {
 					
 					<Route exact path="/admin/userpanel/orders" component={UserOrders} />
 					<Route exact path="/admin/userpanel/orderDetail/:id" component={UserOrdersDetail} />
+					<Route exact path="/admin/userpanel/review/:id" component={DetailReview} />
 					{/* --- Fin: Panel del Administrador  */}
 					<Route path="*" component={Error404} />
 				</Switch>

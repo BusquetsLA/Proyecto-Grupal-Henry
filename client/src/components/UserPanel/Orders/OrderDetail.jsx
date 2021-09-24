@@ -7,7 +7,7 @@ import swal                           from 'sweetalert';
 import { getOrderById, getUserById, 
 	updateOrderStateById,
 	sendOrderDispatchEmail } from '../../../redux/actions/index';
-import { BiSave, BiArrowToLeft }          from "react-icons/bi";
+import { BiStar, BiArrowToLeft }          from "react-icons/bi";
 import AdmNav from './AdmNav';
 import ctgStyle from './Orders.module.css';
 
@@ -131,17 +131,21 @@ export default function CategoryUpdate() {
 							</div>
 						{orderDetail.items && orderDetail.items.map(item => (
 							<div className={ctgStyle.info2}>
-								<span style={{width:'70%'}}> <Link to={`/detail/${item._id}`} target='_blank'>{item.name} </Link> </span> 
-								<span style={{width:'25%'}}> <Link to={`/detail/${item._id}`} target='_blank'>{item.quantity} </Link> </span>
-								<span style={{width:'25%'}}> <Link to={`/detail/${item._id}`} target='_blank'>{item.price?.$numberDecimal} </Link> </span>
+								<span style={{width:'70%'}}> <Link to={`/admin/userpanel/review/${item._id}`} target='_blank'> <BiStar size="1.1em" /> </Link>  {item.name} </span> 
+								<span style={{width:'25%'}}> {item.quantity} </span>
+								<span style={{width:'25%'}}> {item.price?.$numberDecimal} </span>
 							</div>
 							))
 						} 
 						<div className={ctgStyle.info3}>
 							Total : {orderDetail.total && orderDetail.total?.$numberDecimal }
-							{/* Total : {orderDetail.total?.$numberDecimal && '$'} */}
 						</div>
 						</span>
+					</div>
+
+					<div className={ctgStyle.inputs} >
+						<label for="Estado" >Estado</label>
+						<span className={ctgStyle.info1}> {orderDetail.status} </span>
 					</div>
 
 					<div>

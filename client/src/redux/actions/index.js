@@ -287,6 +287,36 @@ export const updateOrderStateById = (info) => {
 };
 
 
+//Review
+export const getReviews = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/reviews`);
+      return dispatch({
+        type: types.GET_REVIEWS,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const postReview = (info) => {
+  console.log('review data',info)
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(`${BASE_URL}/reviews/addReview/`,info);
+      return dispatch({
+        type: types.POST_REVIEW,
+        payload: data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }; 
+};
+
 
 // Filter
 export const filterByCategory = (id) => {

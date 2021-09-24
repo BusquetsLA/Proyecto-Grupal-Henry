@@ -39,8 +39,6 @@ export default function CategoryUpdate() {
 		status: '',
 	});
 
-
-
 	function handleChange(e) {
 		console.log(e.target.value)
 		setInput({
@@ -133,8 +131,8 @@ export default function CategoryUpdate() {
 						{orderDetail.items && orderDetail.items.map(item => (
 							<div className={ctgStyle.info2}>
 								<span style={{width:'70%'}}> <Link to={`/detail/${item._id}`} target='_blank'>{item.name} </Link> </span> 
-								<span style={{width:'25%'}}> <Link to={`/detail/${item._id}`} target='_blank'>{item.quantity} </Link> </span>
-								<span style={{width:'25%'}}> <Link to={`/detail/${item._id}`} target='_blank'>{item.price?.$numberDecimal} </Link> </span>
+								<span style={{width:'25%'}}> {item.quantity} </span>
+								<span style={{width:'25%'}}> {item.price?.$numberDecimal} </span>
 							</div>
 							))
 						} 
