@@ -17,7 +17,7 @@ function PaymentStatus() {
     let title = '', text = '', orderStatus = ''
     if(status === SUCCESS){
         title = 'Compra realizada'
-        text = 'La compra due realizada con éxito!'
+        text = 'La compra fue realizada con éxito! Se le acaba de enviar un mail a su correo con el detalle de la orden.'
         orderStatus = 'completed'
     }else if(status === FAILURE){
         title = 'Compra No realizada'
@@ -32,12 +32,14 @@ function PaymentStatus() {
     useEffect(() => {
         const queries = new URLSearchParams(location.search)
         dispatch(updateOrderStateById({order_id: queries.get('external_reference'), status: orderStatus}))
-        dispatch(sendPaymentEmail(userInfo.email))
+        if(orderStatus === 'completed'){
+            dispatch(sendPaymentEmail({email: userInfo.email}))
+        }
     }, [dispatch])
 
     function buttonHome(e){
         e.preventDefault();
-        history.push('/');
+        history.push('/shop');
     }
     return (
         <div>
