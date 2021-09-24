@@ -68,10 +68,12 @@ async function paymentEmail(req, res, next) {
 }
 
 async function orderDispatchEmail(req, res, next) {
+  console.log(req.body)
+  //return res.send('mail para despachar producto')
   try {
     const { name, email } = req.body;
     //send mail with defined transport object
-    console.log("entre al if");
+    console.log("entre, ya envio el email");
     let info = await transporter.sendMail({
       from: '"Estilo Propio 👻" <epropio35@gmail.com>', // sender address
       to: `${email}`, // list of receivers
@@ -87,7 +89,7 @@ async function orderDispatchEmail(req, res, next) {
     console.log("Message send", info);
   } catch (error) {
     next(error);
-  }
+  } 
 }
 
 async function passResetEmail(req, res, next) { // si en userControllers queda el mail esto es innecesario
