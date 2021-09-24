@@ -64,13 +64,12 @@ export default function CategoryUpdate() {
 		}else{
 			let message = await dispatch(updateOrderStateById(input));
 			if(input.status === 'completed'){
-				var mailProductDispatch = {
+				let mailProductDispatch = {
 					name:userDetail.name,
 					email:userDetail.email
 				}
 				console.log(mailProductDispatch)
-				let mensaje2 = await dispatch(sendOrderDispatchEmail(mailProductDispatch))
-				console.log(mensaje2)
+				dispatch(sendOrderDispatchEmail(mailProductDispatch))
 			}
 			console.log(message)
 			if(message.payload.type === "success"){
