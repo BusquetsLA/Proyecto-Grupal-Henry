@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import SearchBar            from "../SearchBar/SearchBar";
 import styles               from "./NavBar.module.css";
-import { NavLink }          from "react-router-dom";
+import { NavLink, Link }          from "react-router-dom";
 import Logo                 from "../../media/LogoEstiloPropio.png";
 import firebase             from "firebase";
 import { signout }          from "../../redux/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import * as FaIcons from 'react-icons/fa';
 import { BiUserCircle,BiHelpCircle } from "react-icons/bi";
+import { BsHouseDoorFill } from "react-icons/bs";
+import { FcAssistant } from "react-icons/fc";
+
 import {
   getCategories,
   getProducts,
@@ -98,36 +101,32 @@ const NavBar = ({ setOrder }) => {
               className={styles.link_text}
               to="/"
               onClick={(e) => handleClick(e)}
-            >
-              Inicio
-            </NavLink>
-{/* 
+            ><BsHouseDoorFill size="1.8em" /></NavLink>
+          {/* 
             <NavLink className={styles.link_text} to="/shop">
               Tienda
             </NavLink>
              */}
             <NavLink className={styles.link_text} to="/about">
-              Nosotros
+              <BiHelpCircle size="1.9em" /> 
             </NavLink>
             <NavLink className={styles.link_text} to="/help">
-            <BiHelpCircle size="1.9em" alt="Ayuda"/>
+              <FcAssistant size="1.9em" alt="Ayuda"/>
             </NavLink>
             {userInfo 
               ? (<div className="dropdown">
-                <NavLink className={styles.link_text} to="#">
+                <Link className={styles.link_text} to="#">
                   <BiUserCircle size="1.9em" alt="Usuario"/>
-                </NavLink>
+                </Link>
                 <ul className="dropdown-content">
                   {userInfo.name}<br/>
-                  <NavLink className={styles.link_text} to="/user/reset">
-                  Cambiar Contraseña <i className="fa fa-caret-down"></i>
-                </NavLink><br/>
-                  <NavLink className={styles.link_text} to="/user/ordenes">
+                  <br/>
+                  <Link className={styles.link_text} to="/admin/userpanel/orders">
                   Ordenes <i className="fa fa-caret-down"></i>
-                </NavLink><br/>
-                  <NavLink to="/" onClick={handleSignout}>
+                </Link><br/>
+                  <Link to="/shop" onClick={handleSignout}>
                     &#187; Sign Out &#171;
-                  </NavLink>
+                  </Link>
                 </ul>
                
               </div>)
@@ -137,7 +136,7 @@ const NavBar = ({ setOrder }) => {
             }
           </div>
           <NavLink className={styles.link_cart} to="/cart">
-            <button className={styles.boton}><span><FaIcons.FaCartPlus /></span> Tu Carrito</button>
+            <button className={styles.boton}><span><FaIcons.FaCartPlus /></span></button>
           </NavLink>
         </div>
       </div>

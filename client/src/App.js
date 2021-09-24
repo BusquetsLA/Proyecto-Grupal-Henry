@@ -1,4 +1,8 @@
 import { HashRouter, Route, Switch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import './App.css';
+
+
 import Home from './components/Home/Home';
 import About from './components/About/About';
 import Shop from './components/Shop/Shop';
@@ -7,10 +11,6 @@ import Cart from './components/Cart/Cart';
 import Detail from './components/Detail/Detail';
 import Error404 from './components/Error404/Error404';
 
-import './App.css';
-// import SignInOutContainer from './components/Login';
-//import Login from './components/Login/Login';
-//import Register from './components/Register/Register';
 import Checkout from './components/Checkout/Checkout';
 import Company from './components/Company/Company';
 import Team from './components/Team/Team';
@@ -21,8 +21,8 @@ import Admin from './components/AdminPanel/Admin';
 import Categories from './components/AdminPanel/Categories/Categories';
 import CategoryCreate from './components/AdminPanel/Categories/CategoryCreate';
 import CategoryUpdate from './components/AdminPanel/Categories/CategoryUpdate';
-import Products from './components/AdminPanel/Products/Products';
 
+import Products from './components/AdminPanel/Products/Products';
 import ProductCreate from './components/AdminPanel/Products/ProductCreate';
 import ProductUpdate from './components/AdminPanel/Products/ProductUpdate';
 
@@ -43,6 +43,8 @@ import UserOrdenes from './components/Ordenes/UserOrdenes';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 
 function App() {
+	const userInfo = useSelector((state) => state.userInfo);
+
 	return (
 		<HashRouter>
 			<div className="App">
@@ -64,20 +66,42 @@ function App() {
 					<Route exact path="/user/reset/:id/:token" component={ResetPassword} />
 					<Route exact path="/paymentstatus/:status" component={PaymentStatus} />
 					{/* --- Panel del Administrador  */}
-					<Route exact path="/admin/adminpanel" component={Admin} />
-					<Route exact path="/admin/adminpanel/categories" component={Categories} />
-					<Route exact path="/admin/adminpanel/categoriesCreate" component={CategoryCreate} />
-					<Route exact path="/admin/adminpanel/categoriesUpdate/:id" component={CategoryUpdate} />
+					<Route exact path="/admin/adminpanel" render={()=>{
+						return userInfo && userInfo.isAdmin ? <Admin/> : <Error404 to='/'/>
+					}} />
+					<Route exact path="/admin/adminpanel/categories" render={()=>{
+						return userInfo && userInfo.isAdmin ? <Categories/> : <Error404 to='/'/>
+					}} />
+					<Route exact path="/admin/adminpanel/categoriesCreate" render={()=>{
+						return userInfo && userInfo.isAdmin ? <CategoryCreate/> : <Error404 to='/'/>
+					}} />
+					<Route exact path="/admin/adminpanel/categoriesUpdate/:id" render={()=>{
+						return userInfo && userInfo.isAdmin ? <CategoryUpdate/> : <Error404 to='/'/>
+					}} />
 
-					<Route exact path="/admin/adminpanel/products" component={Products} />
-					<Route exact path="/admin/adminpanel/productCreate" component={ProductCreate} />
-					<Route exact path="/admin/adminpanel/productUpdate/:id" component={ProductUpdate} />
+					<Route exact path="/admin/adminpanel/products" render={()=>{
+						return userInfo && userInfo.isAdmin ? <Products/> : <Error404 to='/'/>
+					}} />
+					<Route exact path="/admin/adminpanel/productCreate" render={()=>{
+						return userInfo && userInfo.isAdmin ? <ProductCreate/> : <Error404 to='/'/>
+					}} />
+					<Route exact path="/admin/adminpanel/productUpdate/:id" render={()=>{
+						return userInfo && userInfo.isAdmin ? <ProductUpdate/> : <Error404 to='/'/>
+					}} />
 					
-					<Route exact path="/admin/adminpanel/users" component={Users} />
-					<Route exact path="/admin/adminpanel/userUpdate/:id" component={UserUpdate} />
+					<Route exact path="/admin/adminpanel/users" render={()=>{
+						return userInfo && userInfo.isAdmin ? <Users/> : <Error404 to='/'/>
+					}} />
+					<Route exact path="/admin/adminpanel/userUpdate/:id" render={()=>{
+						return userInfo && userInfo.isAdmin ? <UserUpdate/> : <Error404 to='/'/>
+					}} />
 					
-					<Route exact path="/admin/adminpanel/orders" component={Orders} />
-					<Route exact path="/admin/adminpanel/orderUpdate/:id" component={OrderDetail} />
+					<Route exact path="/admin/adminpanel/orders" render={()=>{
+						return userInfo && userInfo.isAdmin ? <Orders/> : <Error404 to='/'/>
+					}} />
+					<Route exact path="/admin/adminpanel/orderUpdate/:id" render={()=>{
+						return userInfo && userInfo.isAdmin ? <OrderDetail/> : <Error404 to='/'/>
+					}} />
 					
 					<Route exact path="/admin/userpanel/orders" component={UserOrders} />
 					<Route exact path="/admin/userpanel/orderDetail/:id" component={UserOrdersDetail} />
