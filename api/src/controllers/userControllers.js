@@ -43,6 +43,8 @@ const { passResetEmail } = require("./mailControllers");
 //   }
 // };
 async function signUp(req, res, next) {
+  var secret = Speakeasy.generateSecret({ length: 20 });
+
   try {
     console.log(req.body);
     const { name, email, password, country, phone, address, isAdmin } =
@@ -70,6 +72,7 @@ async function signUp(req, res, next) {
           phone,
           address,
           isAdmin,
+          logged: secret.base32,
         },
         function (err, userCreated) {
           if (err) {
@@ -130,6 +133,7 @@ async function signIn(req, res, next) {
               name: user.name,
               email: user.email,
               isAdmin: user.isAdmin,
+              logged: user.logged,
               // token: generateToken(user)
             })
           : res
