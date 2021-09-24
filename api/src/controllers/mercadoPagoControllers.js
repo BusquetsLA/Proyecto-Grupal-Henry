@@ -10,9 +10,15 @@ async function getId(req, res, next){
     const {user_id} = req.params
     try{
         const user = await User.findById(user_id)
+        if(user.cart.length === 0){
+            return res.status(404).send("Carrito vacío!")
+        }
         let items = user.cart
         let total = items.reduce((acc, { quantity, price }) => acc += quantity * price, 0)
         const order = await Order.create({user_id, items, total})
+        user.orders.push(order._id)
+        user.cart = []
+        await user.save()
         const items_mp = order.items.map(item => ({
             title: item.name,
             unit_price: parseFloat(item.price),
@@ -27,15 +33,17 @@ async function getId(req, res, next){
                     id: "atm"
                   }
                 ],
-                installments: 3  //Cantidad máximo de cuotas
+                installments: 12
             },
+            auto_return: "approved",
             back_urls: {
-                success: 'http://localhost:3001/mercadopago/pagos',
-                failure: 'http://localhost:3001/mercadopago/pagos',
-                pending: 'http://localhost:3001/mercadopago/pagos',
+                success: 'http://localhost:3000/Proyecto-Grupal-Henry-client#/paymentstatus/success',
+                failure: 'http://localhost:3000/Proyecto-Grupal-Henry-client#/paymentstatus/failure',
+                pending: 'http://localhost:3000/Proyecto-Grupal-Henry-client#/paymentstatus/pending',
             }
         }
         const response = await mercadopago.preferences.create(preference)
+        console.log("Response: ", response.body)
         global.id = response.body.id
         console.log("Preference id: ", response.body.id)
         return res.status(200).send({ id: global.id })
