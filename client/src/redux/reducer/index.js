@@ -21,6 +21,7 @@ const initialState = {
     orderFiltred:[],
   },
   orderDetail: [],
+  reviews:[],
   loading: false,
   dataState: "all",
   userInfo: localStorage.getItem("userInfo")
@@ -234,6 +235,16 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         loading: false,
       };
+
+
+// Reducer de Review
+  case types.GET_REVIEWS:
+    return {
+      ...state,
+      reviews: action.payload,
+      loading: false,
+    };
+
 
     // eslint-disable-next-line no-fallthrough
     case userTypes.USER_SIGNIN_REQUEST:
