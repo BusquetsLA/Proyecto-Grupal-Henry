@@ -5,7 +5,7 @@ import ReactStars from "react-stars";
 const Ranking = () => {
 
   const editReview = {
-    size: 20,
+    size: 30,
     count: 5,
     color: "black",
     activeColor: "red",

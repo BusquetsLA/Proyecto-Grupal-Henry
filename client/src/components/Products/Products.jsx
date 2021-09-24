@@ -49,7 +49,7 @@ const Products = () => {
 
   return (
     <>
-      <div className={prodsStyle.title1}>Products List Catalog</div>
+      <div className={prodsStyle.title1}>Catalogo de Productos</div>
       {/* {showData.length === 0 ? ( */}
       {currentProducts.length === 0 ? (
         <div>

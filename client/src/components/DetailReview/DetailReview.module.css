@@ -1,5 +1,4 @@
 
-
 .padre {
 	margin: auto;
 	margin-top: 15px;
@@ -118,3 +117,26 @@
 	justify-content: start;
 	/* align-items: center; */
 }
+
+.boton{
+    display: flex;
+    align-items: center;
+    width: 100px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 80;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #CFA67C;
+    border-radius: 6px;
+    border: 1px solid #A05D31;
+    opacity: 0.8;
+    margin: auto;
+    justify-content: center;
+}
+  
+  .boton:hover{
+    opacity: 1;
+  }
+
