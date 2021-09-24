@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Grid, Typography } from "@material-ui/core";
 
 const Payment = ({ preference }) => {
-
   useEffect(() => {
     const script = document.createElement("script");
     script.type = "text/javascript";
@@ -12,14 +11,6 @@ const Payment = ({ preference }) => {
     const form = document.getElementById("payment-form");
     form.appendChild(script);
   }, [preference]);
-
-  const mapStyles = {        
-    height: "100vh",
-    width: "100%"};
-  
-  const defaultCenter = {
-    lat: 41.3851, lng: 2.1734
-  }
 
   return (
     <>
@@ -38,5 +29,4 @@ const Payment = ({ preference }) => {
   );
 };
 
-export  default Payment;
-
+export default Payment;
