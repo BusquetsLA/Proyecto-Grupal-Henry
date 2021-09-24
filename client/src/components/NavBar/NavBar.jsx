@@ -137,7 +137,7 @@ const NavBar = ({ setOrder }) => {
             }
           </div>
           <NavLink className={styles.link_cart} to="/cart">
-            <button className={styles.boton}><span><FaIcons.FaCartPlus /></span> Tu Carrito</button>
+            <button className={styles.boton}><span><FaIcons.FaCartPlus/></span>Carrito</button>
           </NavLink>
         </div>
       </div>

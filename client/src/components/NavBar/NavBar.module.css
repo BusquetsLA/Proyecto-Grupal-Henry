@@ -61,7 +61,7 @@
     text-align: center;
     text-decoration: none;
     font-weight: 80;
-    font-size: 12px;
+    font-size: 15px;
     color: #ffffff;
     background-color: #CFA67C;
     border-radius: 6px;
@@ -75,6 +75,10 @@
     opacity: 1;
   }
 
+  .boton > span {
+    padding-right: 5px;
+    align-items: center;
+  }
 
   .filtros{
       font-size: 10px;
@@ -102,9 +106,7 @@
         font-size: 8px;
         padding: 2px;
     }
-    .filtros{
-        margin: 0%;
-    }
+ 
 
 
     .select{
@@ -141,5 +143,9 @@
         margin-top: 5px;
        }
       }
+
+      .filtros{
+       margin: 10px
+    }
   }
   
