@@ -6,7 +6,7 @@ import { getProductsById, updateUserCart } from "../../redux/actions";
 import NavBar from "../NavBar/NavBar";
 import BeatLoader from "react-spinners/BeatLoader";
 import detStyle from "./Detail.module.css";
-import ReactImageZoom from 'react-image-zoom';
+import ReactImageZoom from "react-image-zoom";
 import ReactStars from "react-stars";
 
 
@@ -28,15 +28,16 @@ export default function Detail() {
     dispatch(getProductsById(productId));
   }, [dispatch, productId]);
 
-  const handleAddProduct = async () => {
+  const handleAddProduct = () => {
     if (userInfo && !cart.productsList.length) {
       productDetail.quantity = 1;
-      setCart({
-        ...cart,
-        productsList: [...cart.productsList, productDetail],
+      updateUserCart(userInfo._id, cart.productsList).then(() => {
+        setCart({
+          ...cart,
+          productsList: [...cart.productsList, productDetail],
+        });
+        return history.push("/cart");
       });
-      await updateUserCart(userInfo._id, cart.productsList);
-      return history.push("/cart");
     } else if (
       productDetail &&
       !cart.productsList.find((elem) => elem._id === productDetail._id)
@@ -49,13 +50,13 @@ export default function Detail() {
       history.push("/cart");
     }
   };
-  
+
   const valorReview = {
     size: 25,
     value: 4,
-    edit: false
+    edit: false,
   };
-  
+
   const props = {
     width: 400,
     height: 400,

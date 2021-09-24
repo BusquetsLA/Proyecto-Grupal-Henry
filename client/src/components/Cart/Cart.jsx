@@ -75,9 +75,9 @@ const Cart = () => {
       }
     };
     if (userInfo) {
-      fetchData()
+      fetchData();
     }
-  }, [userInfo]);
+  }, []);
 
   const totalPrice = cart
     ? cart.productsList.reduce((acc, cur) => {
@@ -90,26 +90,24 @@ const Cart = () => {
     if (!allProducts.length) {
       dispatch(getProducts());
     }
-  }, [dispatch, userCart]);
+  }, [dispatch, allProducts.length]);
 
   useEffect(() => {
     if (userInfo && cart.productsList.length === 1) {
       updateUserCart(userInfo._id, cart.productsList);
     }
-  }, []);
+  }, [userInfo, cart]);
 
   useEffect(() => {
-    if (userInfo) {
-      if (userInfo && userCart.length) {
-        const allCarts = concatCarts(userCart, cart.productsList);
-        setCart({
-          ...cart,
-          productsList: allCarts,
-        });
-        updateUserCart(userInfo._id, allCarts);
-      }
+    if (userInfo && userCart.length) {
+      const allCarts = concatCarts(userCart, cart.productsList);
+      setCart({
+        ...cart,
+        productsList: allCarts,
+      });
+      updateUserCart(userInfo._id, allCarts);
     }
-  }, [dispatch, userInfo, userCart]);
+  }, [userInfo, userCart]);
 
   // Handlers
   const handleUpdateQuantity = async (option) => {
@@ -127,14 +125,16 @@ const Cart = () => {
     }
   };
 
-  const handleRemoveProduct = async (id) => {
+  const handleRemoveProduct = async (e, id) => {
+    e.preventDefault()
     if (userInfo) {
+      const cartUpdated = cart.productsList.filter((elem) => elem._id !== id)
       setCart({
         ...cart,
-        productsList: cart.productsList.filter((elem) => elem._id !== id),
+        productsList: cartUpdated,
         totalPrice: totalPrice,
-      });
-      await updateUserCart(userInfo._id, cart.productsList);
+      })
+      await updateUserCart(userInfo._id, cartUpdated)
     } else {
       setCart({
         ...cart,
@@ -165,7 +165,7 @@ const Cart = () => {
 
   const listProducts = cart.productsList.map((elem, idx) => {
     const productStock = allProducts?.find(
-      ({ _id }) => _id === elem._id
+      (product) => product._id === elem._id
     )?.stock;
     return (
       <div key={idx} className={classes.root}>
@@ -215,7 +215,7 @@ const Cart = () => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => handleRemoveProduct(elem._id)}
+            onClick={(e) => handleRemoveProduct(e, elem._id)}
           >
             Remover de la lista
           </Button>
