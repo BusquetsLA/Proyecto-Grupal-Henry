@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema(
     orders:    [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
     subscribed:{ type: Boolean, default: false },
     blocked:   { type: Boolean, default: false },
-    logged:    { type: Boolean, default: false },
+    logged:    { type: String, required: true },
     typelogin: { 
       type: String, 
       enum: {

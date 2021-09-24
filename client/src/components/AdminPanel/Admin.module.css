@@ -77,3 +77,9 @@ body{
         font-size: 1.0rem !important;
     } 
 }
+
+.secret{
+    background-color: var(--color-fondo3) ;
+    color: var(--color-fondo5);
+    padding: 10px 10px;
+}
