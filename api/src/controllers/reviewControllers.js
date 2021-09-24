@@ -27,6 +27,8 @@ async function getProductReviews(req, res, next){
 
 async function createReview(req, res, next){
     const {title, description, product_id, user_id, calification} = req.body;
+    // console.log(req.body)
+    // res.send('viene el review')
     try{
         const review = await new Review({title, description, product_id, user_id, calification});
         await review.save();
@@ -36,10 +38,11 @@ async function createReview(req, res, next){
         let product = await Product.findById(product_id)
         product.reviews.push(review._id)
         await product.save()
-        return res.status(200).send("Review creada correctamente");
+        //return res.status(200).send("Review creada correctamente");
+        return res.status(200).send({type:'success',message: `Review creada correctamente`});
     }catch(error){
         next(error);
-    }
+    } 
 }
 
 async function updateReview(req, res, next){

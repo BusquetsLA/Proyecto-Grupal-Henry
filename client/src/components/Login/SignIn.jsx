@@ -110,7 +110,7 @@ function SignIn(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         //console.log('input: ',input)
-        let result = await dispatch(signin(input));
+        var result = await dispatch(signin(input));
         //console.log('result: ',result.type)
         if(result.type === 'error'){
             swal({
@@ -127,7 +127,10 @@ function SignIn(props) {
 				button: "Ok"
 			})
 			.then(respuesta => {
-				if(respuesta) props.history.push('/');
+				if(respuesta) {
+                    if(result.isAdmin) props.history.push('/admin/adminpanel');
+                    else props.history.push('/shop');
+                }
 			})
         }
     }
@@ -225,6 +228,9 @@ function SignIn(props) {
                             </div>
                         </div>
                     </form>
+                    <Link  to="/user/reset">
+                      Cambiar Contraseña 
+                    </Link>
                     <StyledFirebaseAuth
                             uiConfig={uiConfig}
                             firebaseAuth={firebase.auth()}

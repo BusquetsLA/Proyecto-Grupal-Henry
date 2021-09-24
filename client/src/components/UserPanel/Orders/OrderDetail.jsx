@@ -7,8 +7,8 @@ import swal                           from 'sweetalert';
 import { getOrderById, getUserById, 
 	updateOrderStateById,
 	sendOrderDispatchEmail } from '../../../redux/actions/index';
-import { BiSave, BiArrowToLeft }          from "react-icons/bi";
-import AdmNav from '../AdmNav';
+import { BiStar, BiArrowToLeft }          from "react-icons/bi";
+import AdmNav from './AdmNav';
 import ctgStyle from './Orders.module.css';
 
 
@@ -21,7 +21,7 @@ export default function CategoryUpdate() {
 	const orderId = location.pathname.split("/").pop();
 	const userID  = orderDetail.user_id && orderDetail.user_id;
 	
-	//console.log(orderDetail)
+	console.log(orderDetail)
 
 
 	useEffect(() => {
@@ -38,6 +38,8 @@ export default function CategoryUpdate() {
 		order_id:0,
 		status: '',
 	});
+
+
 
 	function handleChange(e) {
 		console.log(e.target.value)
@@ -62,15 +64,14 @@ export default function CategoryUpdate() {
 		}else{
 			let message = await dispatch(updateOrderStateById(input));
 			if(input.status === 'completed'){
-				var mailProductDispatch = {
+				let mailProductDispatch = {
 					name:userDetail.name,
 					email:userDetail.email
 				}
-				//console.log(mailProductDispatch)
-				let mensaje2 = await dispatch(sendOrderDispatchEmail(mailProductDispatch))
-				//console.log(mensaje2)
+				console.log(mailProductDispatch)
+				dispatch(sendOrderDispatchEmail(mailProductDispatch))
 			}
-			//console.log(message)
+			console.log(message)
 			if(message.payload.type === "success"){
 				swal({
 					title:'Resultado',
@@ -130,7 +131,7 @@ export default function CategoryUpdate() {
 							</div>
 						{orderDetail.items && orderDetail.items.map(item => (
 							<div className={ctgStyle.info2}>
-								<span style={{width:'70%'}}> <Link to={`/detail/${item._id}`} target='_blank'>{item.name} </Link> </span> 
+								<span style={{width:'70%'}}> <Link to={`/admin/userpanel/review/${item._id}`} target='_blank'> <BiStar size="1.1em" /> </Link>  {item.name} </span> 
 								<span style={{width:'25%'}}> {item.quantity} </span>
 								<span style={{width:'25%'}}> {item.price?.$numberDecimal} </span>
 							</div>
@@ -138,45 +139,17 @@ export default function CategoryUpdate() {
 						} 
 						<div className={ctgStyle.info3}>
 							Total : {orderDetail.total && orderDetail.total?.$numberDecimal }
-							{/* Total : {orderDetail.total?.$numberDecimal && '$'} */}
 						</div>
 						</span>
 					</div>
 
 					<div className={ctgStyle.inputs} >
-						<label for="isAdmin" >Estado de Orden</label>
+						<label for="Estado" >Estado</label>
 						<span className={ctgStyle.info1}> {orderDetail.status} </span>
-						<select name="isAdmin" className={ctgStyle.selectCss} onChange={(e) => handleChange(e)}>
-							{orderDetail.status === 'created'? (
-								<>
-								<option value="created" selected disabled>Creado</option>
-								<option value="processing">Procesando</option>
-								<option value="cancelled" >Cancelada</option>
-								</>
-							): orderDetail.status === 'processing'? (
-								<>
-								<option value="processing" selected disabled>Procesada</option>
-								<option value="cancelled" >Cancelada</option>
-								<option value="completed">Completada</option>
-								</>
-							): 
-								<>
-								<option value="none" disabled>No se puede cambiar el Estado</option>
-								</>
-							}
-						</select>
 					</div>
 
 					<div>
-						<Button 
-							variant="contained" 
-							className={ctgStyle.btnSave}
-							type="submit"
-							disableElevation>
-								<BiSave size="1.3em" />&nbsp;Guardar
-						</Button>
-						&nbsp; &nbsp;
-						<NavLink to={`/admin/adminpanel/orders`}>
+						<NavLink to={`/admin/userpanel/orders`}>
 							<Button 
 								variant="contained" 
 								className={ctgStyle.btn1}

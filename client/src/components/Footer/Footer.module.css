@@ -39,7 +39,8 @@
 .list > li {
   list-style: none;
   margin: auto;
-}
+  }
+
 
 @media (max-width: 600px){
   .container > img {

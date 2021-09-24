@@ -5,13 +5,10 @@ import {
     Typography, 
     makeStyles, 
     Button } from '@material-ui/core'
-import {BsHouseDoorFill } from 'react-icons/bs';
-import {GoSignOut } from 'react-icons/go';
+import {BsHouseDoorFill,BsSkipStart } from 'react-icons/bs';
 import { NavLink, Link } from 'react-router-dom';
-import firebase    from "firebase";
-import admStyle from './Admin.module.css';
-import { useDispatch } from 'react-redux';
-import { signout }     from "../../redux/actions/userActions";
+import admStyle       from './Orders.module.css'; 
+import { useSelector } from 'react-redux';
 
 
 const useStyles = makeStyles(theme => ({
@@ -27,30 +24,27 @@ const useStyles = makeStyles(theme => ({
 
 export default function AdmNav() {
     const classes = useStyles()
-    const dispatch = useDispatch();
+    const userInfo = useSelector(state => state.userInfo);
+    console.log(userInfo);
 
-    function handleSignout() {
-        firebase.auth().signOut()
-        dispatch(signout());
-      }
 
     return (
         <div>
             <AppBar position="fixed" style={{backgroundColor:" var(--color-fondo1)"}}>
               <Toolbar>
                 <Typography variant="h6" className={classes.tittle} >
-                    Panel de Adminstrador
+                    Panel Ordebes del Usuari@ [ {userInfo.email} ]
                 </Typography>
                 
-                <Link to="/shop" onClick={handleSignout}>
+                <Link to="/shop" >
                     <Button 
                         variant="contained" 
-                        className={admStyle.btnNav2} 
+                        className={admStyle.btnNav2}  
                         disableElevation
-                    > <GoSignOut size="1.1em" />&nbsp;Sing Out </Button>
+                    > <BsSkipStart size="1.1em" />&nbsp;Tienda </Button>
                 </Link>
                 &nbsp;
-                <NavLink to="/admin/adminpanel" >
+                <NavLink to="/admin/userpanel/orders" >
                     <Button 
                         variant="contained" 
                         className={admStyle.btnNav} 

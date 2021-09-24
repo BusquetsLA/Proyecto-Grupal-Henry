@@ -2,10 +2,10 @@ import React from "react";
 import ReactStars from "react-stars";
 // import "./styles.css";
 
-const Ranking = () => {
+const Ranking = ({setStars}) => {
 
   const editReview = {
-    size: 20,
+    size: 30,
     count: 5,
     color: "black",
     activeColor: "red",
@@ -16,7 +16,8 @@ const Ranking = () => {
     halfIcon: <i className="fa fa-star-half-alt" />,
     filledIcon: <i className="fa fa-star" />,
     onChange: newValue => {
-      console.log(`Example 2: new value is ${newValue}`);
+      //console.log(`Example 2: new value is ${newValue}`);
+      setStars(newValue)
     }
   };
 

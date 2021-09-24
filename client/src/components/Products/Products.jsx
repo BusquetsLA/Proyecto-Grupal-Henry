@@ -49,16 +49,14 @@ const Products = () => {
 
   return (
     <>
-      <div className={prodsStyle.title1}>Products List Catalog</div>
-      {/* {showData.length === 0 ? ( */}
-      {currentProducts.length === 0 ? (
+      <div className={prodsStyle.title1}>Catalogo de Productos</div>
+        {currentProducts.length === 0 ? (
         <div>
           <Notfound />
         </div>
       ) : (
         <div className={prodsStyle.contenedor}>
-          {/* {showData.map((e) => ( */}
-          {currentProducts.map((e) => (
+            {currentProducts.map((e) => (
         <Product
           key={e._id}
           id={e._id}
@@ -68,10 +66,6 @@ const Products = () => {
           catArr={e.categories}
             />
             ))}
-      {/* <Stack spacing={2}>
-      <Typography>Page: {page}</Typography>
-      <Pagination count={10} page={page} onChange={handleChange} />
-    </Stack> */}
         </div>
       )}
       <Pagination

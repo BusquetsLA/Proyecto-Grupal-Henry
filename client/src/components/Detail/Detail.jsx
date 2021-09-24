@@ -9,6 +9,7 @@ import detStyle from "./Detail.module.css";
 import ReactImageZoom from "react-image-zoom";
 import ReactStars from "react-stars";
 
+
 export default function Detail() {
   const dispatch = useDispatch();
   const location = useLocation();

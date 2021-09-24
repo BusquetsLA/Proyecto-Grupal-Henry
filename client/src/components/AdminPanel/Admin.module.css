@@ -36,6 +36,18 @@ body{
     background-color: var(--color-fondo3) !important;
 }
 
+.btnNav2{
+    width: 140px;
+    height: 40px;
+    font-size: 1.0rem !important;
+    background-color: var(--color-fondo4) !important;
+    color: var(--color-text) !important;
+}
+
+.btnNav2:hover{
+    background-color: var(--color-fondo3) !important;
+}
+
 .btnMenu{
     width: 250px;
     height: 100px;
