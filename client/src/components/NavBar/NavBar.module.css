@@ -48,7 +48,8 @@
 .link_cart{
 
     margin-left: 10px;
-    margin-right: 10px
+    margin-right: 10px;
+    
 
 }
 
@@ -67,6 +68,7 @@
     border: 1px solid #A05D31;
     opacity: 0.8;
     margin: auto;
+    justify-content: center;
 }
   
   .boton:hover{
