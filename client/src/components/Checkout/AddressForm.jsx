@@ -1,47 +1,77 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   GoogleMap,
   LoadScript,
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-import { Grid, Typography, TextField } from "@material-ui/core";
+import { Grid, Typography, TextField, Select, MenuItem, InputLabel } from "@material-ui/core";
 
 const AddressForm = ({ input, onSubmit, onChange }) => {
   const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [activeMarker, setActiveMarker] = useState({});
   const [selectedPlace, setSelectedPlace] = useState({});
   const [selected, setSelected] = useState({});
+  const [ currentPosition, setCurrentPosition ] = useState({});
+
+
+  let [envio, setEnvio] = useState(1)
+
+  const handleChange = (event) => {
+    setEnvio(event.target.value)
+    
+  }
 
   const locations = [
     {
-      name: "Local 1 - Monteagudo 1157",
-      location: { lat: 41.3954, lng: 2.162 },
+      name: "Local 1 - Belgrano 563",
+      location: { lat: -24.185260353028028, lng: -65.30216629608282 },
     },
     {
-      name: "Local 2 Alvear 600",
-      location: { lat: 41.3917, lng: 2.1649 },
+      name: "Local 2 Alte. Brown 664",
+      location:{lat: -24.197146584406003, lng: -65.28763105026243},
     },
     {
-      name: "Local 3 Belgrano 800",
-      location: { lat: 41.3773, lng: 2.1585 },
+      name: "Local 3 Libertad 556",
+      location: {lat: -24.18709306463862, lng: -65.31681348434446},
     },
     {
       name: "Local 4 Senador Perez 500",
       location: { lat: 41.3797, lng: 2.1682 },
     },
-    {
-      name: "Local 5 Patricias Argentinas 800",
-      location: { lat: 41.4055, lng: 2.1915 },
-    },
+  
   ];
 
-  const mapStyles = { height: "100vh", width: "100%" };
-  const defaultCenter = { lat: 41.3851, lng: 2.1734 };
+  const mapStyles = { height: "40vh", width: "70%" };
+  const defaultCenter = { lat: -24.18622471059911, lng: -65.29928256622313 };
 
   const onSelect = (item) => {
+    
     setSelected(item);
+
+    console.log({selected})
   };
+
+  const success = position => {
+    const currentPosition = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    }
+    setCurrentPosition(currentPosition);
+  };
+  
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(success);
+  })
+ 
+  const onMarkerDragEnd = (e) => {
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
+    setCurrentPosition({ lat, lng})
+  };
+
+
+
 
   const handleInputChange = ({ target: { name, value } }) => {
     onChange({ ...input, [name]: value });
@@ -95,7 +125,7 @@ const AddressForm = ({ input, onSubmit, onChange }) => {
             onChange={handleInputChange}
           />
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <TextField
             id="address2"
             name="address2"
@@ -107,7 +137,7 @@ const AddressForm = ({ input, onSubmit, onChange }) => {
             value={input.address2}
             onChange={handleInputChange}
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} sm={6}>
           <TextField
             required
@@ -162,8 +192,23 @@ const AddressForm = ({ input, onSubmit, onChange }) => {
             onChange={handleInputChange}
           />
         </Grid>
+        
+        <Grid item xs={12} sm={6}>
+        <Select
+         value={envio}
+         onChange={handleChange}>
+
+           <MenuItem value={1}>Retiro por Sucursal</MenuItem>
+           <MenuItem value={2}>Envio a Domicilio</MenuItem>
+         </Select>
+         </Grid> 
+        
+    
+
+        {envio==1 ? (<Grid item xs={12} sm={40}>
         <Typography>ELIGE SUCURSAL PARA RETIRAR LA ORDEN</Typography>
-        <Grid container>
+        {/* "AIzaSyDPCmEyEe31kXF_UNulYe5gs-aW0A3xGKo" */}
+        
           <LoadScript googleMapsApiKey="AIzaSyDPCmEyEe31kXF_UNulYe5gs-aW0A3xGKo">
             <GoogleMap
               mapContainerStyle={mapStyles}
@@ -172,9 +217,9 @@ const AddressForm = ({ input, onSubmit, onChange }) => {
             >
               {locations.map((item) => (
                 <Marker
-                  icon={{
-                    url: "https://img.icons8.com/plasticine/1x/truck.png",
-                  }}
+                  // icon={{
+                  //   url: "https://img.icons8.com/plasticine/1x/truck.png",
+                  // }}
                   key={item.name}
                   position={item.location}
                   onClick={() => onSelect(item)}
@@ -192,7 +237,33 @@ const AddressForm = ({ input, onSubmit, onChange }) => {
               )}
             </GoogleMap>
           </LoadScript>
-        </Grid>
+          
+        </Grid>):
+        
+        
+
+        (<Grid item xs={12} sm={40}>
+        <Typography>MARQUE EN EL MAPA LA UBICACION EXACTA</Typography>
+        <LoadScript googleMapsApiKey="AIzaSyDPCmEyEe31kXF_UNulYe5gs-aW0A3xGKo">
+        <GoogleMap
+          mapContainerStyle={mapStyles}
+          zoom={18}
+          center={currentPosition}>
+          {
+            currentPosition.lat ?
+            ( 
+              <Marker position={currentPosition}
+              onDragEnd={(e) => onMarkerDragEnd(e)}
+              draggable={true}/>
+            ) :null
+          }
+          {console.log(currentPosition)}
+          </GoogleMap>
+       </LoadScript>
+
+        </Grid>)
+        }
+        
       </Grid>
     </>
   );
