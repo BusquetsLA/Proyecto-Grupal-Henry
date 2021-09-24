@@ -58,7 +58,7 @@ const DetailReview = () => {
   console.log(input)
   let message = await dispatch(postReview(input));
   console.log(message)
-  if(message.payload.type === "success"){
+  if(message?.payload.type === "success"){
     swal({
       title:'Resultado',
       text: message.payload.message,
@@ -66,7 +66,7 @@ const DetailReview = () => {
       button: "Ok"
     })
     .then(respuesta => {
-      if(respuesta) history.push('/');
+      if(respuesta) history.push('/shop');
     })
   }
 

@@ -5,6 +5,7 @@ import { NavLink, Link }          from "react-router-dom";
 import Logo                 from "../../media/LogoEstiloPropio.png";
 import firebase             from "firebase";
 import { signout }          from "../../redux/actions/userActions";
+import { passwordForgot }          from "../../redux/actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import * as FaIcons from 'react-icons/fa';
 import { BiUserCircle,BiHelpCircle } from "react-icons/bi";
@@ -120,6 +121,9 @@ const NavBar = ({ setOrder }) => {
                 </Link>
                 <ul className="dropdown-content">
                   {userInfo.name}<br/>
+                  {/* <Link  to="/user/reset" onClick={() => dispatch(passwordForgot('sjafs.83@gmail.com'))}>
+                      Cambiar Contraseña 
+                    </Link> */}
                   <br/>
                   <Link className={styles.link_text} to="/admin/userpanel/orders">
                   Ordenes <i className="fa fa-caret-down"></i>
