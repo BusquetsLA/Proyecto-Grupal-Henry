@@ -128,7 +128,7 @@ function SignIn(props) {
 			})
 			.then(respuesta => {
 				if(respuesta) {
-                    if(result.isAdmin) props.history.push('/admin/adminpanel');
+                    if(result.isAdmin) props.history.push('/admin/validate');
                     else props.history.push('/shop');
                 }
 			})

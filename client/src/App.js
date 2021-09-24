@@ -18,6 +18,7 @@ import Our from './components/Our/Our';
 import SignIn from './components/Login/SignIn';
 import SignUp from './components/Register/SignUp';
 import Admin from './components/AdminPanel/Admin';
+import Validate from './components/AdminPanel/Validate';
 import Categories from './components/AdminPanel/Categories/Categories';
 import CategoryCreate from './components/AdminPanel/Categories/CategoryCreate';
 import CategoryUpdate from './components/AdminPanel/Categories/CategoryUpdate';
@@ -66,6 +67,8 @@ function App() {
 					<Route exact path="/user/reset/:id/:token" component={ResetPassword} />
 					<Route exact path="/paymentstatus/:status" component={PaymentStatus} />
 					{/* --- Panel del Administrador  */}
+					<Route exact path="/admin/validate" component={Validate} />
+
 					<Route exact path="/admin/adminpanel" render={()=>{
 						return userInfo && userInfo.isAdmin ? <Admin/> : <Error404 to='/'/>
 					}} />
