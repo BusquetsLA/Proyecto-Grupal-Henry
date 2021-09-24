@@ -45,20 +45,21 @@ async function helpEmail(req, res, next) {
 }
 
 async function paymentEmail(req, res, next) {
+  const { email } = req.body;
   try {
-    const { name, email } = req.body;
     //send mail with defined transport object
     console.log("entre al if");
+    console.log("eMAIL: ", email)
     let info = await transporter.sendMail({
       from: '"Estilo Propio 👻" <epropio35@gmail.com>', // sender address
       to: `${email}`, // list of receivers
       subject: "Tu pedido y pago se han ejecutado Correctamente ✅", // Subject line
       // text: "Hello world?", // plain text body
       html: `<br><br> 
-    <b>Hola ${name}</b><br><br>
+    <b>¡Hola!</b><br><br>
     <b>Tu pago se ha ejecutado sin novedad a traves de Mercado pago</b><br><br>
     <b>Click aqui para continuar comprando: </b>
-    <a className={styles.list} href="https://afl0r3s.github.io/Proyecto-Grupal-Henry-client/#/" target="_blank" rel="noreferrer">
+    <a className={styles.list} href="http://localhost:3000/Proyecto-Grupal-Henry-client#/" target="_blank" rel="noreferrer">
     <button>Volver a la Tienda</button></a>`,
     });
     console.log("Message send", info);
