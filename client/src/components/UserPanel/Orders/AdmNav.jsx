@@ -5,8 +5,8 @@ import {
     Typography, 
     makeStyles, 
     Button } from '@material-ui/core'
-import {BsHouseDoorFill } from 'react-icons/bs';
-import { NavLink } from 'react-router-dom';
+import {BsHouseDoorFill,BsSkipStart } from 'react-icons/bs';
+import { NavLink, Link } from 'react-router-dom';
 import admStyle       from './Orders.module.css'; 
 import { useSelector } from 'react-redux';
 
@@ -36,6 +36,14 @@ export default function AdmNav() {
                     Panel Ordebes del Usuari@ [ {userInfo.email} ]
                 </Typography>
                 
+                <Link to="/shop" >
+                    <Button 
+                        variant="contained" 
+                        className={admStyle.btnNav2}  
+                        disableElevation
+                    > <BsSkipStart size="1.1em" />&nbsp;Tienda </Button>
+                </Link>
+                &nbsp;
                 <NavLink to="/admin/userpanel/orders" >
                     <Button 
                         variant="contained" 
