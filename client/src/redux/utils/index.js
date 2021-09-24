@@ -19,7 +19,7 @@ const filterByPriceRange = (state, range) => {
 const filterByCategory = (state, option) => {
   const allProducts = state.products.all;
   const filtered = state.categories?.find((elem) => elem._id === option);
-  return option === "all_categories" ? allProducts : filtered?.products;
+  return option === "all_categories" ? allProducts : filtered?.products.filter(product => product.stock>0);
 };
 
 const filterByCategoryState = (option) => {
