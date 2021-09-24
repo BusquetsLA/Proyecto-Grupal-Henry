@@ -140,3 +140,29 @@
     opacity: 1;
   }
 
+
+  @media (max-width: 1200px){
+
+	.content {
+		width: 90%;
+		
+	}
+	}
+
+@media (max-width: 800px){
+.content {
+	grid-template-columns: auto;
+}
+
+}
+
+@media (max-width: 600px){
+	.content {
+		width: 100%;
+		
+	}
+	.padre {
+		width: 100%;
+		
+	}
+	}
