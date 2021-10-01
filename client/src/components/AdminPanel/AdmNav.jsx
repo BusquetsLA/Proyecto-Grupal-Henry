@@ -39,7 +39,7 @@ export default function AdmNav() {
             <AppBar position="fixed" style={{backgroundColor:" var(--color-fondo1)"}}>
               <Toolbar>
                 <Typography variant="h6" className={classes.tittle} >
-                    Panel de Adminstrador
+                    Panel de Administrador
                 </Typography>
                 
                 <Link to="/shop" onClick={handleSignout}>

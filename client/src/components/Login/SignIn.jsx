@@ -218,13 +218,13 @@ function SignIn(props) {
                                         <AiOutlineUserAdd size="1.3em" />&nbsp;Crear una cuenta
                                 </Button>
                                 </NavLink>
-                                <Button 
+                                {/* <Button 
                                 variant="contained" 
                                 className={prdStyle.btnSave}
                                 onClick={handleSignout}
                                 disableElevation>
                                     <GoSignOut size="1.3em" />&nbsp;Sign Out
-                            </Button>
+                            </Button> */}
                             </div>
                         </div>
                     </form>

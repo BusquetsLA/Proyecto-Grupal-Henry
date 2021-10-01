@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from "react-router-dom";
 import styles from "./Help.module.css";
 import { sendHelpEmail } from '../../redux/actions';
+import swal from 'sweetalert';
 
 
 const Help = () => {
@@ -28,7 +29,8 @@ function handleSubmit(e){
   console.log(input)
   dispatch(sendHelpEmail(input))
   setInput({
-      name: "", email: "", message: "",})
+    name: "", email: "", message: "",})
+  swal("Tu Mensaje se ha Enviado Correctamente")
   history.push('/')
 }
   
