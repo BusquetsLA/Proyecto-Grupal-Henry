@@ -99,7 +99,7 @@ export default function AddCategories() {
 									Bloqueado</TableCell>
 								<TableCell 
 									style={{backgroundColor:'var(--color-fondo4)', color:'white', minWidth:'80px'}} align="left">
-									Loegado</TableCell>
+									Logueado</TableCell>
 								<TableCell 
 									style={{backgroundColor:'var(--color-fondo1)', color:'white', minWidth:'80px'}} align="left">
 									Registro</TableCell>
@@ -111,7 +111,7 @@ export default function AddCategories() {
 									Bloquear</TableCell>
 								<TableCell 
 									style={{backgroundColor:'var(--color-btnReset)', color:'white', minWidth:'90px'}} align="left">
-									Reset</TableCell>
+									Resetear</TableCell>
 							</TableRow>
 						</TableHead>
 					</Table>
